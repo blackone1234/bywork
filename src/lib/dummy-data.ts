@@ -231,3 +231,14 @@ export const gpsSettings = {
   longitude: "126.9780",
   radiusM: "150",
 };
+
+export const adminAccount = {
+  email: "admin@by-bk.com",
+};
+
+export const holidayApiStatus = {
+  serviceName: "공공 데이터 포털",
+  connected: true,
+  apiStatus: "정상 (응답시간 120ms)",
+  annualHolidayCount: "17일 (2026년)",
+};
