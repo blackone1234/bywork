@@ -1,5 +1,6 @@
 import type { AttendanceState } from "@/components/admin/StatusBadge";
 import type { EmploymentStatus } from "@/components/admin/EmploymentStatusBadge";
+import type { LeaveRequestStatus } from "@/components/admin/LeaveStatusBadge";
 
 export type TodayAttendanceRow = {
   id: string;
@@ -129,3 +130,18 @@ export const employees: Employee[] = [
 export function getEmployeeById(id: string): Employee | undefined {
   return employees.find((employee) => employee.id === id);
 }
+
+export type LeaveRequest = {
+  id: string;
+  employeeName: string;
+  leaveType: string;
+  date: string;
+  status: LeaveRequestStatus;
+};
+
+export const leaveRequests: LeaveRequest[] = [
+  { id: "1", employeeName: "이준호", leaveType: "연차", date: "2026.07.10", status: "대기중" },
+  { id: "2", employeeName: "박서연", leaveType: "반차", date: "2026.07.11", status: "대기중" },
+  { id: "3", employeeName: "김도윤", leaveType: "연차", date: "2021.01.02", status: "승인" },
+  { id: "4", employeeName: "최지우", leaveType: "병가", date: "2026.06.20", status: "반려" },
+];
