@@ -214,3 +214,20 @@ export const employeeAttendanceDetail: AttendanceDetailRow[] = [
   { id: "2", date: "2026.07.09", checkIn: "09:00", checkOut: "-", note: "승인된 연차" },
   { id: "3", date: "2026.07.08", checkIn: "09:12", checkOut: "18:05", note: "정상" },
 ];
+
+export type IpWhitelistEntry = {
+  id: string;
+  ipAddress: string;
+  label: string;
+};
+
+export const ipWhitelist: IpWhitelistEntry[] = [
+  { id: "1", ipAddress: "125.131.67.104", label: "본사" },
+  { id: "2", ipAddress: "211.60.20.15", label: "지사" },
+];
+
+export const gpsSettings = {
+  latitude: "37.5665",
+  longitude: "126.9780",
+  radiusM: "150",
+};
