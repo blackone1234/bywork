@@ -26,6 +26,10 @@
   --color-status-outside: #ffe09e;
   --color-status-leave: #77c9ff;
   --color-status-absent: #ffc5c5;
+
+  /* 재직 상태 배지 색상 */
+  --color-status-active: #ffdd56;
+  --color-status-terminated: #e0e0e0;
 }
 
 body {

@@ -2,20 +2,16 @@ export function PageHeader({ breadcrumb }: { breadcrumb: string[] }) {
   return (
     <div className="flex w-full items-start px-[60px] pt-[50px]">
       <div className="flex w-full items-center justify-between border-b-3 border-black pb-[14px]">
-        <div className="flex items-center gap-[8px]">
+        <div className="flex items-center gap-[20px]">
           {breadcrumb.map((segment, index) => {
             const isLast = index === breadcrumb.length - 1;
             return (
-              <span key={segment} className="flex items-center gap-[8px]">
-                {index > 0 ? (
-                  <span className="text-[20px] text-muted">›</span>
-                ) : null}
+              <span key={segment} className="flex items-center gap-[20px]">
+                {index > 0 ? <span className="text-[20px] text-line">›</span> : null}
                 <span
-                  className={
-                    isLast
-                      ? "text-[32px] font-extrabold tracking-[-0.64px] text-black"
-                      : "text-[20px] font-semibold tracking-[-0.4px] text-muted"
-                  }
+                  className={`text-[32px] font-extrabold tracking-[-0.64px] ${
+                    isLast ? "text-black" : "text-line"
+                  }`}
                 >
                   {segment}
                 </span>
