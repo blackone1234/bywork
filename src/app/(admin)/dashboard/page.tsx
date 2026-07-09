@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
+import { StatCard } from "@/components/admin/StatCard";
 import { dashboardNotice, dashboardStats, todayAttendance } from "@/lib/dummy-data";
 
 const TABLE_COLUMNS = [
@@ -19,17 +20,7 @@ export default function DashboardPage() {
       <div className="flex flex-1 flex-col gap-[40px] px-[60px] pt-[50px] pb-[20px]">
         <div className="flex w-full items-start gap-[10px]">
           {dashboardStats.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-1 flex-col gap-[14px] rounded-[10px] border border-line bg-white p-[20px]"
-            >
-              <p className="text-[14px] font-semibold tracking-[-0.28px] text-black">
-                {stat.label}
-              </p>
-              <p className="text-right text-[32px] font-extrabold tracking-[-0.64px] text-black">
-                {stat.count}
-              </p>
-            </div>
+            <StatCard key={stat.label} label={stat.label} value={stat.count} />
           ))}
         </div>
 

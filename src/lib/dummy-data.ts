@@ -145,3 +145,72 @@ export const leaveRequests: LeaveRequest[] = [
   { id: "3", employeeName: "김도윤", leaveType: "연차", date: "2021.01.02", status: "승인" },
   { id: "4", employeeName: "최지우", leaveType: "병가", date: "2026.06.20", status: "반려" },
 ];
+
+export type MonthlyAttendanceRow = {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  checkIn: string;
+  checkOut: string;
+  weeklyHours: string;
+};
+
+export const monthlyAttendance: MonthlyAttendanceRow[] = [
+  {
+    id: "1",
+    employeeId: "1",
+    employeeName: "이준호",
+    date: "2026.07.10",
+    checkIn: "09:00",
+    checkOut: "18:00",
+    weeklyHours: "52h",
+  },
+  {
+    id: "2",
+    employeeId: "2",
+    employeeName: "박서연",
+    date: "2026.07.10",
+    checkIn: "09:05",
+    checkOut: "18:10",
+    weeklyHours: "48h",
+  },
+  {
+    id: "3",
+    employeeId: "3",
+    employeeName: "김도윤",
+    date: "2026.07.10",
+    checkIn: "-",
+    checkOut: "-",
+    weeklyHours: "0h",
+  },
+  {
+    id: "4",
+    employeeId: "4",
+    employeeName: "최지우",
+    date: "2026.07.10",
+    checkIn: "09:00",
+    checkOut: "17:55",
+    weeklyHours: "45h",
+  },
+];
+
+export type AttendanceDetailRow = {
+  id: string;
+  date: string;
+  checkIn: string;
+  checkOut: string;
+  note: string;
+};
+
+export const employeeAttendanceStats = {
+  totalWorkDays: "22일",
+  totalWorkHours: "176h",
+  usedLeaveDays: "2일",
+};
+
+export const employeeAttendanceDetail: AttendanceDetailRow[] = [
+  { id: "1", date: "2026.07.10", checkIn: "09:00", checkOut: "18:00", note: "정상" },
+  { id: "2", date: "2026.07.09", checkIn: "09:00", checkOut: "-", note: "승인된 연차" },
+  { id: "3", date: "2026.07.08", checkIn: "09:12", checkOut: "18:05", note: "정상" },
+];
