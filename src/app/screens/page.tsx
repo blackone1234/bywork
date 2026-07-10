@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type Screen = {
   code: string;
@@ -69,6 +70,10 @@ const SCREEN_GROUPS: ScreenGroup[] = [
 ];
 
 export default function ScreensIndexPage() {
+  if (process.env.NODE_ENV === "production") {
+    notFound();
+  }
+
   return (
     <div className="min-h-screen w-full bg-page px-4 py-8 sm:px-8 lg:px-[60px] lg:py-[50px]">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-[40px]">
@@ -92,6 +97,8 @@ export default function ScreensIndexPage() {
                   <Link
                     key={screen.href}
                     href={screen.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex flex-col gap-[8px] rounded-[10px] border border-line bg-white p-[20px] transition-colors hover:border-black"
                   >
                     <span className="text-[12px] font-semibold tracking-[-0.24px] text-muted">
