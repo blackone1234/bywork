@@ -12,7 +12,7 @@ export function MobileGnb() {
   return (
     <>
       <div className="flex items-center justify-between border-b border-divider bg-white px-[30px] py-[20px] lg:hidden">
-        <span className="text-[13px] font-bold tracking-[-0.26px] text-black">
+        <span className="text-[14px] font-bold tracking-[-0.26px] text-black">
           by WORKS
         </span>
         <button
@@ -28,7 +28,7 @@ export function MobileGnb() {
       {open ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-white px-[30px] pt-[20px] lg:hidden">
           <div className="flex items-center justify-between pb-[60px]">
-            <span className="text-[13px] font-bold tracking-[-0.26px] text-black">
+            <span className="text-[14px] font-bold tracking-[-0.26px] text-black">
               by WORKS
             </span>
             <button
