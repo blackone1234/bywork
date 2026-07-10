@@ -23,13 +23,30 @@ export default function WorkSettingsPage() {
       <PageHeader breadcrumb={["Dashboard", "근무설정"]} />
 
       <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
-        <div className="flex w-full items-center gap-[20px] overflow-x-auto border-b border-line">
+        <div className="relative w-full sm:hidden">
+          <select
+            value={activeTab}
+            onChange={(event) => setActiveTab(event.target.value as TabKey)}
+            className="w-full appearance-none rounded-[10px] border border-line bg-white py-[13px] pr-[40px] pl-[16px] text-[14px] font-bold tracking-[-0.28px] text-black transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none"
+          >
+            {TABS.map((tab) => (
+              <option key={tab.key} value={tab.key}>
+                {tab.label}
+              </option>
+            ))}
+          </select>
+          <span aria-hidden className="pointer-events-none absolute top-1/2 right-[16px] -translate-y-1/2 text-line">
+            ▾
+          </span>
+        </div>
+
+        <div className="hidden w-full items-center gap-[20px] border-b border-line sm:flex">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`flex w-[220px] shrink-0 items-center justify-between pb-[14px] text-[14px] font-bold tracking-[-0.28px] transition-colors sm:w-[280px] sm:text-[16px] sm:tracking-[-0.32px] lg:w-[368px] ${
+              className={`flex shrink-0 items-center justify-between pb-[14px] text-[14px] font-bold tracking-[-0.28px] transition-colors sm:w-[280px] sm:text-[16px] sm:tracking-[-0.32px] lg:w-[368px] ${
                 activeTab === tab.key
                   ? "border-b-3 border-black text-black"
                   : "text-line hover:text-black"
@@ -76,12 +93,12 @@ export default function WorkSettingsPage() {
                   <input
                     type="time"
                     defaultValue="09:00"
-                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black focus:border-black focus:outline-none"
+                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none"
                   />
                   <input
                     type="time"
                     defaultValue="18:00"
-                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black focus:border-black focus:outline-none"
+                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none"
                   />
                 </div>
                 <p className="text-[14px] font-semibold tracking-[-0.28px] text-muted">
@@ -94,7 +111,7 @@ export default function WorkSettingsPage() {
 
         {activeTab === "leave" ? (
           <div className="flex w-full flex-col gap-[20px]">
-            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
+            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black hover:bg-page sm:flex-row sm:items-center sm:gap-[40px]">
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" defaultChecked />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -106,7 +123,7 @@ export default function WorkSettingsPage() {
               </span>
             </label>
 
-            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
+            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black hover:bg-page sm:flex-row sm:items-center sm:gap-[40px]">
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -129,7 +146,7 @@ export default function WorkSettingsPage() {
               {ipWhitelist.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex w-full flex-wrap items-center justify-between gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black"
+                  className="flex w-full flex-wrap items-center justify-between gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black hover:bg-page"
                 >
                   <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                     {entry.ipAddress} ({entry.label})

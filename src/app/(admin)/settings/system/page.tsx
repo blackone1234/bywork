@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { adminAccount, holidayApiStatus } from "@/lib/dummy-data";
 
 const inputClassName =
-  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black focus:border-black focus:outline-none";
+  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none";
 
 export default function SystemSettingsPage() {
   return (
