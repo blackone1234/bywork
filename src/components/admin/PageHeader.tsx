@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ChevronIcon } from "@/components/admin/ChevronIcon";
 
 const MENU_ITEMS = [
   { label: "관리자 계정 설정", href: "/settings/system" },
@@ -47,9 +48,9 @@ export function PageHeader({ breadcrumb }: { breadcrumb: string[] }) {
             >
               A
             </span>
-            <span className={`text-muted transition-transform ${menuOpen ? "-scale-y-100" : ""}`}>
-              ▾
-            </span>
+            <ChevronIcon
+              className={`size-[10px] text-muted transition-transform ${menuOpen ? "-scale-y-100" : ""}`}
+            />
           </button>
 
           {menuOpen ? (

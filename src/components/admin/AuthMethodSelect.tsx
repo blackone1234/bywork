@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronIcon } from "@/components/admin/ChevronIcon";
 import { AUTH_METHOD_OPTIONS, type AuthMethod } from "@/lib/dummy-data";
 
 export function AuthMethodSelect({ defaultValue }: { defaultValue: AuthMethod }) {
@@ -25,9 +26,9 @@ export function AuthMethodSelect({ defaultValue }: { defaultValue: AuthMethod })
         >
           {selected}
         </span>
-        <span aria-hidden className={`transition-transform ${open ? "-scale-y-100 text-black" : "text-line"}`}>
-          ▾
-        </span>
+        <ChevronIcon
+          className={`size-[10px] transition-transform ${open ? "-scale-y-100 text-black" : "text-line"}`}
+        />
       </button>
 
       {open ? (

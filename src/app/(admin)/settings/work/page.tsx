@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PageHeader } from "@/components/admin/PageHeader";
+import { ChevronIcon } from "@/components/admin/ChevronIcon";
 import { gpsSettings, ipWhitelist } from "@/lib/dummy-data";
 
 const TABS = [
@@ -35,9 +36,7 @@ export default function WorkSettingsPage() {
               </option>
             ))}
           </select>
-          <span aria-hidden className="pointer-events-none absolute top-1/2 right-[16px] -translate-y-1/2 text-line">
-            ▾
-          </span>
+          <ChevronIcon className="pointer-events-none absolute top-1/2 right-[16px] size-[10px] -translate-y-1/2 text-line" />
         </div>
 
         <div className="hidden w-full items-center gap-[20px] border-b border-line sm:flex">
@@ -53,7 +52,7 @@ export default function WorkSettingsPage() {
               }`}
             >
               {tab.label}
-              <span aria-hidden>▾</span>
+              <ChevronIcon className="size-[10px]" />
             </button>
           ))}
         </div>

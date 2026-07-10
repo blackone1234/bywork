@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronIcon } from "@/components/admin/ChevronIcon";
 
 export function FilterDropdown({
   label,
@@ -28,9 +29,7 @@ export function FilterDropdown({
         }`}
       >
         {selected}
-        <span aria-hidden className={`transition-transform ${open ? "-scale-y-100" : ""}`}>
-          ▾
-        </span>
+        <ChevronIcon className={`size-[10px] transition-transform ${open ? "-scale-y-100" : ""}`} />
       </button>
 
       {open && options ? (
