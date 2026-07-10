@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { FormField } from "@/components/admin/FormField";
 
 const inputClassName =
-  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line focus:outline-none";
+  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black focus:border-black focus:outline-none";
 
 export default function NewEmployeePage() {
   return (
@@ -29,7 +29,7 @@ export default function NewEmployeePage() {
           </FormField>
 
           <FormField label="이메일 (로그인 ID)" required>
-            <div className="flex w-full max-w-[500px] items-center rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px]">
+            <div className="flex w-full max-w-[500px] items-center rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] transition-colors hover:border-black focus-within:border-black">
               <input
                 type="text"
                 placeholder="abcd"
@@ -57,13 +57,13 @@ export default function NewEmployeePage() {
         <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
           <Link
             href="/employees"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
           >
             취소
           </Link>
           <button
             type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
           >
             저장
           </button>

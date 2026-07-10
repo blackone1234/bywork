@@ -19,7 +19,7 @@ export default function ResetPasswordPage() {
             <input
               type="password"
               placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors focus:border-black focus:outline-none"
+              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black focus:border-black focus:outline-none"
             />
           </div>
           <div className="flex w-full flex-col gap-[10px]">
@@ -29,7 +29,7 @@ export default function ResetPasswordPage() {
             <input
               type="password"
               placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors focus:border-black focus:outline-none"
+              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black focus:border-black focus:outline-none"
             />
           </div>
         </div>

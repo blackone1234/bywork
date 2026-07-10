@@ -1,6 +1,6 @@
 export function SearchInput({ placeholder }: { placeholder: string }) {
   return (
-    <div className="flex w-full max-w-[600px] items-center justify-between rounded-[30px] border border-divider py-[8px] pr-[14px] pl-[30px]">
+    <div className="flex w-full max-w-[600px] items-center justify-between rounded-[30px] border border-divider py-[8px] pr-[14px] pl-[30px] transition-colors hover:border-black focus-within:border-black">
       <input
         type="text"
         placeholder={placeholder}

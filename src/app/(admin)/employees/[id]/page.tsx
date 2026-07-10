@@ -40,7 +40,7 @@ export default async function EmployeeDetailPage({
                 </span>
                 <button
                   type="button"
-                  className="rounded-[10px] border border-muted px-[14px] py-[12px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                  className="rounded-[10px] border border-muted px-[14px] py-[12px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                 >
                   비밀번호 초기화 메일 발송
                 </button>
@@ -66,12 +66,12 @@ export default async function EmployeeDetailPage({
               <DetailRow label="인증방식">
                 <button
                   type="button"
-                  className="flex items-center gap-[14px] rounded-[20px] border border-divider px-[24px] py-[11px] transition-colors hover:border-black"
+                  className="group flex items-center gap-[14px] rounded-[20px] border border-divider px-[24px] py-[11px] transition-colors hover:border-sidebar-active hover:bg-sidebar-active"
                 >
-                  <span className="text-[14px] font-semibold tracking-[-0.28px] text-line">
+                  <span className="text-[14px] font-semibold tracking-[-0.28px] text-line group-hover:text-white">
                     {employee.authMethod}
                   </span>
-                  <span aria-hidden className="text-line">
+                  <span aria-hidden className="text-line group-hover:text-white">
                     ▾
                   </span>
                 </button>
@@ -83,7 +83,7 @@ export default async function EmployeeDetailPage({
         <div className="mt-8 flex w-full flex-col-reverse gap-3 pt-[30px] sm:mt-0 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href="/employees"
-            className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+            className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
           >
             취소
           </Link>

@@ -57,7 +57,7 @@ export default function WorkSettingsPage() {
                       className={`rounded-[10px] px-[12px] py-[14px] text-center text-[14px] font-semibold tracking-[-0.28px] transition-colors sm:w-[120px] sm:px-[20px] ${
                         isActive
                           ? "bg-sidebar-active text-white hover:bg-black"
-                          : "border border-line text-black hover:border-black hover:bg-page"
+                          : "border border-line text-black hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                       }`}
                     >
                       {day}
@@ -76,12 +76,12 @@ export default function WorkSettingsPage() {
                   <input
                     type="time"
                     defaultValue="09:00"
-                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line"
+                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black focus:border-black focus:outline-none"
                   />
                   <input
                     type="time"
                     defaultValue="18:00"
-                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line"
+                    className="rounded-[12px] border border-divider px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black focus:border-black focus:outline-none"
                   />
                 </div>
                 <p className="text-[14px] font-semibold tracking-[-0.28px] text-muted">
@@ -145,7 +145,7 @@ export default function WorkSettingsPage() {
               <div className="flex w-full justify-end">
                 <button
                   type="button"
-                  className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                  className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                 >
                   + IP 추가
                 </button>
@@ -178,13 +178,13 @@ export default function WorkSettingsPage() {
         <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
           <button
             type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
           >
             취소
           </button>
           <button
             type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
           >
             저장
           </button>

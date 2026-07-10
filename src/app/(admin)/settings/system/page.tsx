@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { adminAccount, holidayApiStatus } from "@/lib/dummy-data";
 
 const inputClassName =
-  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line focus:outline-none";
+  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black focus:border-black focus:outline-none";
 
 export default function SystemSettingsPage() {
   return (
@@ -49,7 +49,7 @@ export default function SystemSettingsPage() {
           <div className="flex w-full justify-end">
             <button
               type="button"
-              className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
+              className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
             >
               저장
             </button>
@@ -83,7 +83,7 @@ export default function SystemSettingsPage() {
             </div>
             <button
               type="button"
-              className="self-start rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:self-auto"
+              className="self-start rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:self-auto"
             >
               공휴일 데이터 수동 갱신
             </button>

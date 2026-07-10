@@ -25,7 +25,7 @@ export default function LeaveRequestsPage() {
                 className={`w-[100px] shrink-0 rounded-[10px] px-[20px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] transition-colors ${
                   index === 0
                     ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] hover:bg-black"
-                    : "border border-muted text-muted hover:border-black hover:bg-page hover:text-black"
+                    : "border border-muted text-muted hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                 }`}
               >
                 {tab}
@@ -35,7 +35,7 @@ export default function LeaveRequestsPage() {
 
           <button
             type="button"
-            className="flex w-[130px] items-center justify-between rounded-[30px] border border-divider px-[24px] py-[11px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black hover:text-black"
+            className="flex w-[130px] items-center justify-between rounded-[30px] border border-divider px-[24px] py-[11px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
           >
             2026년
             <span aria-hidden>▾</span>
@@ -78,13 +78,13 @@ export default function LeaveRequestsPage() {
                       <>
                         <button
                           type="button"
-                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                         >
                           승인
                         </button>
                         <button
                           type="button"
-                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
                         >
                           반려
                         </button>
