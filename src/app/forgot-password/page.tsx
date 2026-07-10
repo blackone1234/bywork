@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
       <div className="flex w-full items-center justify-center">
         <Link
           href="/login"
-          className="flex w-[120px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
+          className="flex w-[120px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
         >
           확인
         </Link>

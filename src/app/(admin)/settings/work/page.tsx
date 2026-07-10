@@ -22,17 +22,17 @@ export default function WorkSettingsPage() {
     <>
       <PageHeader breadcrumb={["Dashboard", "근무설정"]} />
 
-      <div className="flex flex-1 flex-col gap-[40px] px-[60px] pt-[50px] pb-[20px]">
-        <div className="flex w-full items-center gap-[20px] border-b border-line">
+      <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
+        <div className="flex w-full items-center gap-[20px] overflow-x-auto border-b border-line">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`flex w-[368px] items-center justify-between pb-[14px] text-[16px] font-bold tracking-[-0.32px] ${
+              className={`flex w-[220px] shrink-0 items-center justify-between pb-[14px] text-[14px] font-bold tracking-[-0.28px] transition-colors sm:w-[280px] sm:text-[16px] sm:tracking-[-0.32px] lg:w-[368px] ${
                 activeTab === tab.key
                   ? "border-b-3 border-black text-black"
-                  : "text-line"
+                  : "text-line hover:text-black"
               }`}
             >
               {tab.label}
@@ -43,21 +43,21 @@ export default function WorkSettingsPage() {
 
         {activeTab === "basic" ? (
           <div className="flex w-full flex-col gap-[40px]">
-            <div className="flex w-full items-center gap-[40px] py-[10px]">
-              <p className="w-[80px] text-[16px] font-bold tracking-[-0.32px] text-black">
+            <div className="flex w-full flex-col gap-4 py-[10px] sm:flex-row sm:items-center sm:gap-[40px]">
+              <p className="w-[80px] shrink-0 text-[16px] font-bold tracking-[-0.32px] text-black">
                 요일선택
               </p>
-              <div className="flex flex-1 items-center gap-px">
+              <div className="grid flex-1 grid-cols-4 gap-1 sm:flex sm:flex-wrap sm:items-center sm:gap-px">
                 {DAYS.map((day) => {
                   const isActive = ACTIVE_DAYS.has(day);
                   return (
                     <button
                       key={day}
                       type="button"
-                      className={`w-[120px] rounded-[10px] px-[20px] py-[14px] text-center text-[14px] font-semibold tracking-[-0.28px] ${
+                      className={`rounded-[10px] px-[12px] py-[14px] text-center text-[14px] font-semibold tracking-[-0.28px] transition-colors sm:w-[120px] sm:px-[20px] ${
                         isActive
-                          ? "bg-sidebar-active text-white"
-                          : "border border-line text-black"
+                          ? "bg-sidebar-active text-white hover:bg-black"
+                          : "border border-line text-black hover:border-black hover:bg-page"
                       }`}
                     >
                       {day}
@@ -67,11 +67,11 @@ export default function WorkSettingsPage() {
               </div>
             </div>
 
-            <div className="flex w-full items-center gap-[40px] py-[10px]">
-              <p className="w-[80px] text-[16px] font-bold tracking-[-0.32px] text-black">
+            <div className="flex w-full flex-col gap-4 py-[10px] sm:flex-row sm:items-center sm:gap-[40px]">
+              <p className="w-[80px] shrink-0 text-[16px] font-bold tracking-[-0.32px] text-black">
                 시간설정
               </p>
-              <div className="flex flex-1 items-center gap-[20px]">
+              <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:gap-[20px]">
                 <div className="flex items-center gap-[10px]">
                   <input
                     type="time"
@@ -94,7 +94,7 @@ export default function WorkSettingsPage() {
 
         {activeTab === "leave" ? (
           <div className="flex w-full flex-col gap-[20px]">
-            <label className="flex items-center gap-[40px] rounded-[12px] border border-divider bg-white px-[30px] py-[20px]">
+            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" defaultChecked />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -106,7 +106,7 @@ export default function WorkSettingsPage() {
               </span>
             </label>
 
-            <label className="flex items-center gap-[40px] rounded-[12px] border border-divider bg-white px-[30px] py-[20px]">
+            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -129,14 +129,14 @@ export default function WorkSettingsPage() {
               {ipWhitelist.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex w-full items-center justify-between rounded-[12px] border border-divider bg-white px-[30px] py-[20px]"
+                  className="flex w-full flex-wrap items-center justify-between gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black"
                 >
                   <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                     {entry.ipAddress} ({entry.label})
                   </p>
                   <button
                     type="button"
-                    className="text-[12px] font-semibold tracking-[-0.24px] text-red-600"
+                    className="text-[12px] font-semibold tracking-[-0.24px] text-red-600 hover:underline"
                   >
                     삭제
                   </button>
@@ -145,7 +145,7 @@ export default function WorkSettingsPage() {
               <div className="flex w-full justify-end">
                 <button
                   type="button"
-                  className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
+                  className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
                 >
                   + IP 추가
                 </button>
@@ -156,18 +156,18 @@ export default function WorkSettingsPage() {
               <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                 GPS 설정
               </p>
-              <div className="flex w-full items-center gap-[12px]">
-                <div className="flex flex-1 items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+              <div className="grid w-full grid-cols-1 gap-[12px] sm:grid-cols-3">
+                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   위도 {gpsSettings.latitude}
                 </div>
-                <div className="flex flex-1 items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   경도 {gpsSettings.longitude}
                 </div>
-                <div className="flex flex-1 items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   반경 {gpsSettings.radiusM}m
                 </div>
               </div>
-              <p className="flex items-center justify-end gap-[6px] text-[14px] font-semibold tracking-[-0.28px] text-muted">
+              <p className="flex items-center gap-[6px] text-[14px] font-semibold tracking-[-0.28px] text-muted sm:justify-end">
                 ⓘ 직원별 인증 방식(IP만/GPS만/하이브리드/수동승인)은 각 직원
                 상세(A04)에서 개별 지정
               </p>
@@ -175,16 +175,16 @@ export default function WorkSettingsPage() {
           </div>
         ) : null}
 
-        <div className="flex w-full items-start justify-between border-t border-muted pt-[30px]">
+        <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
           <button
             type="button"
-            className="flex w-[140px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
           >
             취소
           </button>
           <button
             type="button"
-            className="flex w-[140px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
           >
             저장
           </button>

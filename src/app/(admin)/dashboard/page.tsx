@@ -17,14 +17,14 @@ export default function DashboardPage() {
     <>
       <PageHeader breadcrumb={["Dashboard"]} />
 
-      <div className="flex flex-1 flex-col gap-[40px] px-[60px] pt-[50px] pb-[20px]">
-        <div className="flex w-full items-start gap-[10px]">
+      <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
+        <div className="grid w-full grid-cols-2 gap-[10px] sm:grid-cols-3 lg:flex lg:items-start">
           {dashboardStats.map((stat) => (
             <StatCard key={stat.label} label={stat.label} value={stat.count} />
           ))}
         </div>
 
-        <div className="flex w-full items-center gap-[10px] rounded-[10px] border-2 border-black px-[20px] py-[14px]">
+        <div className="flex w-full items-center gap-[10px] rounded-[10px] border-2 border-black px-4 py-3 lg:px-[20px] lg:py-[14px]">
           <span aria-hidden className="text-[16px]">
             ⓘ
           </span>
@@ -43,44 +43,46 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex w-full flex-col gap-[12px]">
-            <div className="grid w-full grid-cols-6 border-b-2 border-black pb-[14px]">
-              {TABLE_COLUMNS.map((column) => (
-                <p
-                  key={column}
-                  className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-                >
-                  {column}
-                </p>
-              ))}
-            </div>
+          <div className="w-full overflow-x-auto">
+            <div className="flex w-full min-w-[720px] flex-col gap-[12px]">
+              <div className="grid w-full grid-cols-6 border-b-2 border-black pb-[14px]">
+                {TABLE_COLUMNS.map((column) => (
+                  <p
+                    key={column}
+                    className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
+                  >
+                    {column}
+                  </p>
+                ))}
+              </div>
 
-            <div className="flex w-full flex-col gap-[7px]">
-              {todayAttendance.map((row) => (
-                <div
-                  key={row.id}
-                  className="grid w-full grid-cols-6 items-center border-b border-divider pb-[12px]"
-                >
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.name}
-                  </p>
-                  <div className="flex items-center justify-center">
-                    <StatusBadge state={row.state} />
+              <div className="flex w-full flex-col gap-[7px]">
+                {todayAttendance.map((row) => (
+                  <div
+                    key={row.id}
+                    className="grid w-full grid-cols-6 items-center border-b border-divider pb-[12px]"
+                  >
+                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                      {row.name}
+                    </p>
+                    <div className="flex items-center justify-center">
+                      <StatusBadge state={row.state} />
+                    </div>
+                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                      {row.checkIn}
+                    </p>
+                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                      {row.checkOut}
+                    </p>
+                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                      {row.outing}
+                    </p>
+                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                      {row.weeklyHours}
+                    </p>
                   </div>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkIn}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkOut}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.outing}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.weeklyHours}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -12,12 +12,18 @@ const MENU_ITEMS = [
   { label: "시스템", href: "/settings/system" },
 ] as const;
 
-export function Sidebar({ notificationCount }: { notificationCount?: number }) {
+export function Sidebar({
+  notificationCount,
+  onNavigate,
+}: {
+  notificationCount?: number;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
 
   return (
     <aside className="flex h-full w-[218px] shrink-0 flex-col gap-[50px] bg-white pt-[50px] pb-[20px]">
-      <div className="flex flex-col gap-[8px] px-[30px]">
+      <div className="flex flex-col gap-[50px] px-[30px]">
         <span className="text-[13px] font-bold tracking-[-0.26px] text-black">
           by WORKS
         </span>
@@ -37,6 +43,7 @@ export function Sidebar({ notificationCount }: { notificationCount?: number }) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={`flex h-[42px] w-[198px] items-center justify-between gap-[16px] rounded-[30px] px-[20px] py-[10px] text-[14px] font-semibold tracking-[-0.28px] transition-colors ${
                 isActive
                   ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"

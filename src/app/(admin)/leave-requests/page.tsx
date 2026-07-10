@@ -15,17 +15,17 @@ export default function LeaveRequestsPage() {
     <>
       <PageHeader breadcrumb={["Dashboard", "휴가승인"]} />
 
-      <div className="flex flex-1 flex-col gap-[40px] px-[60px] pt-[50px] pb-[20px]">
-        <div className="flex w-full items-start justify-between">
-          <div className="flex items-center gap-[8px]">
+      <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-center gap-[8px] overflow-x-auto">
             {FILTER_TABS.map((tab, index) => (
               <button
                 key={tab}
                 type="button"
-                className={`w-[100px] rounded-[10px] px-[20px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] ${
+                className={`w-[100px] shrink-0 rounded-[10px] px-[20px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] transition-colors ${
                   index === 0
-                    ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"
-                    : "border border-muted text-muted"
+                    ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] hover:bg-black"
+                    : "border border-muted text-muted hover:border-black hover:bg-page hover:text-black"
                 }`}
               >
                 {tab}
@@ -35,67 +35,69 @@ export default function LeaveRequestsPage() {
 
           <button
             type="button"
-            className="flex w-[130px] items-center justify-between rounded-[30px] border border-divider px-[24px] py-[11px] text-[14px] font-semibold tracking-[-0.28px] text-line"
+            className="flex w-[130px] items-center justify-between rounded-[30px] border border-divider px-[24px] py-[11px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-black hover:text-black"
           >
             2026년
             <span aria-hidden>▾</span>
           </button>
         </div>
 
-        <div className="flex w-full flex-col gap-[12px]">
-          <div className="grid w-full grid-cols-5 border-b-2 border-black pb-[14px]">
-            {TABLE_COLUMNS.map((column) => (
-              <p
-                key={column}
-                className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-              >
-                {column}
-              </p>
-            ))}
-          </div>
+        <div className="w-full overflow-x-auto">
+          <div className="flex w-full min-w-[640px] flex-col gap-[12px]">
+            <div className="grid w-full grid-cols-5 border-b-2 border-black pb-[14px]">
+              {TABLE_COLUMNS.map((column) => (
+                <p
+                  key={column}
+                  className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
+                >
+                  {column}
+                </p>
+              ))}
+            </div>
 
-          <div className="flex w-full flex-col gap-[11px]">
-            {leaveRequests.map((request) => (
-              <div
-                key={request.id}
-                className="grid w-full grid-cols-5 items-center border-b border-divider pb-[12px]"
-              >
-                <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                  {request.employeeName}
-                </p>
-                <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                  {request.leaveType}
-                </p>
-                <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                  {request.date}
-                </p>
-                <div className="flex items-center justify-center">
-                  <LeaveStatusBadge status={request.status} />
+            <div className="flex w-full flex-col gap-[11px]">
+              {leaveRequests.map((request) => (
+                <div
+                  key={request.id}
+                  className="grid w-full grid-cols-5 items-center border-b border-divider pb-[12px]"
+                >
+                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                    {request.employeeName}
+                  </p>
+                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                    {request.leaveType}
+                  </p>
+                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
+                    {request.date}
+                  </p>
+                  <div className="flex items-center justify-center">
+                    <LeaveStatusBadge status={request.status} />
+                  </div>
+                  <div className="flex items-center justify-center gap-[8px]">
+                    {request.status === "대기중" ? (
+                      <>
+                        <button
+                          type="button"
+                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                        >
+                          승인
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
+                        >
+                          반려
+                        </button>
+                      </>
+                    ) : (
+                      <p className="text-[14px] font-semibold tracking-[-0.28px] text-black">
+                        {PROCESSED_LABEL[request.status]}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center justify-center gap-[8px]">
-                  {request.status === "대기중" ? (
-                    <>
-                      <button
-                        type="button"
-                        className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
-                      >
-                        승인
-                      </button>
-                      <button
-                        type="button"
-                        className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
-                      >
-                        반려
-                      </button>
-                    </>
-                  ) : (
-                    <p className="text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {PROCESSED_LABEL[request.status]}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -2,21 +2,21 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { adminAccount, holidayApiStatus } from "@/lib/dummy-data";
 
 const inputClassName =
-  "w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line focus:outline-none";
+  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line focus:outline-none";
 
 export default function SystemSettingsPage() {
   return (
     <>
       <PageHeader breadcrumb={["Dashboard", "시스템"]} />
 
-      <div className="flex flex-1 flex-col gap-[40px] px-[60px] pt-[50px] pb-[20px]">
+      <div className="flex flex-1 flex-col gap-8 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
         <div className="flex w-full flex-col gap-[20px]">
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             관리자 계정
           </h2>
           <div className="flex w-full flex-col divide-y divide-divider border-t-2 border-b-2 border-black">
-            <div className="flex w-full items-center gap-[10px] py-[6px]">
-              <span className="w-[120px] shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted">
+            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
+              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 이메일
               </span>
               <input
@@ -25,8 +25,8 @@ export default function SystemSettingsPage() {
                 className={inputClassName}
               />
             </div>
-            <div className="flex w-full items-center gap-[10px] py-[6px]">
-              <span className="w-[120px] shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted">
+            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
+              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 새 비밀번호
               </span>
               <input
@@ -35,8 +35,8 @@ export default function SystemSettingsPage() {
                 className={inputClassName}
               />
             </div>
-            <div className="flex w-full items-center gap-[10px] py-[6px]">
-              <span className="w-[120px] shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted">
+            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
+              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 비밀번호 확인
               </span>
               <input
@@ -49,7 +49,7 @@ export default function SystemSettingsPage() {
           <div className="flex w-full justify-end">
             <button
               type="button"
-              className="flex w-[140px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+              className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
             >
               저장
             </button>
@@ -60,9 +60,9 @@ export default function SystemSettingsPage() {
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             공휴일 API
           </h2>
-          <div className="flex w-full items-center justify-between rounded-[12px] border border-divider bg-white px-[30px] py-[24px]">
+          <div className="flex w-full flex-col gap-4 rounded-[12px] border border-divider bg-white px-[30px] py-[24px] sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col gap-[18px]">
-              <div className="flex items-center gap-[16px]">
+              <div className="flex flex-wrap items-center gap-[16px]">
                 <p className="text-[16px] font-bold tracking-[-0.32px] text-sidebar-active">
                   서비스 명 : {holidayApiStatus.serviceName}
                 </p>
@@ -83,7 +83,7 @@ export default function SystemSettingsPage() {
             </div>
             <button
               type="button"
-              className="rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+              className="self-start rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:self-auto"
             >
               공휴일 데이터 수동 갱신
             </button>

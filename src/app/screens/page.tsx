@@ -70,10 +70,10 @@ const SCREEN_GROUPS: ScreenGroup[] = [
 
 export default function ScreensIndexPage() {
   return (
-    <div className="min-h-screen w-full bg-page px-[60px] py-[50px]">
+    <div className="min-h-screen w-full bg-page px-4 py-8 sm:px-8 lg:px-[60px] lg:py-[50px]">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-[40px]">
         <div className="flex flex-col gap-[8px]">
-          <h1 className="text-[32px] font-extrabold tracking-[-0.64px] text-black">
+          <h1 className="text-[24px] font-extrabold tracking-[-0.48px] text-black sm:text-[32px] sm:tracking-[-0.64px]">
             byWORK 관리자 웹 — 화면 인덱스
           </h1>
           <p className="text-[14px] font-semibold tracking-[-0.28px] text-muted">
@@ -87,7 +87,7 @@ export default function ScreensIndexPage() {
               <h2 className="text-[16px] font-bold tracking-[-0.32px] text-black">
                 {group.group}
               </h2>
-              <div className="grid grid-cols-3 gap-[12px]">
+              <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2 lg:grid-cols-3">
                 {group.screens.map((screen) => (
                   <Link
                     key={screen.href}

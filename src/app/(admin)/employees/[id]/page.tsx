@@ -22,8 +22,8 @@ export default async function EmployeeDetailPage({
         breadcrumb={["Dashboard", "직원관리", `직원상세 - ${employee.name}`]}
       />
 
-      <div className="flex flex-1 flex-col px-[60px] pt-[50px] pb-[20px]">
-        <div className="flex w-full flex-col gap-[80px]">
+      <div className="flex flex-1 flex-col px-4 py-6 sm:px-8 lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
+        <div className="flex w-full flex-col gap-10 lg:gap-[80px]">
           <div className="flex w-full flex-col gap-[18px]">
             <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
               기본정보
@@ -40,7 +40,7 @@ export default async function EmployeeDetailPage({
                 </span>
                 <button
                   type="button"
-                  className="rounded-[10px] border border-muted px-[14px] py-[12px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+                  className="rounded-[10px] border border-muted px-[14px] py-[12px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
                 >
                   비밀번호 초기화 메일 발송
                 </button>
@@ -66,7 +66,7 @@ export default async function EmployeeDetailPage({
               <DetailRow label="인증방식">
                 <button
                   type="button"
-                  className="flex items-center gap-[14px] rounded-[20px] border border-divider px-[24px] py-[11px]"
+                  className="flex items-center gap-[14px] rounded-[20px] border border-divider px-[24px] py-[11px] transition-colors hover:border-black"
                 >
                   <span className="text-[14px] font-semibold tracking-[-0.28px] text-line">
                     {employee.authMethod}
@@ -80,23 +80,23 @@ export default async function EmployeeDetailPage({
           </div>
         </div>
 
-        <div className="flex w-full items-start justify-between pt-[30px]">
+        <div className="mt-8 flex w-full flex-col-reverse gap-3 pt-[30px] sm:mt-0 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href="/employees"
-            className="flex w-[140px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted"
+            className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black sm:w-[140px]"
           >
             취소
           </Link>
-          <div className="flex items-center justify-end gap-[12px]">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-end sm:gap-[12px]">
             <button
               type="button"
-              className="flex w-[140px] items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"
+              className="flex w-full items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] transition-colors hover:bg-black sm:w-[140px]"
             >
               저장
             </button>
             <Link
               href={`/employees/${employee.id}/terminate`}
-              className="flex w-[140px] items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"
+              className="flex w-full items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] transition-colors hover:bg-black sm:w-[140px]"
             >
               퇴사처리
             </Link>

@@ -33,13 +33,13 @@ export default async function TerminateEmployeeModal({
       <div className="flex w-full items-start gap-[10px]">
         <Link
           href={`/employees/${employee.id}`}
-          className="flex w-[120px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
+          className="flex flex-1 items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
         >
           취소
         </Link>
         <button
           type="button"
-          className="flex w-[120px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted"
+          className="flex flex-1 items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-black hover:bg-page hover:text-black"
         >
           퇴사처리
         </button>
