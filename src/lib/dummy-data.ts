@@ -242,3 +242,12 @@ export const holidayApiStatus = {
   apiStatus: "정상 (응답시간 120ms)",
   annualHolidayCount: "17일 (2026년)",
 };
+
+export const YEAR_OPTIONS = ["2026년", "2025년", "2024년", "2023년", "2022년"];
+export const MONTH_OPTIONS = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+export const AUTH_METHOD_OPTIONS: AuthMethod[] = [
+  "IP+GPS(하이브리드)",
+  "GPS만",
+  "IP만",
+  "관리자 수동승인만",
+];

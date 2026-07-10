@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { adminAccount } from "@/lib/dummy-data";
+
+const MENU_ITEMS = [
+  { label: "관리자 계정 설정", href: "/settings/system" },
+  { label: "공휴일 API 설정", href: "/settings/system" },
+] as const;
 
 export function PageHeader({ breadcrumb }: { breadcrumb: string[] }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,41 +40,35 @@ export function PageHeader({ breadcrumb }: { breadcrumb: string[] }) {
             aria-label="관리자 계정 메뉴"
             aria-expanded={menuOpen}
           >
-            <span className="flex size-[36px] items-center justify-center rounded-full bg-avatar-bg text-[15px] font-bold text-avatar-text">
+            <span
+              className={`flex size-[36px] items-center justify-center rounded-full text-[15px] font-bold transition-colors ${
+                menuOpen ? "bg-avatar-text text-white" : "bg-avatar-bg text-avatar-text"
+              }`}
+            >
               A
             </span>
-            <span className={`text-muted transition-transform ${menuOpen ? "rotate-180" : ""}`}>
+            <span className={`text-muted transition-transform ${menuOpen ? "-scale-y-100" : ""}`}>
               ▾
             </span>
           </button>
 
           {menuOpen ? (
             <>
-              <div
-                className="fixed inset-0 z-40"
-                onClick={() => setMenuOpen(false)}
-                aria-hidden
-              />
-              <div className="absolute top-[46px] right-0 z-50 flex w-[220px] flex-col gap-1 rounded-[12px] border border-divider bg-white p-2 shadow-[2px_4px_8px_rgba(0,0,0,0.12)]">
-                <div className="flex flex-col gap-[2px] px-3 py-2">
-                  <span className="text-[13px] font-bold tracking-[-0.26px] text-black">
-                    관리자
-                  </span>
-                  <span className="text-[12px] font-semibold tracking-[-0.24px] text-muted">
-                    {adminAccount.email}
-                  </span>
-                </div>
-                <div className="my-1 h-px w-full bg-divider" />
-                <Link
-                  href="/settings/system"
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-[8px] px-3 py-2 text-left text-[14px] font-semibold tracking-[-0.28px] text-black transition-colors hover:bg-sidebar-active hover:text-white"
-                >
-                  시스템 설정
-                </Link>
+              <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} aria-hidden />
+              <div className="absolute top-[46px] right-0 z-50 flex w-max flex-col gap-[3px] rounded-[12px] border border-avatar-text bg-white p-[10px] shadow-[2px_4px_3px_rgba(0,0,0,0.2)]">
+                {MENU_ITEMS.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-[10px] px-[14px] py-[8px] text-center text-[12px] font-semibold tracking-[-0.24px] whitespace-nowrap text-line transition-colors hover:rounded-[8px] hover:bg-avatar-text hover:py-[6px] hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
                 <button
                   type="button"
-                  className="rounded-[8px] px-3 py-2 text-left text-[14px] font-semibold tracking-[-0.28px] text-black transition-colors hover:bg-sidebar-active hover:text-white"
+                  className="rounded-[10px] px-[14px] py-[8px] text-center text-[12px] font-semibold tracking-[-0.24px] whitespace-nowrap text-line transition-colors hover:rounded-[8px] hover:bg-avatar-text hover:py-[6px] hover:text-white"
                 >
                   로그아웃
                 </button>

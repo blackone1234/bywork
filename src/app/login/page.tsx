@@ -32,12 +32,12 @@ export default function LoginPage() {
               <input
                 type="email"
                 placeholder="admin@by-bk.com"
-                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none"
+                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
               />
               <input
                 type="password"
                 placeholder="••••••••"
-                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-colors hover:border-black hover:bg-page focus:border-black focus:bg-white focus:outline-none"
+                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
               />
             </div>
 

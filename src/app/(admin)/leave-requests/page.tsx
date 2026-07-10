@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { LeaveStatusBadge } from "@/components/admin/LeaveStatusBadge";
-import { leaveRequests } from "@/lib/dummy-data";
+import { FilterDropdown } from "@/components/admin/FilterDropdown";
+import { YEAR_OPTIONS, leaveRequests } from "@/lib/dummy-data";
 
 const FILTER_TABS = ["전체", "대기중", "승인", "반려"] as const;
 const TABLE_COLUMNS = ["이름", "유형", "날짜", "상태", "처리"];
@@ -33,13 +34,7 @@ export default function LeaveRequestsPage() {
             ))}
           </div>
 
-          <button
-            type="button"
-            className="flex w-[130px] items-center justify-between rounded-[30px] border border-divider px-[24px] py-[11px] text-[14px] font-semibold tracking-[-0.28px] text-line transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-          >
-            2026년
-            <span aria-hidden>▾</span>
-          </button>
+          <FilterDropdown label="2026년" options={YEAR_OPTIONS} width={130} />
         </div>
 
         <div className="w-full overflow-x-auto">

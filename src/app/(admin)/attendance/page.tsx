@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { FilterDropdown } from "@/components/admin/FilterDropdown";
-import { monthlyAttendance } from "@/lib/dummy-data";
+import { MONTH_OPTIONS, YEAR_OPTIONS, monthlyAttendance } from "@/lib/dummy-data";
 
 const TABLE_COLUMNS = ["이름", "날짜", "출근시간", "퇴근시간", "주간근무시간"];
 
@@ -13,8 +13,8 @@ export default function AttendancePage() {
       <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
         <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-[8px]">
-            <FilterDropdown label="2026년" width={130} />
-            <FilterDropdown label="7월" width={110} />
+            <FilterDropdown label="2026년" options={YEAR_OPTIONS} width={130} />
+            <FilterDropdown label="7월" options={MONTH_OPTIONS} width={110} />
           </div>
 
           <div className="flex items-center gap-[8px]">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { DetailRow } from "@/components/admin/DetailRow";
+import { AuthMethodSelect } from "@/components/admin/AuthMethodSelect";
 import { getEmployeeById } from "@/lib/dummy-data";
 
 export default async function EmployeeDetailPage({
@@ -64,17 +65,7 @@ export default async function EmployeeDetailPage({
                 </span>
               </DetailRow>
               <DetailRow label="인증방식">
-                <button
-                  type="button"
-                  className="group flex items-center gap-[14px] rounded-[20px] border border-divider px-[24px] py-[11px] transition-colors hover:border-sidebar-active hover:bg-sidebar-active"
-                >
-                  <span className="text-[14px] font-semibold tracking-[-0.28px] text-line group-hover:text-white">
-                    {employee.authMethod}
-                  </span>
-                  <span aria-hidden className="text-line group-hover:text-white">
-                    ▾
-                  </span>
-                </button>
+                <AuthMethodSelect defaultValue={employee.authMethod} />
               </DetailRow>
             </div>
           </div>
