@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { BrandLogo } from "@/components/admin/icons/BrandLogo";
 import { KebabDotsIcon } from "@/components/admin/icons/KebabDotsIcon";
 import { CloseIcon } from "@/components/admin/icons/CloseIcon";
 import { MENU_ITEMS } from "@/lib/nav";
@@ -12,9 +13,7 @@ export function MobileGnb() {
   return (
     <>
       <div className="flex items-center justify-between border-b border-divider bg-white px-[30px] py-[20px] lg:hidden">
-        <span className="text-[14px] font-bold tracking-[-0.26px] text-black">
-          by WORKS
-        </span>
+        <BrandLogo className="h-[20px] w-[106.469px] text-black" />
         <button
           type="button"
           onClick={() => setOpen(true)}
@@ -57,6 +56,10 @@ export function MobileGnb() {
               </Link>
             ))}
           </nav>
+
+          <p className="mt-auto pb-[30px] text-[14px] font-medium tracking-[-0.28px] text-muted">
+            © by BLACK. All rights reserved.
+          </p>
         </div>
       ) : null}
     </>

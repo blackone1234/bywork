@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BrandLogo } from "@/components/admin/icons/BrandLogo";
 import { MENU_ITEMS } from "@/lib/nav";
 
 export function Sidebar({
@@ -16,9 +17,7 @@ export function Sidebar({
   return (
     <aside className="flex h-full w-[218px] shrink-0 flex-col gap-[50px] bg-white pt-[50px] pb-[20px]">
       <div className="flex flex-col gap-[50px] px-[30px]">
-        <span className="text-[13px] font-bold tracking-[-0.26px] text-black">
-          by WORKS
-        </span>
+        <BrandLogo className="h-[14px] w-[74.528px] text-black" />
         <span className="text-[19px] font-bold leading-[1.3] tracking-[-0.38px] text-black">
           Admin
           <br />
@@ -52,6 +51,10 @@ export function Sidebar({
           );
         })}
       </nav>
+
+      <p className="mt-auto px-[30px] text-[11px] font-medium tracking-[-0.22px] text-muted">
+        © by BLACK. All rights reserved.
+      </p>
     </aside>
   );
 }
