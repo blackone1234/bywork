@@ -22,7 +22,7 @@ const OUTLINE_PILL_CLASSNAME =
   "rounded-full border-2 border-black bg-white px-[24px] py-[13px] text-[14px] tracking-[-0.28px] text-black transition-colors hover:bg-black hover:text-white";
 
 const PRIMARY_PILL_CLASSNAME =
-  "gap-[14px] rounded-full bg-sidebar-active px-[24px] py-[11px] text-[14px] text-white transition-colors hover:bg-black";
+  "gap-[14px] rounded-full bg-sidebar-active px-[24px] py-[11px] text-[14px] tracking-[-0.28px] text-white transition-colors hover:bg-black";
 
 type ButtonOwnProps = {
   variant?: ButtonVariant;
