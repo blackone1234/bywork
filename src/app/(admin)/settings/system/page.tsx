@@ -1,8 +1,8 @@
 import { PageHeader } from "@/components/admin/PageHeader";
+import { Card } from "@/components/admin/Card";
+import { Button } from "@/components/admin/Button";
+import { TextField } from "@/components/admin/TextField";
 import { adminAccount, holidayApiStatus } from "@/lib/dummy-data";
-
-const inputClassName =
-  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none";
 
 export default function SystemSettingsPage() {
   return (
@@ -19,40 +19,26 @@ export default function SystemSettingsPage() {
               <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 이메일
               </span>
-              <input
-                type="email"
-                defaultValue={adminAccount.email}
-                className={inputClassName}
-              />
+              <TextField type="email" defaultValue={adminAccount.email} />
             </div>
             <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
               <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 새 비밀번호
               </span>
-              <input
+              <TextField
                 type="password"
                 placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-                className={inputClassName}
               />
             </div>
             <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
               <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
                 비밀번호 확인
               </span>
-              <input
-                type="password"
-                placeholder="비밀번호를 다시 입력해주세요."
-                className={inputClassName}
-              />
+              <TextField type="password" placeholder="비밀번호를 다시 입력해주세요." />
             </div>
           </div>
           <div className="flex w-full justify-end">
-            <button
-              type="button"
-              className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-            >
-              저장
-            </button>
+            <Button className="w-full sm:w-[140px]">저장</Button>
           </div>
         </div>
 
@@ -60,7 +46,10 @@ export default function SystemSettingsPage() {
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             공휴일 API
           </h2>
-          <div className="flex w-full flex-col gap-4 rounded-[12px] border border-divider bg-white px-[30px] py-[24px] sm:flex-row sm:items-center sm:justify-between">
+          <Card
+            padding="loose"
+            className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          >
             <div className="flex flex-col gap-[18px]">
               <div className="flex flex-wrap items-center gap-[16px]">
                 <p className="text-[16px] font-bold tracking-[-0.32px] text-sidebar-active">
@@ -81,13 +70,10 @@ export default function SystemSettingsPage() {
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              className="self-start rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:self-auto"
-            >
+            <Button className="self-start sm:self-auto">
               공휴일 데이터 수동 갱신
-            </button>
-          </div>
+            </Button>
+          </Card>
         </div>
       </div>
     </>

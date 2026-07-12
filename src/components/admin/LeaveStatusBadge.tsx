@@ -1,3 +1,5 @@
+import { Badge } from "@/components/admin/Badge";
+
 export type LeaveRequestStatus = "대기중" | "승인" | "반려";
 
 const STATUS_STYLES: Record<LeaveRequestStatus, string> = {
@@ -7,11 +9,5 @@ const STATUS_STYLES: Record<LeaveRequestStatus, string> = {
 };
 
 export function LeaveStatusBadge({ status }: { status: LeaveRequestStatus }) {
-  return (
-    <span
-      className={`inline-flex items-center justify-center rounded-[8px] px-[12px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] ${STATUS_STYLES[status]}`}
-    >
-      {status}
-    </span>
-  );
+  return <Badge className={STATUS_STYLES[status]}>{status}</Badge>;
 }

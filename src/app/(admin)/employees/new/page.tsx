@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { FormField } from "@/components/admin/FormField";
-
-const inputClassName =
-  "w-full max-w-[500px] rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none";
+import { TextField } from "@/components/admin/TextField";
+import { Button } from "@/components/admin/Button";
 
 export default function NewEmployeePage() {
   return (
@@ -13,18 +11,13 @@ export default function NewEmployeePage() {
       <div className="flex flex-1 flex-col gap-8 px-4 py-6 sm:px-8 lg:gap-[50px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
         <div className="flex w-full flex-col gap-[20px]">
           <FormField label="이름" required>
-            <input
-              type="text"
-              placeholder="이름을 입력해주세요."
-              className={inputClassName}
-            />
+            <TextField type="text" placeholder="이름을 입력해주세요." />
           </FormField>
 
           <FormField label="연락처" required>
-            <input
+            <TextField
               type="tel"
               placeholder="000-1234-5678 (숫자만 입력해주세요)"
-              className={inputClassName}
             />
           </FormField>
 
@@ -43,7 +36,7 @@ export default function NewEmployeePage() {
 
           <div className="flex items-center gap-[12px]">
             <FormField label="입사일" required>
-              <input type="date" className={inputClassName} />
+              <TextField type="date" />
             </FormField>
           </div>
 
@@ -55,18 +48,10 @@ export default function NewEmployeePage() {
         </div>
 
         <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
-          <Link
-            href="/employees"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-          >
+          <Button href="/employees" className="w-[110px] sm:w-[140px]">
             취소
-          </Link>
-          <button
-            type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-          >
-            저장
-          </button>
+          </Button>
+          <Button className="w-[110px] sm:w-[140px]">저장</Button>
         </div>
       </div>
     </>

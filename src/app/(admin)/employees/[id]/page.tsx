@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { DetailRow } from "@/components/admin/DetailRow";
 import { AuthMethodSelect } from "@/components/admin/AuthMethodSelect";
+import { Button } from "@/components/admin/Button";
 import { getEmployeeById } from "@/lib/dummy-data";
 
 export default async function EmployeeDetailPage({
@@ -39,12 +39,7 @@ export default async function EmployeeDetailPage({
                 <span className="flex-1 text-[16px] font-bold tracking-[-0.32px] text-black">
                   {employee.email}
                 </span>
-                <button
-                  type="button"
-                  className="rounded-[10px] border border-muted px-[14px] py-[12px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-                >
-                  비밀번호 초기화 메일 발송
-                </button>
+                <Button>비밀번호 초기화 메일 발송</Button>
               </DetailRow>
             </div>
           </div>
@@ -72,25 +67,20 @@ export default async function EmployeeDetailPage({
         </div>
 
         <div className="mt-8 flex w-full flex-col-reverse gap-3 pt-[30px] sm:mt-0 sm:flex-row sm:items-center sm:justify-between">
-          <Link
-            href="/employees"
-            className="flex w-full items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-          >
+          <Button href="/employees" className="w-full sm:w-[140px]">
             취소
-          </Link>
+          </Button>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-end sm:gap-[12px]">
-            <button
-              type="button"
-              className="flex w-full items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] transition-colors hover:bg-black sm:w-[140px]"
-            >
+            <Button variant="primary" className="w-full sm:w-[140px]">
               저장
-            </button>
-            <Link
+            </Button>
+            <Button
               href={`/employees/${employee.id}/terminate`}
-              className="flex w-full items-center justify-center rounded-[10px] bg-sidebar-active px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] transition-colors hover:bg-black sm:w-[140px]"
+              variant="primary"
+              className="w-full sm:w-[140px]"
             >
               퇴사처리
-            </Link>
+            </Button>
           </div>
         </div>
       </div>

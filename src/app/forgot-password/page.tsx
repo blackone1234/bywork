@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ModalScreen } from "@/components/admin/ModalScreen";
+import { ModalScreen, ModalSuccessIcon } from "@/components/admin/ModalScreen";
+import { Button } from "@/components/admin/Button";
 import { adminAccount } from "@/lib/dummy-data";
 
 export default function ForgotPasswordPage() {
@@ -9,9 +9,7 @@ export default function ForgotPasswordPage() {
         <p className="text-[16px] font-bold tracking-[-0.32px] text-black">
           이메일 발송 완료
         </p>
-        <span className="flex size-[32px] items-center justify-center rounded-full bg-status-work text-[16px]">
-          ✓
-        </span>
+        <ModalSuccessIcon />
         <p className="text-center text-[12px] font-semibold leading-[20px] tracking-[-0.24px] text-muted">
           {adminAccount.email} 으로
           <br />
@@ -20,12 +18,9 @@ export default function ForgotPasswordPage() {
       </div>
 
       <div className="flex w-full items-center justify-center">
-        <Link
-          href="/login"
-          className="flex w-[120px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-        >
+        <Button href="/login" size="xs" className="w-[120px]">
           확인
-        </Link>
+        </Button>
       </div>
     </ModalScreen>
   );

@@ -1,3 +1,6 @@
+import { TextField } from "@/components/admin/TextField";
+import { Button } from "@/components/admin/Button";
+
 export default function ResetPasswordPage() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-white px-4">
@@ -16,30 +19,27 @@ export default function ResetPasswordPage() {
             <p className="text-[12px] font-semibold tracking-[-0.24px] text-muted">
               새 비밀번호
             </p>
-            <input
+            <TextField
               type="password"
               placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
+              fullWidth
             />
           </div>
           <div className="flex w-full flex-col gap-[10px]">
             <p className="text-[12px] font-semibold tracking-[-0.24px] text-muted">
               비밀번호 확인
             </p>
-            <input
+            <TextField
               type="password"
               placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-              className="w-full rounded-[12px] border border-divider py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
+              fullWidth
             />
           </div>
         </div>
 
-        <button
-          type="button"
-          className="flex w-full items-center justify-center rounded-full border-2 border-black px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-black transition-colors hover:bg-black hover:text-white"
-        >
+        <Button variant="outline-pill" className="w-full">
           비밀번호 변경 완료
-        </button>
+        </Button>
       </div>
     </div>
   );

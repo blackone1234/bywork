@@ -7,3 +7,11 @@ export function ModalScreen({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export function ModalSuccessIcon() {
+  return (
+    <span className="flex size-[32px] items-center justify-center rounded-full bg-status-work text-[16px]">
+      ✓
+    </span>
+  );
+}

@@ -1,3 +1,5 @@
+import { Badge } from "@/components/admin/Badge";
+
 export type EmploymentStatus = "재직중" | "휴직중" | "퇴사";
 
 const STATUS_STYLES: Record<EmploymentStatus, string> = {
@@ -7,11 +9,5 @@ const STATUS_STYLES: Record<EmploymentStatus, string> = {
 };
 
 export function EmploymentStatusBadge({ status }: { status: EmploymentStatus }) {
-  return (
-    <span
-      className={`inline-flex items-center justify-center rounded-[8px] px-[12px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] ${STATUS_STYLES[status]}`}
-    >
-      {status}
-    </span>
-  );
+  return <Badge className={STATUS_STYLES[status]}>{status}</Badge>;
 }

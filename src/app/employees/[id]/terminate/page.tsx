@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ModalScreen } from "@/components/admin/ModalScreen";
+import { ModalScreen, ModalSuccessIcon } from "@/components/admin/ModalScreen";
+import { Button } from "@/components/admin/Button";
 import { getEmployeeById } from "@/lib/dummy-data";
 
 export default async function TerminateEmployeeModal({
@@ -21,9 +21,7 @@ export default async function TerminateEmployeeModal({
         <p className="text-[16px] font-bold tracking-[-0.32px] text-black">
           퇴사 처리 확인
         </p>
-        <span className="flex size-[32px] items-center justify-center rounded-full bg-status-work text-[16px]">
-          ✓
-        </span>
+        <ModalSuccessIcon />
         <div className="text-center text-[12px] font-semibold leading-[18px] tracking-[-0.24px] text-muted">
           <p>{employee.name} 직원을 퇴사 처리합니다.</p>
           <p>근태 데이터는 3년간 보존됩니다.</p>
@@ -31,18 +29,12 @@ export default async function TerminateEmployeeModal({
       </div>
 
       <div className="flex w-full items-start gap-[10px]">
-        <Link
-          href={`/employees/${employee.id}`}
-          className="flex flex-1 items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-        >
+        <Button href={`/employees/${employee.id}`} size="xs" className="flex-1">
           취소
-        </Link>
-        <button
-          type="button"
-          className="flex flex-1 items-center justify-center rounded-[10px] border border-muted px-[24px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-        >
+        </Button>
+        <Button size="xs" className="flex-1">
           퇴사처리
-        </button>
+        </Button>
       </div>
     </ModalScreen>
   );

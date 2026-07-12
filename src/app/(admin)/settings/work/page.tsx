@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ChevronIcon } from "@/components/admin/ChevronIcon";
+import { Card } from "@/components/admin/Card";
+import { Button } from "@/components/admin/Button";
 import { gpsSettings, ipWhitelist } from "@/lib/dummy-data";
 
 const TABS = [
@@ -110,7 +112,11 @@ export default function WorkSettingsPage() {
 
         {activeTab === "leave" ? (
           <div className="flex w-full flex-col gap-[20px]">
-            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
+            <Card
+              as="label"
+              interactive
+              className="flex cursor-pointer flex-col gap-2 sm:flex-row sm:items-center sm:gap-[40px]"
+            >
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" defaultChecked />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -120,9 +126,13 @@ export default function WorkSettingsPage() {
               <span className="text-[12px] font-semibold tracking-[-0.24px] text-[#0f7bbe]">
                 근로기준법 기준 자동 계산
               </span>
-            </label>
+            </Card>
 
-            <label className="flex cursor-pointer flex-col gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black sm:flex-row sm:items-center sm:gap-[40px]">
+            <Card
+              as="label"
+              interactive
+              className="flex cursor-pointer flex-col gap-2 sm:flex-row sm:items-center sm:gap-[40px]"
+            >
               <span className="flex items-center gap-[8px]">
                 <input type="radio" name="leave-policy" />
                 <span className="text-[14px] font-semibold tracking-[-0.28px] text-sidebar-active">
@@ -132,7 +142,7 @@ export default function WorkSettingsPage() {
               <span className="text-[12px] font-semibold tracking-[-0.24px] text-[#0f7bbe]">
                 직원별 연차 직접 입력
               </span>
-            </label>
+            </Card>
           </div>
         ) : null}
 
@@ -143,9 +153,10 @@ export default function WorkSettingsPage() {
                 사무실 IP 화이트리스트
               </p>
               {ipWhitelist.map((entry) => (
-                <div
+                <Card
                   key={entry.id}
-                  className="flex w-full flex-wrap items-center justify-between gap-2 rounded-[12px] border border-divider bg-white px-[30px] py-[20px] transition-colors hover:border-black"
+                  interactive
+                  className="flex w-full flex-wrap items-center justify-between gap-2"
                 >
                   <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                     {entry.ipAddress} ({entry.label})
@@ -156,15 +167,10 @@ export default function WorkSettingsPage() {
                   >
                     삭제
                   </button>
-                </div>
+                </Card>
               ))}
               <div className="flex w-full justify-end">
-                <button
-                  type="button"
-                  className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-                >
-                  + IP 추가
-                </button>
+                <Button size="sm">+ IP 추가</Button>
               </div>
             </div>
 
@@ -173,15 +179,15 @@ export default function WorkSettingsPage() {
                 GPS 설정
               </p>
               <div className="grid w-full grid-cols-1 gap-[12px] sm:grid-cols-3">
-                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+                <Card className="flex items-center justify-center text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   위도 {gpsSettings.latitude}
-                </div>
-                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+                </Card>
+                <Card className="flex items-center justify-center text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   경도 {gpsSettings.longitude}
-                </div>
-                <div className="flex items-center justify-center rounded-[12px] border border-divider bg-white px-[30px] py-[20px] text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
+                </Card>
+                <Card className="flex items-center justify-center text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
                   반경 {gpsSettings.radiusM}m
-                </div>
+                </Card>
               </div>
               <p className="flex items-center gap-[6px] text-[14px] font-semibold tracking-[-0.28px] text-muted sm:justify-end">
                 ⓘ 직원별 인증 방식(IP만/GPS만/하이브리드/수동승인)은 각 직원
@@ -192,18 +198,8 @@ export default function WorkSettingsPage() {
         ) : null}
 
         <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
-          <button
-            type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-          >
-            취소
-          </button>
-          <button
-            type="button"
-            className="flex w-[110px] items-center justify-center rounded-[10px] border border-muted px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white sm:w-[140px]"
-          >
-            저장
-          </button>
+          <Button className="w-[110px] sm:w-[140px]">취소</Button>
+          <Button className="w-[110px] sm:w-[140px]">저장</Button>
         </div>
       </div>
     </>

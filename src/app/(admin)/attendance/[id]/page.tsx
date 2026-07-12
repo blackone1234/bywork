@@ -2,15 +2,23 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { FilterDropdown } from "@/components/admin/FilterDropdown";
 import { StatCard } from "@/components/admin/StatCard";
+import { Button } from "@/components/admin/Button";
+import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
 import {
   MONTH_OPTIONS,
   YEAR_OPTIONS,
   employeeAttendanceDetail,
   employeeAttendanceStats,
   getEmployeeById,
+  type AttendanceDetailRow,
 } from "@/lib/dummy-data";
 
-const TABLE_COLUMNS = ["날짜", "출근시간", "퇴근시간", "비고"];
+const COLUMNS: DataTableColumn<AttendanceDetailRow>[] = [
+  { key: "date", label: "날짜", render: (row) => <TableText>{row.date}</TableText> },
+  { key: "checkIn", label: "출근시간", render: (row) => <TableText>{row.checkIn}</TableText> },
+  { key: "checkOut", label: "퇴근시간", render: (row) => <TableText>{row.checkOut}</TableText> },
+  { key: "note", label: "비고", render: (row) => <TableText>{row.note}</TableText> },
+];
 
 export default async function AttendanceDetailPage({
   params,
@@ -37,12 +45,9 @@ export default async function AttendanceDetailPage({
             <FilterDropdown label="7월" options={MONTH_OPTIONS} width={110} />
           </div>
 
-          <button
-            type="button"
-            className="self-start rounded-[10px] border border-muted px-[24px] py-[13px] pl-[20px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-          >
+          <Button size="toolbar" className="self-start">
             엑셀 다운로드
-          </button>
+          </Button>
         </div>
 
         <div className="grid w-full grid-cols-1 gap-[10px] sm:grid-cols-3">
@@ -51,42 +56,13 @@ export default async function AttendanceDetailPage({
           <StatCard label="연차사용" value={employeeAttendanceStats.usedLeaveDays} />
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <div className="flex w-full min-w-[520px] flex-col gap-[12px]">
-            <div className="grid w-full grid-cols-4 border-b-2 border-black pb-[14px]">
-              {TABLE_COLUMNS.map((column) => (
-                <p
-                  key={column}
-                  className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-                >
-                  {column}
-                </p>
-              ))}
-            </div>
-
-            <div className="flex w-full flex-col gap-[11px]">
-              {employeeAttendanceDetail.map((row) => (
-                <div
-                  key={row.id}
-                  className="grid h-[42px] w-full grid-cols-4 items-center border-b border-divider pb-[12px]"
-                >
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.date}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkIn}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkOut}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.note}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <DataTable
+          columns={COLUMNS}
+          rows={employeeAttendanceDetail}
+          rowKey={(row) => row.id}
+          minWidthClassName="min-w-[520px]"
+          rowHeightClassName="h-[42px]"
+        />
       </div>
     </>
   );

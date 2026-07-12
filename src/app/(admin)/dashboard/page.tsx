@@ -1,15 +1,25 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { StatCard } from "@/components/admin/StatCard";
-import { dashboardNotice, dashboardStats, todayAttendance } from "@/lib/dummy-data";
+import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
+import {
+  dashboardNotice,
+  dashboardStats,
+  todayAttendance,
+  type TodayAttendanceRow,
+} from "@/lib/dummy-data";
 
-const TABLE_COLUMNS = [
-  "이름",
-  "현재상태",
-  "출근시간",
-  "퇴근시간",
-  "외출/외근",
-  "주간근무시간",
+const COLUMNS: DataTableColumn<TodayAttendanceRow>[] = [
+  { key: "name", label: "이름", render: (row) => <TableText>{row.name}</TableText> },
+  { key: "state", label: "현재상태", render: (row) => <StatusBadge state={row.state} /> },
+  { key: "checkIn", label: "출근시간", render: (row) => <TableText>{row.checkIn}</TableText> },
+  { key: "checkOut", label: "퇴근시간", render: (row) => <TableText>{row.checkOut}</TableText> },
+  { key: "outing", label: "외출/외근", render: (row) => <TableText>{row.outing}</TableText> },
+  {
+    key: "weeklyHours",
+    label: "주간근무시간",
+    render: (row) => <TableText>{row.weeklyHours}</TableText>,
+  },
 ];
 
 export default function DashboardPage() {
@@ -43,48 +53,13 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="w-full overflow-x-auto">
-            <div className="flex w-full min-w-[720px] flex-col gap-[12px]">
-              <div className="grid w-full grid-cols-6 border-b-2 border-black pb-[14px]">
-                {TABLE_COLUMNS.map((column) => (
-                  <p
-                    key={column}
-                    className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-                  >
-                    {column}
-                  </p>
-                ))}
-              </div>
-
-              <div className="flex w-full flex-col gap-[7px]">
-                {todayAttendance.map((row) => (
-                  <div
-                    key={row.id}
-                    className="grid w-full grid-cols-6 items-center border-b border-divider pb-[12px]"
-                  >
-                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {row.name}
-                    </p>
-                    <div className="flex items-center justify-center">
-                      <StatusBadge state={row.state} />
-                    </div>
-                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {row.checkIn}
-                    </p>
-                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {row.checkOut}
-                    </p>
-                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {row.outing}
-                    </p>
-                    <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                      {row.weeklyHours}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <DataTable
+            columns={COLUMNS}
+            rows={todayAttendance}
+            rowKey={(row) => row.id}
+            minWidthClassName="min-w-[720px]"
+            rowGapClassName="gap-[7px]"
+          />
         </div>
       </div>
     </>

@@ -1,15 +1,36 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { LeaveStatusBadge } from "@/components/admin/LeaveStatusBadge";
 import { FilterDropdown } from "@/components/admin/FilterDropdown";
-import { YEAR_OPTIONS, leaveRequests } from "@/lib/dummy-data";
+import { Button } from "@/components/admin/Button";
+import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
+import { YEAR_OPTIONS, leaveRequests, type LeaveRequest } from "@/lib/dummy-data";
 
 const FILTER_TABS = ["전체", "대기중", "승인", "반려"] as const;
-const TABLE_COLUMNS = ["이름", "유형", "날짜", "상태", "처리"];
 
 const PROCESSED_LABEL: Record<string, string> = {
   승인: "승인완료",
   반려: "반려완료",
 };
+
+const COLUMNS: DataTableColumn<LeaveRequest>[] = [
+  { key: "name", label: "이름", render: (row) => <TableText>{row.employeeName}</TableText> },
+  { key: "type", label: "유형", render: (row) => <TableText>{row.leaveType}</TableText> },
+  { key: "date", label: "날짜", render: (row) => <TableText>{row.date}</TableText> },
+  { key: "status", label: "상태", render: (row) => <LeaveStatusBadge status={row.status} /> },
+  {
+    key: "actions",
+    label: "처리",
+    render: (row) =>
+      row.status === "대기중" ? (
+        <div className="flex items-center justify-center gap-[8px]">
+          <Button size="sm">승인</Button>
+          <Button size="sm">반려</Button>
+        </div>
+      ) : (
+        <TableText>{PROCESSED_LABEL[row.status]}</TableText>
+      ),
+  },
+];
 
 export default function LeaveRequestsPage() {
   return (
@@ -20,81 +41,21 @@ export default function LeaveRequestsPage() {
         <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-[8px] overflow-x-auto">
             {FILTER_TABS.map((tab, index) => (
-              <button
+              <Button
                 key={tab}
-                type="button"
-                className={`w-[100px] shrink-0 rounded-[10px] px-[20px] py-[12px] text-[12px] font-semibold tracking-[-0.24px] transition-colors ${
-                  index === 0
-                    ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)] hover:bg-black"
-                    : "border border-muted text-muted hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-                }`}
+                variant={index === 0 ? "primary" : "outline"}
+                size="xs"
+                className="w-[100px] shrink-0"
               >
                 {tab}
-              </button>
+              </Button>
             ))}
           </div>
 
           <FilterDropdown label="2026년" options={YEAR_OPTIONS} width={130} />
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <div className="flex w-full min-w-[640px] flex-col gap-[12px]">
-            <div className="grid w-full grid-cols-5 border-b-2 border-black pb-[14px]">
-              {TABLE_COLUMNS.map((column) => (
-                <p
-                  key={column}
-                  className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-                >
-                  {column}
-                </p>
-              ))}
-            </div>
-
-            <div className="flex w-full flex-col gap-[11px]">
-              {leaveRequests.map((request) => (
-                <div
-                  key={request.id}
-                  className="grid w-full grid-cols-5 items-center border-b border-divider pb-[12px]"
-                >
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {request.employeeName}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {request.leaveType}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {request.date}
-                  </p>
-                  <div className="flex items-center justify-center">
-                    <LeaveStatusBadge status={request.status} />
-                  </div>
-                  <div className="flex items-center justify-center gap-[8px]">
-                    {request.status === "대기중" ? (
-                      <>
-                        <button
-                          type="button"
-                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-                        >
-                          승인
-                        </button>
-                        <button
-                          type="button"
-                          className="rounded-[10px] border border-muted px-[16px] py-[8px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-                        >
-                          반려
-                        </button>
-                      </>
-                    ) : (
-                      <p className="text-[14px] font-semibold tracking-[-0.28px] text-black">
-                        {PROCESSED_LABEL[request.status]}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <DataTable columns={COLUMNS} rows={leaveRequests} rowKey={(row) => row.id} />
       </div>
     </>
   );

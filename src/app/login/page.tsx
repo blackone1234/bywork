@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { TextField } from "@/components/admin/TextField";
+import { Button } from "@/components/admin/Button";
 
 export default function LoginPage() {
   return (
@@ -29,24 +31,13 @@ export default function LoginPage() {
 
           <form className="flex w-full flex-col gap-[30px]">
             <div className="flex flex-col gap-[12px]">
-              <input
-                type="email"
-                placeholder="admin@by-bk.com"
-                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
-              />
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full rounded-[12px] border border-line py-[16px] pr-[14px] pl-[30px] text-[14px] font-semibold tracking-[-0.28px] text-black placeholder:text-line transition-[border,box-shadow] focus:border-2 focus:border-black focus:shadow-[2px_4px_2px_rgba(0,0,0,0.2)] focus:outline-none"
-              />
+              <TextField type="email" placeholder="admin@by-bk.com" fullWidth />
+              <TextField type="password" placeholder="••••••••" fullWidth />
             </div>
 
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center rounded-full border-2 border-black px-[24px] py-[13px] text-[14px] font-semibold tracking-[-0.28px] text-black transition-colors hover:bg-black hover:text-white"
-            >
+            <Button type="submit" variant="outline-pill" className="w-full">
               로그인
-            </button>
+            </Button>
           </form>
 
           <div className="flex w-full items-center justify-center pb-[5px]">

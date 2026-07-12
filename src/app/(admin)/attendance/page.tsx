@@ -1,9 +1,25 @@
-import Link from "next/link";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { FilterDropdown } from "@/components/admin/FilterDropdown";
-import { MONTH_OPTIONS, YEAR_OPTIONS, monthlyAttendance } from "@/lib/dummy-data";
+import { Button } from "@/components/admin/Button";
+import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
+import {
+  MONTH_OPTIONS,
+  YEAR_OPTIONS,
+  monthlyAttendance,
+  type MonthlyAttendanceRow,
+} from "@/lib/dummy-data";
 
-const TABLE_COLUMNS = ["이름", "날짜", "출근시간", "퇴근시간", "주간근무시간"];
+const COLUMNS: DataTableColumn<MonthlyAttendanceRow>[] = [
+  { key: "name", label: "이름", render: (row) => <TableText>{row.employeeName}</TableText> },
+  { key: "date", label: "날짜", render: (row) => <TableText>{row.date}</TableText> },
+  { key: "checkIn", label: "출근시간", render: (row) => <TableText>{row.checkIn}</TableText> },
+  { key: "checkOut", label: "퇴근시간", render: (row) => <TableText>{row.checkOut}</TableText> },
+  {
+    key: "weeklyHours",
+    label: "주간근무시간",
+    render: (row) => <TableText>{row.weeklyHours}</TableText>,
+  },
+];
 
 export default function AttendancePage() {
   return (
@@ -18,61 +34,18 @@ export default function AttendancePage() {
           </div>
 
           <div className="flex items-center gap-[8px]">
-            <button
-              type="button"
-              className="rounded-[10px] border border-muted px-[24px] py-[13px] pl-[20px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-            >
-              전체직원
-            </button>
-            <button
-              type="button"
-              className="rounded-[10px] border border-muted px-[24px] py-[13px] pl-[20px] text-[12px] font-semibold tracking-[-0.24px] text-muted transition-colors hover:border-sidebar-active hover:bg-sidebar-active hover:text-white"
-            >
-              엑셀 다운로드
-            </button>
+            <Button size="toolbar">전체직원</Button>
+            <Button size="toolbar">엑셀 다운로드</Button>
           </div>
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <div className="flex w-full min-w-[640px] flex-col gap-[12px]">
-            <div className="grid w-full grid-cols-5 border-b-2 border-black pb-[14px]">
-              {TABLE_COLUMNS.map((column) => (
-                <p
-                  key={column}
-                  className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-                >
-                  {column}
-                </p>
-              ))}
-            </div>
-
-            <div className="flex w-full flex-col gap-[11px]">
-              {monthlyAttendance.map((row) => (
-                <Link
-                  key={row.id}
-                  href={`/attendance/${row.employeeId}`}
-                  className="grid h-[42px] w-full grid-cols-5 items-center border-b border-divider pb-[12px] transition-colors hover:bg-white"
-                >
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.employeeName}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.date}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkIn}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.checkOut}
-                  </p>
-                  <p className="text-center text-[14px] font-semibold tracking-[-0.28px] text-black">
-                    {row.weeklyHours}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+        <DataTable
+          columns={COLUMNS}
+          rows={monthlyAttendance}
+          rowKey={(row) => row.id}
+          rowHref={(row) => `/attendance/${row.employeeId}`}
+          rowHeightClassName="h-[42px]"
+        />
       </div>
     </>
   );
