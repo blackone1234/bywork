@@ -18,8 +18,8 @@ export function Card<T extends ElementType = "div">({
   return (
     <Tag
       {...rest}
-      className={`rounded-[12px] border border-divider bg-white px-[30px] ${
-        padding === "loose" ? "py-[24px]" : "py-[20px]"
+      className={`rounded-lg border border-divider bg-white px-[var(--space-30)] ${
+        padding === "loose" ? "py-[var(--space-24)]" : "py-[var(--space-20)]"
       } ${interactive ? "transition-colors hover:border-black" : ""} ${className}`}
     >
       {children}

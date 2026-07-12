@@ -11,7 +11,14 @@
   --color-foreground: var(--foreground);
   --font-sans: "Pretendard", "Geist", -apple-system, sans-serif;
 
-  /* byWORK 관리자 웹 디자인 토큰 (Figma "Design_Admin" 기준) */
+  /*
+   * byWORK 관리자 웹 디자인 토큰
+   * 색상은 Figma "Design_Admin" > A01 — 대시보드 프레임의 로컬 변수(get_variable_defs)로
+   * 재검증됨: Warm Gray→line, Light Gray→divider, Soft Gray→muted, Dark gray→sidebar-active,
+   * BB_Yellow→accent, state_지각→status-outside, state_연차→status-leave, state_공휴→status-absent.
+   * 나머지(page/avatar/status-work/status-active/status-terminated)는 해당 프레임에 인스턴스가
+   * 없어 이번 검증 범위에는 없었지만 이전 세션에서 Figma 기준으로 이미 확정된 값.
+   */
   --color-page: #f8f9fb;
   --color-line: #9c9c9c;
   --color-muted: #757575;
@@ -30,6 +37,43 @@
   /* 재직 상태 배지 색상 */
   --color-status-active: #ffdd56;
   --color-status-terminated: #e0e0e0;
+
+  /*
+   * 타이포그래피 토큰 — Figma 텍스트 스타일(Body 12/14/16 Semi/Bold, Head 1 32) 기준.
+   * 모든 사이즈가 letter-spacing -2%(폰트 크기의 -0.02배) 규칙을 따름.
+   * --text-*--letter-spacing 서브키 덕분에 `text-body`처럼 한 클래스로 font-size+tracking이 함께 적용됨.
+   */
+  --text-badge: 12px;
+  --text-badge--letter-spacing: -0.24px;
+  --text-body: 14px;
+  --text-body--letter-spacing: -0.28px;
+  --text-subtitle: 16px;
+  --text-subtitle--letter-spacing: -0.32px;
+  --text-heading: 20px;
+  --text-heading--letter-spacing: -0.4px;
+  --text-display: 32px;
+  --text-display--letter-spacing: -0.64px;
+
+  /*
+   * spacing 토큰 — 공용 컴포넌트(Button/TextField/Card/DataTable/Badge)에서 반복되는 padding/gap 값.
+   * Tailwind 기본 --spacing 배수(px-8 등 페이지 레이아웃에서 이미 사용 중)와 충돌하지 않도록
+   * 별도의 --space-* 네임스페이스를 쓰고, 화살괄호 arbitrary value(`px-[var(--space-24)]`)로 참조한다.
+   */
+  --space-7: 7px;
+  --space-8: 8px;
+  --space-11: 11px;
+  --space-12: 12px;
+  --space-13: 13px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-30: 30px;
+
+  /* radius 토큰 — 이 프로젝트에서 rounded-sm/md/lg 기본값을 쓰는 곳이 없어 안전하게 재정의 */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
 }
 
 body {

@@ -12,19 +12,19 @@ const VARIANT_CLASSNAME: Record<Exclude<ButtonVariant, "outline-pill">, string> 
 };
 
 const SIZE_CLASSNAME: Record<ButtonSize, string> = {
-  md: "rounded-[10px] px-[24px] py-[13px] text-[14px] tracking-[-0.28px]",
-  sm: "rounded-[10px] px-[16px] py-[8px] text-[12px] tracking-[-0.24px]",
-  xs: "rounded-[10px] px-[24px] py-[12px] text-[12px] tracking-[-0.24px]",
-  toolbar: "rounded-[10px] py-[13px] pr-[24px] pl-[20px] text-[12px] tracking-[-0.24px]",
+  md: "rounded-md px-[var(--space-24)] py-[var(--space-13)] text-body",
+  sm: "rounded-md px-[var(--space-16)] py-[var(--space-8)] text-badge",
+  xs: "rounded-md px-[var(--space-24)] py-[var(--space-12)] text-badge",
+  toolbar: "rounded-md py-[var(--space-13)] pr-[var(--space-24)] pl-[var(--space-20)] text-badge",
   /** Matches the "비밀번호 초기화 메일 발송" button — tighter than md, not reused elsewhere. */
-  compact: "rounded-[10px] px-[14px] py-[12px] text-[14px] tracking-[-0.28px]",
+  compact: "rounded-md px-[var(--space-14)] py-[var(--space-12)] text-body",
 };
 
 const OUTLINE_PILL_CLASSNAME =
-  "rounded-full border-2 border-black bg-white px-[24px] py-[13px] text-[14px] tracking-[-0.28px] text-black transition-colors hover:bg-black hover:text-white";
+  "rounded-full border-2 border-black bg-white px-[var(--space-24)] py-[var(--space-13)] text-body text-black transition-colors hover:bg-black hover:text-white";
 
 const PRIMARY_PILL_CLASSNAME =
-  "gap-[14px] rounded-full bg-sidebar-active px-[24px] py-[11px] text-[14px] tracking-[-0.28px] text-white transition-colors hover:bg-black";
+  "gap-[var(--space-14)] rounded-full bg-sidebar-active px-[var(--space-24)] py-[var(--space-11)] text-body text-white transition-colors hover:bg-black";
 
 type ButtonOwnProps = {
   variant?: ButtonVariant;

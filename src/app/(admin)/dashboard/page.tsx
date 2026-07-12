@@ -58,7 +58,7 @@ export default function DashboardPage() {
             rows={todayAttendance}
             rowKey={(row) => row.id}
             minWidthClassName="min-w-[720px]"
-            rowGapClassName="gap-[7px]"
+            rowGapClassName="gap-[var(--space-7)]"
           />
         </div>
       </div>

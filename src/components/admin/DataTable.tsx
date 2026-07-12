@@ -1,9 +1,7 @@
 import Link from "next/link";
 
 export function TableText({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-[14px] font-semibold tracking-[-0.28px] text-black">{children}</p>
-  );
+  return <p className="text-body font-semibold text-black">{children}</p>;
 }
 
 export type DataTableColumn<T> = {
@@ -30,7 +28,7 @@ export function DataTable<T>({
   rowHref,
   minWidthClassName = "min-w-[640px]",
   rowHeightClassName = "",
-  rowGapClassName = "gap-[11px]",
+  rowGapClassName = "gap-[var(--space-11)]",
 }: DataTableProps<T>) {
   const gridTemplateColumns = { gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))` };
 
@@ -38,14 +36,11 @@ export function DataTable<T>({
     <div className="w-full overflow-x-auto">
       <div className={`flex w-full ${minWidthClassName} flex-col gap-[12px]`}>
         <div
-          className="grid w-full border-b-2 border-black pb-[14px]"
+          className="grid w-full border-b-2 border-black pb-[var(--space-14)]"
           style={gridTemplateColumns}
         >
           {columns.map((column) => (
-            <p
-              key={column.key}
-              className="text-center text-[14px] font-semibold tracking-[-0.28px] text-muted"
-            >
+            <p key={column.key} className="text-center text-body font-semibold text-muted">
               {column.label}
             </p>
           ))}
@@ -54,7 +49,7 @@ export function DataTable<T>({
         <div className={`flex w-full flex-col ${rowGapClassName}`}>
           {rows.map((row) => {
             const href = rowHref?.(row);
-            const rowClassName = `grid w-full items-center border-b border-divider pb-[12px] ${rowHeightClassName} ${
+            const rowClassName = `grid w-full items-center border-b border-divider pb-[var(--space-12)] ${rowHeightClassName} ${
               href ? "transition-colors hover:bg-white" : ""
             }`;
             const cells = columns.map((column) => (
