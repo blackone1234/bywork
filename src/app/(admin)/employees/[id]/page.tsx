@@ -39,7 +39,7 @@ export default async function EmployeeDetailPage({
                 <span className="flex-1 text-[16px] font-bold tracking-[-0.32px] text-black">
                   {employee.email}
                 </span>
-                <Button>비밀번호 초기화 메일 발송</Button>
+                <Button size="compact">비밀번호 초기화 메일 발송</Button>
               </DetailRow>
             </div>
           </div>

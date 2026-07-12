@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 
 export type ButtonVariant = "outline" | "primary" | "outline-pill";
-export type ButtonSize = "md" | "sm" | "xs" | "toolbar";
+export type ButtonSize = "md" | "sm" | "xs" | "toolbar" | "compact";
 
 const VARIANT_CLASSNAME: Record<Exclude<ButtonVariant, "outline-pill">, string> = {
   outline:
@@ -16,6 +16,8 @@ const SIZE_CLASSNAME: Record<ButtonSize, string> = {
   sm: "rounded-[10px] px-[16px] py-[8px] text-[12px] tracking-[-0.24px]",
   xs: "rounded-[10px] px-[24px] py-[12px] text-[12px] tracking-[-0.24px]",
   toolbar: "rounded-[10px] py-[13px] pr-[24px] pl-[20px] text-[12px] tracking-[-0.24px]",
+  /** Matches the "비밀번호 초기화 메일 발송" button — tighter than md, not reused elsewhere. */
+  compact: "rounded-[10px] px-[14px] py-[12px] text-[14px] tracking-[-0.28px]",
 };
 
 const OUTLINE_PILL_CLASSNAME =

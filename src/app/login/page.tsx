@@ -31,8 +31,18 @@ export default function LoginPage() {
 
           <form className="flex w-full flex-col gap-[30px]">
             <div className="flex flex-col gap-[12px]">
-              <TextField type="email" placeholder="admin@by-bk.com" fullWidth />
-              <TextField type="password" placeholder="••••••••" fullWidth />
+              <TextField
+                type="email"
+                placeholder="admin@by-bk.com"
+                fullWidth
+                borderColor="line"
+              />
+              <TextField
+                type="password"
+                placeholder="••••••••"
+                fullWidth
+                borderColor="line"
+              />
             </div>
 
             <Button type="submit" variant="outline-pill" className="w-full">
