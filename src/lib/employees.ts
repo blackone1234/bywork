@@ -34,7 +34,7 @@ export function authMethodToDb(value: string): AuthMethodDb {
 }
 
 /** DB "date" columns come back as "YYYY-MM-DD"; the UI has always shown "YYYY.MM.DD". */
-function formatDateDot(isoDate: string): string {
+export function formatDateDot(isoDate: string): string {
   return isoDate.replaceAll("-", ".");
 }
 
@@ -113,6 +113,34 @@ export async function listEmployees(): Promise<Employee[]> {
   if (error) throw new Error(`직원 목록을 불러오지 못했습니다: ${error.message}`);
 
   return (data ?? []).map((row) => toEmployee(row, defaultLeaveDays));
+}
+
+export type EmployeeEmailConflict = {
+  id: string;
+  name: string;
+  employmentStatus: EmploymentStatusDb;
+  /** "YYYY-MM-DD" as stored, or null if the employee was never terminated. */
+  terminationDate: string | null;
+};
+
+/** Used by A03 to decide between "duplicate email" and "rehire a terminated employee". */
+export async function findEmployeeByEmail(email: string): Promise<EmployeeEmailConflict | null> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("employees")
+    .select("id, name, employment_status, termination_date")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (error) throw new Error(`이메일 중복 확인에 실패했습니다: ${error.message}`);
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    name: data.name,
+    employmentStatus: data.employment_status,
+    terminationDate: data.termination_date,
+  };
 }
 
 export async function getEmployee(id: string): Promise<Employee | null> {
