@@ -5,9 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { authMethodToDb } from "@/lib/employees";
-
-// TODO(auth): 이 액션들은 아직 관리자 로그인 세션을 검사하지 않는다. 로그인/세션 체계가
-// 붙기 전까지는 이 경로들이 인증 없이 호출 가능하다는 점을 인지하고 있을 것.
+import { assertAdminRequest } from "@/lib/admin-guard";
 
 async function getOrigin() {
   const requestHeaders = await headers();
@@ -22,6 +20,8 @@ export async function createEmployee(
   _prevState: FormActionState,
   formData: FormData,
 ): Promise<FormActionState> {
+  await assertAdminRequest();
+
   const name = String(formData.get("name") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
   const emailLocal = String(formData.get("emailLocal") ?? "").trim();
@@ -75,6 +75,8 @@ export async function createEmployee(
 }
 
 export async function updateEmployeeAuthMethod(employeeId: string, formData: FormData) {
+  await assertAdminRequest();
+
   const authMethod = String(formData.get("authMethod") ?? "");
   const supabase = createSupabaseAdminClient();
 
@@ -92,6 +94,8 @@ export async function updateEmployeeAuthMethod(employeeId: string, formData: For
 }
 
 export async function sendPasswordResetEmail(email: string) {
+  await assertAdminRequest();
+
   const supabase = createSupabaseAdminClient();
   const origin = await getOrigin();
 
@@ -105,6 +109,8 @@ export async function sendPasswordResetEmail(email: string) {
 }
 
 export async function terminateEmployee(employeeId: string) {
+  await assertAdminRequest();
+
   const supabase = createSupabaseAdminClient();
 
   const { error } = await supabase
