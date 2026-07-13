@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { assertAdminRequest } from "@/lib/admin-guard";
 import { changeAdminPassword } from "@/lib/adminAccount";
+import { createSupabaseAdminClient } from "@/lib/supabase/server";
+import { fetchHolidaysForYear } from "@/lib/holidaySync";
 
 export type ChangePasswordState = { error?: string; success?: boolean };
 
@@ -33,9 +35,25 @@ export async function saveAdminPassword(
   return { success: true };
 }
 
-// 외부 공휴일 API가 아직 연동돼 있지 않아(API 키 없음), holidays 캐시 테이블을 다시 채울
-// 방법이 없다 — 지금은 화면을 다시 그려서 현재 저장된 값만 다시 보여주는 수준의 자리표시자다.
 export async function refreshHolidays() {
   await assertAdminRequest();
+
+  const year = new Date().getFullYear();
+  const holidays = await fetchHolidaysForYear(year);
+
+  const supabase = createSupabaseAdminClient();
+  const { error } = await supabase.from("holidays").upsert(
+    holidays.map((holiday) => ({
+      holiday_date: holiday.date,
+      name: holiday.name,
+      source: "api",
+    })),
+    { onConflict: "holiday_date" },
+  );
+
+  if (error) {
+    throw new Error(`공휴일 데이터 저장에 실패했습니다: ${error.message}`);
+  }
+
   revalidatePath("/settings/system");
 }
