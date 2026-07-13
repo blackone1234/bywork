@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import { ModalScreen, ModalSuccessIcon } from "@/components/admin/ModalScreen";
 import { Button } from "@/components/admin/Button";
-import { getEmployeeById } from "@/lib/dummy-data";
+import { getEmployee } from "@/lib/employees";
+import { terminateEmployee } from "@/app/(admin)/employees/actions";
+
+export const dynamic = "force-dynamic";
 
 export default async function TerminateEmployeeModal({
   params,
@@ -9,11 +12,13 @@ export default async function TerminateEmployeeModal({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const employee = getEmployeeById(id);
+  const employee = await getEmployee(id);
 
   if (!employee) {
     notFound();
   }
+
+  const terminateWithId = terminateEmployee.bind(null, employee.id);
 
   return (
     <ModalScreen>
@@ -28,14 +33,14 @@ export default async function TerminateEmployeeModal({
         </div>
       </div>
 
-      <div className="flex w-full items-start gap-[10px]">
+      <form action={terminateWithId} className="flex w-full items-start gap-[10px]">
         <Button href={`/employees/${employee.id}`} size="xs" className="flex-1">
           취소
         </Button>
-        <Button size="xs" className="flex-1">
+        <Button type="submit" size="xs" className="flex-1">
           퇴사처리
         </Button>
-      </div>
+      </form>
     </ModalScreen>
   );
 }

@@ -3,7 +3,9 @@ import { SearchInput } from "@/components/admin/SearchInput";
 import { EmploymentStatusBadge } from "@/components/admin/EmploymentStatusBadge";
 import { Button } from "@/components/admin/Button";
 import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
-import { employees, type Employee } from "@/lib/dummy-data";
+import { listEmployees, type Employee } from "@/lib/employees";
+
+export const dynamic = "force-dynamic";
 
 const COLUMNS: DataTableColumn<Employee>[] = [
   { key: "name", label: "이름", render: (row) => <TableText>{row.name}</TableText> },
@@ -21,7 +23,9 @@ const COLUMNS: DataTableColumn<Employee>[] = [
   },
 ];
 
-export default function EmployeesPage() {
+export default async function EmployeesPage() {
+  const employees = await listEmployees();
+
   return (
     <>
       <PageHeader breadcrumb={["Dashboard", "직원관리"]} />

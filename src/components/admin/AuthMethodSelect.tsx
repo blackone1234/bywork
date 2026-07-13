@@ -4,12 +4,20 @@ import { useState } from "react";
 import { ChevronIcon } from "@/components/admin/ChevronIcon";
 import { AUTH_METHOD_OPTIONS, type AuthMethod } from "@/lib/dummy-data";
 
-export function AuthMethodSelect({ defaultValue }: { defaultValue: AuthMethod }) {
+export function AuthMethodSelect({
+  defaultValue,
+  name,
+}: {
+  defaultValue: AuthMethod;
+  /** When set, renders a hidden input so the selected value submits with an enclosing <form>. */
+  name?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<AuthMethod>(defaultValue);
 
   return (
     <div className="relative">
+      {name ? <input type="hidden" name={name} value={selected} /> : null}
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
