@@ -30,11 +30,18 @@ function lastDayOfMonth(year: number, month: number): string {
 }
 
 /** Monday (as "YYYY-MM-DD") of the ISO week containing the given date. */
-function getWeekStartKey(workDate: string): string {
+function getWeekStart(workDate: string): string {
   const d = new Date(`${workDate}T00:00:00Z`);
   const day = d.getUTCDay(); // 0 = Sunday .. 6 = Saturday
   const diffToMonday = day === 0 ? -6 : 1 - day;
   d.setUTCDate(d.getUTCDate() + diffToMonday);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Sunday (as "YYYY-MM-DD") of the ISO week containing the given date. */
+function getWeekEnd(workDate: string): string {
+  const d = new Date(`${getWeekStart(workDate)}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + 6);
   return d.toISOString().slice(0, 10);
 }
 
@@ -80,31 +87,45 @@ export async function listMonthlyAttendance(
   await assertAdminRequest();
 
   const supabase = createSupabaseAdminClient();
+  const monthStart = firstDayOfMonth(year, month);
+  const monthEnd = lastDayOfMonth(year, month);
+
+  // 주52시간 초과 여부를 보여주는 지표라 근사치로 두면 안 된다. 월~일 기준으로 정확히
+  // 합산하려면 그 달에 걸친 주의 인접 달 날짜까지 같이 가져와야 한다 — 예를 들어 1일이
+  // 수요일이면 그 주의 월/화는 전달 날짜이므로, 전달 데이터를 안 가져오면 그 주가
+  // 실제보다 적게 계산된다.
+  const weekRangeStart = getWeekStart(monthStart);
+  const weekRangeEnd = getWeekEnd(monthEnd);
+
   const { data, error } = await supabase
     .from("attendance_records")
     .select("id, employee_id, work_date, check_in_at, check_out_at, employees(name)")
-    .gte("work_date", firstDayOfMonth(year, month))
-    .lte("work_date", lastDayOfMonth(year, month))
+    .gte("work_date", weekRangeStart)
+    .lte("work_date", weekRangeEnd)
     .order("work_date", { ascending: false })
     .returns<MonthlyQueryRow[]>();
 
   if (error) throw new Error(`근태 데이터를 불러오지 못했습니다: ${error.message}`);
 
-  const records = data ?? [];
+  const allRecords = data ?? [];
 
-  // 주간근무시간은 같은 달 안에서 조회된 기록만으로 월~일 단위 합산한다. 월 경계에 걸친
-  // 주(예: 1일이 수요일이면 그 주의 월~화는 전달 데이터)는 전달 기록을 포함하지 않아
-  // 실제보다 적게 나올 수 있다 — 알려진 단순화이며 정확한 값을 원하면 개선이 필요하다.
+  // 주간 합계는 인접 달 날짜까지 포함한 전체 레코드로 계산해서 경계 주도 정확하게 만든다.
   const weeklyHoursByKey = new Map<string, number>();
-  for (const row of records) {
+  for (const row of allRecords) {
     const hours = hoursBetween(row.check_in_at, row.check_out_at);
     if (hours <= 0) continue;
-    const key = `${row.employee_id}_${getWeekStartKey(row.work_date)}`;
+    const key = `${row.employee_id}_${getWeekStart(row.work_date)}`;
     weeklyHoursByKey.set(key, (weeklyHoursByKey.get(key) ?? 0) + hours);
   }
 
-  return records.map((row) => {
-    const key = `${row.employee_id}_${getWeekStartKey(row.work_date)}`;
+  // 화면에 표시하는 행 자체는 선택된 달 안의 날짜로만 제한한다 — 인접 달 날짜는 주간
+  // 합계 계산에만 쓰이고 목록에는 노출하지 않는다.
+  const monthRecords = allRecords.filter(
+    (row) => row.work_date >= monthStart && row.work_date <= monthEnd,
+  );
+
+  return monthRecords.map((row) => {
+    const key = `${row.employee_id}_${getWeekStart(row.work_date)}`;
     return {
       id: row.id,
       employeeId: row.employee_id,
