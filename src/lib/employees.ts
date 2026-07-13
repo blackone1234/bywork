@@ -38,26 +38,6 @@ export function formatDateDot(isoDate: string): string {
   return isoDate.replaceAll("-", ".");
 }
 
-// 직원별 연차 잔액을 누적/사용 이력으로 계산하는 테이블이 아직 없다. 회사 정책(leave_policies)
-// 기준으로만 표시하는 임시 값 — 실제 자동계산/사용량 차감 로직은 별도 스키마 작업이 필요하다.
-const FALLBACK_STATUTORY_ANNUAL_LEAVE_DAYS = 15;
-
-async function getDefaultAnnualLeaveDays(): Promise<number> {
-  const supabase = createSupabaseAdminClient();
-  const { data, error } = await supabase
-    .from("leave_policies")
-    .select("policy_type, manual_annual_leave_days")
-    .eq("id", 1)
-    .single();
-
-  if (error || !data) return FALLBACK_STATUTORY_ANNUAL_LEAVE_DAYS;
-
-  if (data.policy_type === "manual" && data.manual_annual_leave_days != null) {
-    return Number(data.manual_annual_leave_days);
-  }
-  return FALLBACK_STATUTORY_ANNUAL_LEAVE_DAYS;
-}
-
 type EmployeeRow = {
   id: string;
   name: string;
@@ -66,6 +46,8 @@ type EmployeeRow = {
   hire_date: string;
   employment_status: EmploymentStatusDb;
   auth_method: AuthMethodDb;
+  annual_leave_days: number;
+  used_leave_days: number;
 };
 
 export type Employee = {
@@ -81,9 +63,10 @@ export type Employee = {
   authMethod: AuthMethod;
 };
 
-const EMPLOYEE_COLUMNS = "id, name, email, phone, hire_date, employment_status, auth_method";
+const EMPLOYEE_COLUMNS =
+  "id, name, email, phone, hire_date, employment_status, auth_method, annual_leave_days, used_leave_days";
 
-function toEmployee(row: EmployeeRow, remainingLeaveDays: number): Employee {
+function toEmployee(row: EmployeeRow): Employee {
   return {
     id: row.id,
     name: row.name,
@@ -94,25 +77,22 @@ function toEmployee(row: EmployeeRow, remainingLeaveDays: number): Employee {
     position: "",
     hireDate: formatDateDot(row.hire_date),
     status: EMPLOYMENT_STATUS_TO_UI[row.employment_status],
-    remainingLeaveDays,
+    remainingLeaveDays: Number(row.annual_leave_days) - Number(row.used_leave_days),
     authMethod: AUTH_METHOD_TO_UI[row.auth_method],
   };
 }
 
 export async function listEmployees(): Promise<Employee[]> {
   const supabase = createSupabaseAdminClient();
-  const [{ data, error }, defaultLeaveDays] = await Promise.all([
-    supabase
-      .from("employees")
-      .select(EMPLOYEE_COLUMNS)
-      .order("hire_date", { ascending: true })
-      .returns<EmployeeRow[]>(),
-    getDefaultAnnualLeaveDays(),
-  ]);
+  const { data, error } = await supabase
+    .from("employees")
+    .select(EMPLOYEE_COLUMNS)
+    .order("hire_date", { ascending: true })
+    .returns<EmployeeRow[]>();
 
   if (error) throw new Error(`직원 목록을 불러오지 못했습니다: ${error.message}`);
 
-  return (data ?? []).map((row) => toEmployee(row, defaultLeaveDays));
+  return (data ?? []).map(toEmployee);
 }
 
 export type EmployeeEmailConflict = {
@@ -145,17 +125,14 @@ export async function findEmployeeByEmail(email: string): Promise<EmployeeEmailC
 
 export async function getEmployee(id: string): Promise<Employee | null> {
   const supabase = createSupabaseAdminClient();
-  const [{ data, error }, defaultLeaveDays] = await Promise.all([
-    supabase
-      .from("employees")
-      .select(EMPLOYEE_COLUMNS)
-      .eq("id", id)
-      .maybeSingle<EmployeeRow>(),
-    getDefaultAnnualLeaveDays(),
-  ]);
+  const { data, error } = await supabase
+    .from("employees")
+    .select(EMPLOYEE_COLUMNS)
+    .eq("id", id)
+    .maybeSingle<EmployeeRow>();
 
   if (error) throw new Error(`직원 정보를 불러오지 못했습니다: ${error.message}`);
   if (!data) return null;
 
-  return toEmployee(data, defaultLeaveDays);
+  return toEmployee(data);
 }

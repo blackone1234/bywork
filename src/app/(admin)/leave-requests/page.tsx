@@ -1,11 +1,21 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { LeaveStatusBadge } from "@/components/admin/LeaveStatusBadge";
-import { FilterDropdown } from "@/components/admin/FilterDropdown";
+import { LeaveYearFilter } from "@/components/admin/LeaveYearFilter";
 import { Button } from "@/components/admin/Button";
 import { DataTable, TableText, type DataTableColumn } from "@/components/admin/DataTable";
-import { YEAR_OPTIONS, leaveRequests, type LeaveRequest } from "@/lib/dummy-data";
+import { listLeaveRequests, type LeaveRequest, type LeaveStatusFilter } from "@/lib/leaveRequests";
+import { approveLeaveRequest, rejectLeaveRequest } from "./actions";
 
-const FILTER_TABS = ["전체", "대기중", "승인", "반려"] as const;
+export const dynamic = "force-dynamic";
+
+const FILTER_TABS: { key: LeaveStatusFilter; label: string }[] = [
+  { key: "all", label: "전체" },
+  { key: "pending", label: "대기중" },
+  { key: "approved", label: "승인" },
+  { key: "rejected", label: "반려" },
+];
+
+const STATUS_FILTER_VALUES = new Set<LeaveStatusFilter>(["all", "pending", "approved", "rejected"]);
 
 const PROCESSED_LABEL: Record<string, string> = {
   승인: "승인완료",
@@ -23,8 +33,16 @@ const COLUMNS: DataTableColumn<LeaveRequest>[] = [
     render: (row) =>
       row.status === "대기중" ? (
         <div className="flex items-center justify-center gap-[8px]">
-          <Button size="sm">승인</Button>
-          <Button size="sm">반려</Button>
+          <form action={approveLeaveRequest.bind(null, row.id)}>
+            <Button type="submit" size="sm">
+              승인
+            </Button>
+          </form>
+          <form action={rejectLeaveRequest.bind(null, row.id)}>
+            <Button type="submit" size="sm">
+              반려
+            </Button>
+          </form>
         </div>
       ) : (
         <TableText>{PROCESSED_LABEL[row.status]}</TableText>
@@ -32,7 +50,19 @@ const COLUMNS: DataTableColumn<LeaveRequest>[] = [
   },
 ];
 
-export default function LeaveRequestsPage() {
+export default async function LeaveRequestsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string; year?: string }>;
+}) {
+  const params = await searchParams;
+  const status = STATUS_FILTER_VALUES.has(params.status as LeaveStatusFilter)
+    ? (params.status as LeaveStatusFilter)
+    : "all";
+  const year = Number(params.year) || new Date().getFullYear();
+
+  const leaveRequests = await listLeaveRequests(status, year);
+
   return (
     <>
       <PageHeader breadcrumb={["Dashboard", "휴가승인"]} />
@@ -40,19 +70,20 @@ export default function LeaveRequestsPage() {
       <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
         <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-[8px] overflow-x-auto">
-            {FILTER_TABS.map((tab, index) => (
+            {FILTER_TABS.map((tab) => (
               <Button
-                key={tab}
-                variant={index === 0 ? "primary" : "outline"}
+                key={tab.key}
+                href={`/leave-requests?status=${tab.key}&year=${year}`}
+                variant={status === tab.key ? "primary" : "outline"}
                 size="xs"
                 className="w-[100px] shrink-0"
               >
-                {tab}
+                {tab.label}
               </Button>
             ))}
           </div>
 
-          <FilterDropdown label="2026년" options={YEAR_OPTIONS} width={130} />
+          <LeaveYearFilter year={year} status={status} />
         </div>
 
         <DataTable columns={COLUMNS} rows={leaveRequests} rowKey={(row) => row.id} />
