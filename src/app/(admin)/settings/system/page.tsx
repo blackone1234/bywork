@@ -1,10 +1,20 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Card } from "@/components/admin/Card";
 import { Button } from "@/components/admin/Button";
-import { TextField } from "@/components/admin/TextField";
-import { adminAccount, holidayApiStatus } from "@/lib/dummy-data";
+import { getAdminAccount } from "@/lib/adminAccount";
+import { getHolidayApiStatus } from "@/lib/holidays";
+import { AdminPasswordForm } from "./AdminPasswordForm";
+import { refreshHolidays } from "./actions";
 
-export default function SystemSettingsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function SystemSettingsPage() {
+  const year = new Date().getFullYear();
+  const [adminAccount, holidayApiStatus] = await Promise.all([
+    getAdminAccount(),
+    getHolidayApiStatus(year),
+  ]);
+
   return (
     <>
       <PageHeader breadcrumb={["Dashboard", "시스템"]} />
@@ -14,32 +24,13 @@ export default function SystemSettingsPage() {
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             관리자 계정
           </h2>
-          <div className="flex w-full flex-col divide-y divide-divider border-t-2 border-b-2 border-black">
-            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
-              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
-                이메일
-              </span>
-              <TextField type="email" defaultValue={adminAccount.email} />
-            </div>
-            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
-              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
-                새 비밀번호
-              </span>
-              <TextField
-                type="password"
-                placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
-              />
-            </div>
-            <div className="flex w-full flex-col gap-2 py-[10px] sm:flex-row sm:items-center sm:gap-[10px] sm:py-[6px]">
-              <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
-                비밀번호 확인
-              </span>
-              <TextField type="password" placeholder="비밀번호를 다시 입력해주세요." />
-            </div>
-          </div>
-          <div className="flex w-full justify-end">
-            <Button className="w-full sm:w-[140px]">저장</Button>
-          </div>
+          {adminAccount ? (
+            <AdminPasswordForm adminId={adminAccount.id} email={adminAccount.email} />
+          ) : (
+            <p className="text-body font-semibold text-muted">
+              관리자 계정이 아직 없습니다.
+            </p>
+          )}
         </div>
 
         <div className="flex w-full flex-col gap-[18px]">
@@ -62,17 +53,19 @@ export default function SystemSettingsPage() {
               <div className="flex flex-col gap-[10px] text-[12px] font-semibold tracking-[-0.24px]">
                 <div className="flex items-start gap-[20px]">
                   <p className="w-[70px] shrink-0 text-line">API 상태</p>
-                  <p className="text-black">{holidayApiStatus.apiStatus}</p>
+                  <p className="text-black">{holidayApiStatus.apiStatusLabel}</p>
                 </div>
                 <div className="flex items-start gap-[20px]">
                   <p className="w-[70px] shrink-0 text-line">연간 공휴일 수</p>
-                  <p className="text-black">{holidayApiStatus.annualHolidayCount}</p>
+                  <p className="text-black">{holidayApiStatus.annualHolidayCountLabel}</p>
                 </div>
               </div>
             </div>
-            <Button className="self-start sm:self-auto">
-              공휴일 데이터 수동 갱신
-            </Button>
+            <form action={refreshHolidays}>
+              <Button type="submit" className="self-start sm:self-auto">
+                공휴일 데이터 수동 갱신
+              </Button>
+            </form>
           </Card>
         </div>
       </div>
