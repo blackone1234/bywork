@@ -90,8 +90,10 @@ export function MobileHomeInfoRow({ items }: { items: { label: string; value: st
       {items.map((item, index) => (
         <Fragment key={item.label}>
           {index > 0 ? (
-            <div className="flex flex-1 items-stretch justify-center px-[10px]">
-              <div className="w-px bg-[var(--mobile-color-warm-gray)]" />
+            // 바깥 행이 items-start라 이 wrapper가 자동으로 안 늘어난다 — self-stretch를
+            // 빼먹어서 안의 w-px 선이 높이 0으로 접혀 사라졌었다(실측 없이 넘겼던 부분).
+            <div className="flex flex-1 items-stretch justify-center self-stretch px-[10px]">
+              <div className="h-full w-px bg-[var(--mobile-color-warm-gray)]" />
             </div>
           ) : null}
           <div className="flex shrink-0 flex-col items-center gap-[6px]">
