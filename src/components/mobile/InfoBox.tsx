@@ -1,0 +1,39 @@
+import type { ReactNode } from "react";
+
+/** S11 "신청 정보" 요약 박스 — 라벨(soft-gray)/값(black) 행이 쌓이는 테두리 박스. */
+export function MobileInfoBox({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex w-full flex-col items-start gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-20)]">
+      {children}
+    </div>
+  );
+}
+
+export function MobileInfoRow({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="flex w-full items-center justify-between text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)]">
+      <span className="text-[var(--mobile-color-soft-gray)]">{label}</span>
+      <span className="text-[var(--mobile-color-black)]">{value}</span>
+    </div>
+  );
+}
+
+/**
+ * S15(마이페이지) "계정설정"/"내 정보" 행 — rounded-input(14px) 카드형, 클릭 가능한 항목은
+ * trailing에 ChevronRightIcon을 넣어 씀.
+ */
+export function MobileFieldRow({ label, value, trailing }: { label: string; value?: ReactNode; trailing?: ReactNode }) {
+  return (
+    <div className="flex w-full items-center justify-between rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-16)]">
+      <span className="text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+        {label}
+      </span>
+      {value ? (
+        <span className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
+          {value}
+        </span>
+      ) : null}
+      {trailing}
+    </div>
+  );
+}

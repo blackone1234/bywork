@@ -74,6 +74,79 @@
   --radius-sm: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
+
+  /*
+   * ============================================================
+   * byWORK 사용자(모바일) 앱 디자인 토큰 — Figma "byWORK 근태 APP design"
+   * (S01~S16, node 0:1) get_design_context로 검증.
+   *
+   * 어드민 웹과는 완전히 다른 디자인 시스템이라 컴포넌트는 재사용하지 않지만,
+   * 브랜드 팔레트(warm-gray/soft-gray/light-gray/dark-gray/bb_yellow 등)가
+   * 값 자체는 어드민과 동일한 경우가 많다. 그래도 절대 --color-*, --text-*,
+   * --space-*, --radius-* 네임스페이스를 공유하지 않고, 전부 --mobile- 접두사로
+   * 시작하는 별도 변수명을 쓴다 (Tailwind 네이티브 --color- 또는 --text- 네임스페이스가
+   * 아니므로 자동 유틸리티가 생기지 않음 — 위 --space- 토큰과 동일하게 항상
+   * arbitrary value로 참조: bg-[var(--mobile-color-black)] 등).
+   * ============================================================
+   */
+
+  /* mobile color 토큰 */
+  --mobile-color-black: #000000;
+  --mobile-color-white: #ffffff;
+  --mobile-color-warm-gray: #9c9c9c;
+  --mobile-color-soft-gray: #757575;
+  --mobile-color-light-gray: #c7c7c7;
+  --mobile-color-line-gray: #e0e0e0;
+  --mobile-color-dark-gray: #4a4a4a;
+  --mobile-color-input-bg: #f5f5f5;
+  --mobile-color-avatar-bg: #f8f8f8;
+  --mobile-color-track-bg: #f8f8f8;
+  --mobile-color-accent: #ffcc01;
+  --mobile-color-mint: #0dddb1;
+  --mobile-color-state-work: #c0f0c3;
+  --mobile-color-state-late: #ffe09e;
+  --mobile-color-state-leave: #77c9ff;
+  --mobile-color-state-holiday: #ffc5c5;
+
+  /*
+   * mobile 타이포그래피 토큰 — Figma 텍스트 스타일(Body 12/13/14/16 Semi,
+   * Head 5 20 Bold, Head 3 24 ExtraBold, Head 1 32 ExtraBold) + 홈 화면 전용
+   * 시간표시(72px) 기준. letter-spacing은 어드민과 동일하게 폰트 크기의 -2% 규칙.
+   */
+  --mobile-text-badge: 12px;
+  --mobile-text-badge-tracking: -0.24px;
+  --mobile-text-caption: 13px;
+  --mobile-text-caption-tracking: -0.26px;
+  --mobile-text-body: 14px;
+  --mobile-text-body-tracking: -0.28px;
+  --mobile-text-subtitle: 16px;
+  --mobile-text-subtitle-tracking: -0.32px;
+  --mobile-text-heading-sm: 20px;
+  --mobile-text-heading-sm-tracking: -0.4px;
+  --mobile-text-heading: 24px;
+  --mobile-text-heading-tracking: -0.48px;
+  --mobile-text-display: 32px;
+  --mobile-text-display-tracking: -0.64px;
+  --mobile-text-hero: 72px;
+  --mobile-text-hero-tracking: -1.44px;
+
+  /* mobile spacing 토큰 — 화면 좌우 패딩(30) 및 컴포넌트 내부 gap/padding */
+  --mobile-space-8: 8px;
+  --mobile-space-10: 10px;
+  --mobile-space-12: 12px;
+  --mobile-space-14: 14px;
+  --mobile-space-16: 16px;
+  --mobile-space-20: 20px;
+  --mobile-space-24: 24px;
+  --mobile-space-30: 30px;
+
+  /* mobile radius 토큰 */
+  --mobile-radius-chip: 8px;
+  --mobile-radius-card: 10px;
+  --mobile-radius-input: 14px;
+  --mobile-radius-pill: 30px;
+  --mobile-radius-badge: 40px;
+  --mobile-radius-avatar: 200px;
 }
 
 body {
