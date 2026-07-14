@@ -110,6 +110,8 @@
   --mobile-color-state-late: #ffe09e;
   --mobile-color-state-leave: #77c9ff;
   --mobile-color-state-holiday: #ffc5c5;
+  /* 홈 헤더 알림벨의 새 알림 점 — state-holiday(#ffc5c5, 연한 핑크)와 다른 진한 빨강. */
+  --mobile-color-notification: #d91e1e;
 
   /*
    * mobile 타이포그래피 토큰 — Figma 텍스트 스타일(Body 12/13/14/16 Semi,
