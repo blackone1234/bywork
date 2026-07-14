@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 /** S11 "신청 정보" 요약 박스 — 라벨(soft-gray)/값(black) 행이 쌓이는 테두리 박스. */
@@ -57,11 +58,21 @@ export function MobileRecordCard({ title, rows }: { title: string; rows: { label
 
 /**
  * S15(마이페이지) "계정설정"/"내 정보" 행 — rounded-input(14px) 카드형, 클릭 가능한 항목은
- * trailing에 ChevronRightIcon을 넣어 씀.
+ * trailing에 ChevronRightIcon을 넣고 href로 다음 화면(S16 등)을 연결한다.
  */
-export function MobileFieldRow({ label, value, trailing }: { label: string; value?: ReactNode; trailing?: ReactNode }) {
-  return (
-    <div className="flex w-full items-center justify-between rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-16)]">
+export function MobileFieldRow({
+  label,
+  value,
+  trailing,
+  href,
+}: {
+  label: string;
+  value?: ReactNode;
+  trailing?: ReactNode;
+  href?: string;
+}) {
+  const content = (
+    <>
       <span className="text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
         {label}
       </span>
@@ -71,6 +82,18 @@ export function MobileFieldRow({ label, value, trailing }: { label: string; valu
         </span>
       ) : null}
       {trailing}
-    </div>
+    </>
   );
+  const className =
+    "flex w-full items-center justify-between rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-16)]";
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={className}>{content}</div>;
 }
