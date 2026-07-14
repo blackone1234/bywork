@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { TextField } from "@/components/admin/TextField";
+import { PasswordField } from "@/components/admin/PasswordField";
 import { Button } from "@/components/admin/Button";
 import { saveAdminPassword, type ChangePasswordState } from "./actions";
 
@@ -24,8 +25,7 @@ export function AdminPasswordForm({ adminId, email }: { adminId: string; email: 
           <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
             새 비밀번호
           </span>
-          <TextField
-            type="password"
+          <PasswordField
             name="newPassword"
             placeholder="새 비밀번호를 입력해주세요. 최소 8자 이상 입력해주세요."
           />
@@ -34,7 +34,7 @@ export function AdminPasswordForm({ adminId, email }: { adminId: string; email: 
           <span className="w-full shrink-0 text-[14px] font-semibold tracking-[-0.28px] text-muted sm:w-[120px]">
             비밀번호 확인
           </span>
-          <TextField type="password" name="confirmPassword" placeholder="비밀번호를 다시 입력해주세요." />
+          <PasswordField name="confirmPassword" placeholder="비밀번호를 다시 입력해주세요." />
         </div>
       </div>
 
