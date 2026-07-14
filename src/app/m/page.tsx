@@ -66,10 +66,8 @@ function HomeContent({ state }: { state: HomeState }) {
           </div>
           <MobileButton variant="filled-accent">출근하기</MobileButton>
         </div>
-        <div className="flex w-full flex-col gap-[var(--mobile-space-24)]">
-          <MobileWeekdayHoursRow label="이번 주 근무현황" days={WEEK_DAYS} />
-          <MobileResidualLeaveRow days="11일" />
-        </div>
+        <MobileWeekdayHoursRow label="이번 주 근무현황" days={WEEK_DAYS} />
+        <MobileResidualLeaveRow days="11일" />
       </>
     );
   }

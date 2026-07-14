@@ -35,16 +35,23 @@ export function MobileWeekdayHoursRow({ label, days }: { label?: string; days: W
 }
 
 /**
- * S03의 "잔여 연차" 행 — 구분선이 텍스트 아래(border-bottom)에 온다. border-top으로 잘못
- * 넣었더니 선이 텍스트 위로 떠서 순서가 뒤바뀌어 보이는 버그가 있었다(스크린샷 대조로 발견).
+ * S03의 "잔여 연차" 행. 사용자가 Figma 원본을 직접 수정한 뒤 재조회해서 확인한 최신 구조 —
+ * 이전엔 텍스트 행 자체에 border-bottom을 걸었지만, 지금 Figma는 구분선을 별도의 0-height
+ * 요소로 분리하고 -3px 인셋으로 텍스트 바로 아래에 붙인다(같은 결과처럼 보여도 실제 DOM
+ * 구조가 다르므로 그대로 옮김).
  */
 export function MobileResidualLeaveRow({ days }: { days: string }) {
   return (
-    <div className="flex w-full items-center justify-end gap-[var(--mobile-space-20)] border-b-[3px] border-[var(--mobile-color-warm-gray)] pb-[10px]">
-      <p className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-light-gray)]">
-        잔여 연차
-      </p>
-      <p className="text-[24px] font-extrabold tracking-[-0.48px] text-[var(--mobile-color-white)]">{days}</p>
+    <div className="flex w-full flex-col items-center justify-center">
+      <div className="flex w-full items-center justify-end gap-[var(--mobile-space-20)] pb-[10px]">
+        <p className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-light-gray)]">
+          잔여 연차
+        </p>
+        <p className="text-[24px] font-extrabold tracking-[-0.48px] text-[var(--mobile-color-white)]">{days}</p>
+      </div>
+      <div className="relative h-0 w-full">
+        <div className="absolute inset-x-0 -top-[3px] h-[3px] bg-[var(--mobile-color-warm-gray)]" />
+      </div>
     </div>
   );
 }
