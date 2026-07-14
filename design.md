@@ -34,9 +34,14 @@ Figma "byWORK 근태 APP design" (`Cb5ZQsPWOScDxrjw8eojvI`, 페이지 `Design_Fr
 
 S06(외근 중)에는 다른 홈 상태에 없던 "출근/외출/순 근무" 3분할 정보 행이 하나 더 있다 —
 S08 캘린더의 `MobileSummaryRow`와 레이아웃은 같지만 dark 배경용 색(light-gray 라벨 +
-흰색 값)이 필요해서, 현재 컴포넌트 라이브러리에는 아직 이 dark 변형이 없다. S04~S06
-화면을 실제로 퍼블리싱할 때 `MobileSummaryRow`에 테마 prop을 추가하거나 별도 변형을
-만들어야 한다.
+흰색 값)이 필요하다. S03~S07을 실제로 퍼블리싱하면서 `MobileHomeInfoRow`
+(`src/components/mobile/HomeBlocks.tsx`)로 이 dark 변형을 따로 만들었다 — `MobileSummaryRow`
+자체를 건드리지 않고 별도 컴포넌트로 분리한 이유는 두 화면의 테두리/간격 규칙이 완전히
+같지는 않아서다.
+
+> **갱신**: S01~S16 전체가 `src/app/m/` 아래 실제 라우트로 퍼블리싱 완료됐다(자세한 내용은
+> `CLAUDE.md`의 "진행 상황" 참고). 아래 §5는 퍼블리싱 착수 *이전*에 남아 있던 항목 목록이며,
+> 이제 대부분 해소됐다 — 남은 것은 Supabase 데이터 연동뿐이다.
 
 ## 1. 듀얼 테마 구조
 
@@ -167,7 +172,10 @@ src/app/(mobile)/
 
 ## 5. 남은 작업 (이 문서 범위 밖)
 
-- `MobileSummaryRow`(또는 신규 컴포넌트)에 dark 배경용 색 변형 추가 — S06(외근 중)의
-  출근/외출/순 근무 3분할 정보 행에 필요.
-- `icons.tsx`의 임시 아이콘과 로고 워드마크를 실제 Figma SVG export로 교체.
-- 위 컴포넌트 인벤토리를 바탕으로 화면을 S01부터 하나씩 실제 라우트로 퍼블리싱.
+- ~~`MobileSummaryRow`(또는 신규 컴포넌트)에 dark 배경용 색 변형 추가~~ → `MobileHomeInfoRow`로
+  해결됨 (S03~S07 퍼블리싱 때 추가).
+- `icons.tsx`의 임시 아이콘과 로고 워드마크를 실제 Figma SVG export로 교체 — 아직 미착수.
+- ~~위 컴포넌트 인벤토리를 바탕으로 화면을 S01부터 하나씩 실제 라우트로 퍼블리싱~~ → S01~S16
+  전체 완료.
+- 퍼블리싱된 `/m/*` 화면들을 실제 Supabase 근태/휴가/통계 데이터에 연동 (지금은 전부 Figma
+  목데이터/`?state=` 쿼리 기반 정적 화면).
