@@ -45,11 +45,15 @@ export async function requestPasswordReset(formData: FormData) {
   if (email) {
     const supabase = await createSupabaseSessionClient();
     const origin = await getRequestOrigin();
-    // 이메일이 실제로 등록돼 있는지와 무관하게 항상 같은 방식으로 진행한다 — 등록 여부를
-    // 응답 차이로 노출하지 않기 위해서다 (Supabase 자체도 이렇게 동작한다).
-    await supabase.auth.resetPasswordForEmail(email, {
+    // 이메일이 실제로 등록돼 있는지와 무관하게 화면은 항상 같은 방식으로 진행한다 — 등록
+    // 여부를 응답 차이로 노출하지 않기 위해서다 (Supabase 자체도 이렇게 동작한다). 다만
+    // 발송 자체가 막혔는지(rate limit 등)는 화면에서는 알 수 없으니 서버 로그에는 남긴다.
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${origin}/auth/confirm?next=/reset-password`,
     });
+    if (error) {
+      console.error("resetPasswordForEmail failed:", error.status, error.code, error.message);
+    }
   }
 
   redirect(`/forgot-password?email=${encodeURIComponent(email)}`);
