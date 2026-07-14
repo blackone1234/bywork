@@ -8,7 +8,8 @@ export type WeekdayHours = { day: string; hours: string | null };
  */
 export function MobileWeekdayHoursRow({ label, days }: { label?: string; days: WeekdayHours[] }) {
   return (
-    <div className="flex w-full flex-col items-start gap-[var(--mobile-space-8)]">
+    // get_metadata 실측: 라벨(14px) → 요일 행(y=34 시작) 간격은 8px가 아니라 20px다.
+    <div className="flex w-full flex-col items-start gap-[var(--mobile-space-20)]">
       {label ? (
         <p className="w-full text-center text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
           {label}
