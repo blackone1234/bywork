@@ -86,7 +86,7 @@ export function MobileHomeInfoRow({ items }: { items: { label: string; value: st
           {/* Figma는 회전 트릭으로 세로선을 self-stretch 시킨다 — 값 텍스트 높이에 맞춰
               늘어나게 self-stretch로 재현(고정 38px 대신). */}
           {index > 0 ? <div className="mr-[20px] w-px self-stretch bg-[var(--mobile-color-warm-gray)]" aria-hidden /> : null}
-          <div className="flex flex-col items-start gap-[10px]">
+          <div className="flex flex-col items-center gap-[10px]">
             <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
               {item.label}
             </p>
