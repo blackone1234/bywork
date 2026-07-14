@@ -95,6 +95,9 @@
   --mobile-color-white: #ffffff;
   --mobile-color-warm-gray: #9c9c9c;
   --mobile-color-soft-gray: #757575;
+  /* Figma 변수가 아니라 리터럴 hex(#9e9e9e)로 반복 등장하는 힌트 텍스트 색 — soft-gray(#757575)와
+     다른 값인데도 처음엔 soft-gray로 잘못 매핑했었다. 정밀 재검증 때 발견. */
+  --mobile-color-hint: #9e9e9e;
   --mobile-color-light-gray: #c7c7c7;
   --mobile-color-line-gray: #e0e0e0;
   --mobile-color-dark-gray: #4a4a4a;

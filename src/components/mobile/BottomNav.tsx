@@ -31,7 +31,10 @@ export function MobileBottomNav({ active, theme }: { active: MobileNavKey; theme
         const color = isActive ? activeColor : "var(--mobile-color-light-gray)";
         return (
           <a key={key} href={href} className="flex flex-col items-center gap-[var(--mobile-space-10)]" style={{ color }}>
-            <Icon className="size-5" />
+            {/* 아이콘 크기는 각 컴포넌트의 실측 기본값(className 생략)을 그대로 쓴다 —
+                근태(캘린더) 아이콘만 19×20으로 다른 4개(20×20)와 비율이 달라서, 여기서
+                일괄 size-5로 덮어쓰면 근태 아이콘이 찌그러진다. */}
+            <Icon />
             <span className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)]">
               {label}
             </span>

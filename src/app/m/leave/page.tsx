@@ -11,27 +11,30 @@ import { PlusIcon } from "@/components/mobile/icons";
 export default function MobileLeavePage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
-      <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
+      <div className="flex w-full flex-col gap-[30px]">
         <MobileTabRootHeader title="휴가현황" />
-        <MobileSummaryRow items={[{ value: "15", label: "총부여" }, { value: "3", label: "사용" }, { value: "12", label: "잔여" }]} />
 
-        <MobileButton variant="outline-dark" href="/m/leave/new" className="gap-[10px]">
-          <PlusIcon className="size-2.5" />
-          휴가 신청하기
-        </MobileButton>
+        <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
+          <MobileSummaryRow items={[{ value: "15", label: "총부여" }, { value: "3", label: "사용" }, { value: "12", label: "잔여" }]} />
 
-        <div className="flex w-full flex-col gap-[30px]">
-          <MobileSectionLabel title="신청내역" />
-          <div className="flex w-full flex-col gap-[10px]">
-            <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="pending">대기</MobileStatusBadge>} />
-            <MobileListRow
-              title="2026.07.15"
-              subtitle="반차(오후)"
-              trailing={<MobileStatusBadge status="approved">승인</MobileStatusBadge>}
-            />
-            <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="approved">승인</MobileStatusBadge>} />
-            <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="pending">대기</MobileStatusBadge>} />
-            <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="rejected">반려</MobileStatusBadge>} />
+          <MobileButton variant="outline-dark" href="/m/leave/new" className="gap-[10px]">
+            <PlusIcon className="size-2.5" />
+            휴가 신청하기
+          </MobileButton>
+
+          <div className="flex w-full flex-col gap-[30px]">
+            <MobileSectionLabel title="신청내역" />
+            <div className="flex w-full flex-col gap-[10px]">
+              <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="pending">대기</MobileStatusBadge>} />
+              <MobileListRow
+                title="2026.07.15"
+                subtitle="반차(오후)"
+                trailing={<MobileStatusBadge status="approved">승인</MobileStatusBadge>}
+              />
+              <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="approved">승인</MobileStatusBadge>} />
+              <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="pending">대기</MobileStatusBadge>} />
+              <MobileListRow title="2026.07.15" subtitle="연차" trailing={<MobileStatusBadge status="rejected">반려</MobileStatusBadge>} />
+            </div>
           </div>
         </div>
       </div>

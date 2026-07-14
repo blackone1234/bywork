@@ -21,6 +21,13 @@ const VARIANT_CLASSNAME: Record<MobileButtonVariant, string> = {
 type MobileButtonOwnProps = {
   variant?: MobileButtonVariant;
   fullWidth?: boolean;
+  /**
+   * S01 "생체인증으로 로그인"만 다른 outline-warm 버튼(S04의 외출하기/외근하기 등)보다
+   * 작다 — pt-16/pb-17 + 14px(트래킹 -0.28) vs 표준 pt-18/pb-19 + 16px(-0.32). 같은
+   * variant인데 화면마다 크기가 달라서 별도 size prop으로 뺐다 (get_design_context로
+   * 대조해서 발견).
+   */
+  compact?: boolean;
   href?: string;
   className?: string;
   children: React.ReactNode;
@@ -28,8 +35,24 @@ type MobileButtonOwnProps = {
 
 type MobileButtonProps = MobileButtonOwnProps & Omit<ComponentPropsWithoutRef<"button">, "className" | "children">;
 
-export function MobileButton({ variant = "filled-accent", fullWidth = true, href, className = "", children, ...rest }: MobileButtonProps) {
-  const classes = `flex items-center justify-center gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-pill)] px-[var(--mobile-space-24)] pt-[18px] pb-[19px] text-[length:var(--mobile-text-subtitle)] font-bold tracking-[var(--mobile-text-subtitle-tracking)] ${fullWidth ? "w-full" : ""} ${VARIANT_CLASSNAME[variant]} ${className}`;
+// standard는 Bold, compact는 SemiBold — 크기뿐 아니라 폰트 굵기도 다르다(둘 다 코드로 직접 확인).
+const SIZE_CLASSNAME = {
+  standard: "pt-[18px] pb-[19px] text-[length:var(--mobile-text-subtitle)] tracking-[var(--mobile-text-subtitle-tracking)] font-bold",
+  compact: "pt-[16px] pb-[17px] text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] font-semibold",
+};
+
+export function MobileButton({
+  variant = "filled-accent",
+  fullWidth = true,
+  compact = false,
+  href,
+  className = "",
+  children,
+  ...rest
+}: MobileButtonProps) {
+  const classes = `flex items-center justify-center gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-pill)] px-[var(--mobile-space-24)] ${
+    compact ? SIZE_CLASSNAME.compact : SIZE_CLASSNAME.standard
+  } ${fullWidth ? "w-full" : ""} ${VARIANT_CLASSNAME[variant]} ${className}`;
 
   if (href) {
     return (

@@ -10,7 +10,7 @@ import { MobileBottomNav } from "@/components/mobile/BottomNav";
 export default function MobileAttendanceDetailPage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
-      <div className="flex w-full flex-col gap-[40px] px-[var(--mobile-space-30)]">
+      <div className="flex w-full flex-col gap-[40px]">
         <MobileSubPageHeader
           title="2026년 7월 2일 목요일"
           meta={
@@ -22,7 +22,7 @@ export default function MobileAttendanceDetailPage() {
             </div>
           }
         />
-        <div className="flex w-full flex-col gap-[40px]">
+        <div className="flex w-full flex-col gap-[40px] px-[var(--mobile-space-30)]">
           <MobileRecordCard
             title="근무기록"
             rows={[

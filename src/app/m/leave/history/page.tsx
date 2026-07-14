@@ -23,18 +23,20 @@ export default function MobileLeaveHistoryPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
-      <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
+      <div className="flex w-full flex-col gap-[30px]">
         <MobileSubPageHeader title="휴가내역" />
-        <MobileTabBar tabs={TABS} activeIndex={activeTab} onChange={setActiveTab} />
-        <div className="flex w-full flex-col gap-[10px]">
-          {HISTORY.map((item, index) => (
-            <MobileListRow
-              key={index}
-              title={item.date}
-              subtitle={item.subtitle}
-              trailing={<MobileStatusBadge status={item.status}>{item.label}</MobileStatusBadge>}
-            />
-          ))}
+        <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
+          <MobileTabBar tabs={TABS} activeIndex={activeTab} onChange={setActiveTab} />
+          <div className="flex w-full flex-col gap-[10px]">
+            {HISTORY.map((item, index) => (
+              <MobileListRow
+                key={index}
+                title={item.date}
+                subtitle={item.subtitle}
+                trailing={<MobileStatusBadge status={item.status}>{item.label}</MobileStatusBadge>}
+              />
+            ))}
+          </div>
         </div>
       </div>
       <MobileBottomNav active="leave" theme="light" />

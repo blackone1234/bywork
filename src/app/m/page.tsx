@@ -31,9 +31,14 @@ export default async function MobileHomePage({
 
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-black)]">
-      <div className="flex w-full flex-col gap-[52px] px-[var(--mobile-space-30)] py-[60px]">
+      <div className="flex w-full flex-col">
+        {/* MobileHomeHeader가 자체적으로 px-30을 갖고 있다 — Figma에서 TOP과 #Contents가
+            형제 블록으로 각각 독립적인 좌우 패딩을 갖기 때문. 여기서 또 px-30을 씌우면
+            헤더만 이중으로 좁아진다(스크린샷 대조로 발견). */}
         <MobileHomeHeader hasAlert />
-        <HomeContent state={homeState} />
+        <div className="flex w-full flex-col gap-[52px] px-[var(--mobile-space-30)] py-[60px]">
+          <HomeContent state={homeState} />
+        </div>
       </div>
       <MobileBottomNav active="home" theme="dark" />
     </div>

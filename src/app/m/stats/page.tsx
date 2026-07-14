@@ -37,8 +37,8 @@ export default function MobileStatsPage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
       <div className="flex w-full flex-col gap-[30px]">
-        <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
-          <MobileTabRootHeader title="통계" size="sm" />
+        <MobileTabRootHeader title="통계" size="sm" />
+        <div className="px-[var(--mobile-space-30)]">
           <MobileTabBar tabs={["월간", "연간"]} activeIndex={period} onChange={(index) => setPeriod(index as 0 | 1)} />
         </div>
 

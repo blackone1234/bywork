@@ -7,7 +7,8 @@ export default function MobileLoginPage() {
     <div className="flex min-h-screen w-full flex-col items-start bg-[var(--mobile-color-black)]">
       <div className="flex w-full flex-1 flex-col items-start justify-center gap-[70px] px-[var(--mobile-space-30)] pt-[50px]">
         <div className="flex w-full flex-col items-center gap-[var(--mobile-space-24)]">
-          <p className="text-[32px] font-black tracking-[-1px] text-[var(--mobile-color-white)]">by WORKS</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/mobile/logo-by-works.svg" alt="by WORKS" width={212.937} height={40} />
           <p className="pt-[2px] text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-white)]">
             by BLACK 근태관리 시스템
           </p>
@@ -29,15 +30,18 @@ export default function MobileLoginPage() {
             <div className="h-px flex-1 bg-[var(--mobile-color-warm-gray)]" aria-hidden />
           </div>
 
-          <MobileButton variant="outline-warm">생체인증으로 로그인</MobileButton>
+          <MobileButton variant="outline-warm" compact>
+            생체인증으로 로그인
+          </MobileButton>
 
-          <p className="pt-[2px] text-center text-[12px] tracking-[-0.24px] text-[#9e9e9e]">
+          <p className="pt-[2px] text-center text-[12px] tracking-[-0.24px] text-[var(--mobile-color-hint)]">
             비밀번호를 잊으셨나요? 관리자에게 문의하세요
           </p>
         </div>
 
         <div className="flex w-full items-center justify-center">
-          <p className="text-[14px] font-black tracking-[-0.28px] text-[var(--mobile-color-white)]">by BLACK</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/mobile/logo-by-black-footer.svg" alt="by BLACK" width={80.15} height={16} />
         </div>
       </div>
     </div>

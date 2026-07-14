@@ -20,7 +20,7 @@ export function MobileTabBar({
             type="button"
             onClick={() => onChange?.(index)}
             aria-pressed={active}
-            className="flex items-center gap-[var(--mobile-space-10)]"
+            className="flex items-center gap-[var(--mobile-space-10)] border-0 p-0"
           >
             <span
               className={`size-2 rounded-full ${active ? "bg-[var(--mobile-color-accent)]" : "bg-[var(--mobile-color-light-gray)]"}`}

@@ -34,7 +34,9 @@ export function MobileHeaderBadge({
 }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-badge)] px-[15px] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] ${
+      // Figma의 5개 상태 배지가 전부 고정 폭 67px — auto-width로 두면 "출근전" 같은
+      // 3글자 라벨이 62px로 좁게 나온다(실측 확인).
+      className={`inline-flex w-[67px] shrink-0 items-center justify-center rounded-[var(--mobile-radius-badge)] px-[15px] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] ${
         variant === "filled"
           ? "bg-[var(--mobile-color-white)] text-[var(--mobile-color-black)]"
           : "border border-[var(--mobile-color-light-gray)] text-[var(--mobile-color-light-gray)]"

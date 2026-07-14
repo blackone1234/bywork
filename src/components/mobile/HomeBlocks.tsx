@@ -34,10 +34,13 @@ export function MobileWeekdayHoursRow({ label, days }: { label?: string; days: W
   );
 }
 
-/** S03의 "잔여 연차" 행 — 위쪽에 warm-gray 굵은 구분선. */
+/**
+ * S03의 "잔여 연차" 행 — 구분선이 텍스트 아래(border-bottom)에 온다. border-top으로 잘못
+ * 넣었더니 선이 텍스트 위로 떠서 순서가 뒤바뀌어 보이는 버그가 있었다(스크린샷 대조로 발견).
+ */
 export function MobileResidualLeaveRow({ days }: { days: string }) {
   return (
-    <div className="flex w-full items-center justify-end gap-[var(--mobile-space-20)] border-t-[3px] border-[var(--mobile-color-warm-gray)] pb-[10px] pt-[10px]">
+    <div className="flex w-full items-center justify-end gap-[var(--mobile-space-20)] border-b-[3px] border-[var(--mobile-color-warm-gray)] pb-[10px]">
       <p className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-light-gray)]">
         잔여 연차
       </p>
@@ -50,10 +53,10 @@ export function MobileResidualLeaveRow({ days }: { days: string }) {
 export function MobileWeeklyProgress({ current, total, percent }: { current: string; total: string; percent: number }) {
   return (
     <div className="flex w-full flex-col items-start gap-[4px]">
-      <p className="text-[12px] tracking-[-0.24px] text-[#9e9e9e]">주간 누적</p>
+      <p className="text-[12px] tracking-[-0.24px] text-[var(--mobile-color-hint)]">주간 누적</p>
       <div className="flex items-end gap-[var(--mobile-space-10)]">
         <p className="text-[18px] tracking-[-0.36px] text-[var(--mobile-color-mint)]">{current}</p>
-        <p className="text-[12px] tracking-[-0.24px] text-[#9e9e9e]">/ {total}</p>
+        <p className="text-[12px] tracking-[-0.24px] text-[var(--mobile-color-hint)]">/ {total}</p>
       </div>
       <div className="w-full pt-[6px]">
         <MobileProgressBar percent={percent} />

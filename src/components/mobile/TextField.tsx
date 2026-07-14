@@ -48,7 +48,9 @@ export function MobileTextField({
       <input
         id={id}
         {...rest}
-        className={`w-full rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-warm-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-20)] text-[length:var(--mobile-text-subtitle)] tracking-[var(--mobile-text-subtitle-tracking)] placeholder:text-[var(--mobile-color-warm-gray)] focus:outline-none ${BG_CLASSNAME[bg]} ${TEXT_COLOR_CLASSNAME[textColor]} ${className}`}
+        // 크롬 등 브라우저 자동완성이 배경을 노랑/파랑으로 강제로 덮어써서 다크 테마
+        // 인풋이 이상하게 보이는 문제 방지 — transition 지연 트릭으로 그 강제 배경을 무력화.
+        className={`w-full rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-warm-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-20)] text-[length:var(--mobile-text-subtitle)] tracking-[var(--mobile-text-subtitle-tracking)] placeholder:text-[var(--mobile-color-warm-gray)] focus:outline-none [&:-webkit-autofill]:[-webkit-text-fill-color:inherit] [&:-webkit-autofill]:[transition:background-color_600000s_0s,color_600000s_0s] ${BG_CLASSNAME[bg]} ${TEXT_COLOR_CLASSNAME[textColor]} ${className}`}
       />
     </div>
   );
