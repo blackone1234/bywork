@@ -73,13 +73,19 @@ export function MobileWeeklyProgress({ current, total, percent }: { current: str
   );
 }
 
-/** S05/S06의 출근·외출(또는 외근)·순 근무 3분할 정보 행 — dark 배경용. */
+/**
+ * S05/S06의 출근·외출(또는 외근)·순 근무 3분할 정보 행 — dark 배경용. Figma의 "Info"
+ * 컴포넌트는 이미 333px 너비인 #Contents 안에서 자체적으로 pt-10 px-30을 한 번 더 가져서,
+ * 다른 형제 요소(버튼 등)보다 좌우로 살짝 더 인셋된다 — 이전엔 이 자체 패딩이 빠져 있었다.
+ */
 export function MobileHomeInfoRow({ items }: { items: { label: string; value: string }[] }) {
   return (
-    <div className="flex w-full items-start justify-between">
+    <div className="flex w-full items-stretch justify-between px-[var(--mobile-space-30)] pt-[10px]">
       {items.map((item, index) => (
         <div key={item.label} className="flex items-center">
-          {index > 0 ? <div className="mr-[20px] h-[38px] w-px bg-[var(--mobile-color-warm-gray)]" aria-hidden /> : null}
+          {/* Figma는 회전 트릭으로 세로선을 self-stretch 시킨다 — 값 텍스트 높이에 맞춰
+              늘어나게 self-stretch로 재현(고정 38px 대신). */}
+          {index > 0 ? <div className="mr-[20px] w-px self-stretch bg-[var(--mobile-color-warm-gray)]" aria-hidden /> : null}
           <div className="flex flex-col items-start gap-[10px]">
             <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
               {item.label}

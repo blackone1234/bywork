@@ -123,7 +123,7 @@ function HomeContent({ state }: { state: HomeState }) {
       </div>
       <div className="flex w-full flex-col items-center gap-[var(--mobile-space-24)]">
         <div className="flex w-full flex-col items-center gap-[20px]">
-          <MobileHeaderBadge>퇴근완료</MobileHeaderBadge>
+          <MobileHeaderBadge width="auto">퇴근완료</MobileHeaderBadge>
           <div className="flex flex-col items-center gap-[16px] text-center">
             <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-line-gray)]">
               오늘 총 근무시간

@@ -24,19 +24,25 @@ export function MobileStatusBadge({ status, children }: { status: MobileStatus; 
  * S03~S07 홈 화면 상태 뱃지. 5개 상태 중 "근무중"(S04)만 filled(흰 배경/검은 글자)로
  * 강조되고, 나머지(출근전·외출중·외근중·퇴근완료)는 전부 outline(테두리만) 스타일이다 —
  * get_design_context로 5개 상태를 전부 대조해서 확인한 규칙.
+ *
+ * 폭: 출근전/근무중/외출중/외근중(전부 3글자)은 Figma가 고정 67px을 쓰지만, "퇴근완료"만
+ * 4글자라 Figma 원본도 폭을 고정하지 않고 auto-width로 뒀다 — 그대로 67px을 강제하면
+ * 글자가 줄바꿈되거나 넘친다. width="fixed"(기본)/"auto"로 구분.
  */
 export function MobileHeaderBadge({
   children,
   variant = "outline",
+  width = "fixed",
 }: {
   children: React.ReactNode;
   variant?: "filled" | "outline";
+  width?: "fixed" | "auto";
 }) {
   return (
     <span
-      // Figma의 5개 상태 배지가 전부 고정 폭 67px — auto-width로 두면 "출근전" 같은
-      // 3글자 라벨이 62px로 좁게 나온다(실측 확인).
-      className={`inline-flex w-[67px] shrink-0 items-center justify-center rounded-[var(--mobile-radius-badge)] px-[15px] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] ${
+      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-badge)] px-[15px] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] whitespace-nowrap ${
+        width === "fixed" ? "w-[67px]" : ""
+      } ${
         variant === "filled"
           ? "bg-[var(--mobile-color-white)] text-[var(--mobile-color-black)]"
           : "border border-[var(--mobile-color-light-gray)] text-[var(--mobile-color-light-gray)]"
