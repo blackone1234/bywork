@@ -131,7 +131,7 @@ function HomeContent({ state }: { state: HomeState }) {
             <p className="text-[72px] leading-[52px] font-bold tracking-[-1.44px] text-[var(--mobile-color-white)]">8h 57m</p>
             <div className="flex items-center gap-[12px]">
               <ClockIcon className="size-5 text-[var(--mobile-color-mint)]" />
-              <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-mint)]">
+              <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-mint)]">
                 경과 3시간 21분
               </p>
             </div>
@@ -164,7 +164,7 @@ function ClockDisplay({ badge, time, elapsed }: { badge: React.ReactNode; time: 
         </div>
         <div className="flex items-center gap-[12px]">
           <ClockIcon className="size-5 text-[var(--mobile-color-mint)]" />
-          <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-mint)]">
+          <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-mint)]">
             {elapsed}
           </p>
         </div>

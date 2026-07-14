@@ -62,10 +62,13 @@ export function MobileResidualLeaveRow({ days }: { days: string }) {
 export function MobileWeeklyProgress({ current, total, percent }: { current: string; total: string; percent: number }) {
   return (
     <div className="flex w-full flex-col items-start gap-[4px]">
-      <p className="text-[12px] tracking-[-0.24px] text-[var(--mobile-color-hint)]">주간 누적</p>
+      {/* 부모 전체가 Figma에서 font-SemiBold — 자식에 상속 안 되니 각 텍스트에 직접
+          font-semibold을 주고, leading-none으로 line-height 여백을 없애서 gap-4가
+          실제로 4px로 보이게 한다(이전 사례와 동일 원인). */}
+      <p className="leading-none text-[12px] font-semibold tracking-[-0.24px] text-[var(--mobile-color-hint)]">주간 누적</p>
       <div className="flex items-end gap-[var(--mobile-space-10)]">
-        <p className="text-[18px] tracking-[-0.36px] text-[var(--mobile-color-mint)]">{current}</p>
-        <p className="text-[12px] tracking-[-0.24px] text-[var(--mobile-color-hint)]">/ {total}</p>
+        <p className="leading-none text-[18px] font-semibold tracking-[-0.36px] text-[var(--mobile-color-mint)]">{current}</p>
+        <p className="leading-none text-[12px] font-semibold tracking-[-0.24px] text-[var(--mobile-color-hint)]">/  {total}</p>
       </div>
       <div className="w-full pt-[6px]">
         <MobileProgressBar percent={percent} />
