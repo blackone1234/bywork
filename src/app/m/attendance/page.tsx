@@ -87,14 +87,14 @@ export default function MobileAttendancePage() {
           {LEGEND.map((item) => (
             <div key={item.label} className="flex items-center gap-[8px]">
               <LegendDot status={item.status} />
-              <p className="text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-black)]">
+              <p className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-black)]">
                 {item.label}
               </p>
             </div>
           ))}
         </div>
         <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
-          <p className="w-full text-center text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+          <p className="w-full text-center text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
             7월 요약
           </p>
           <MobileSummaryRow items={[{ value: "22", label: "근무일" }, { value: "176h", label: "총 근무일" }, { value: "1", label: "연차" }]} />

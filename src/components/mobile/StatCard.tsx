@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 /**
  * S13(월간 통계) 2열 통계 카드 — 캡션이 위, 28px 숫자가 오른쪽 정렬로 아래에 온다
  * (get_design_context로 확인: 32px 왼쪽정렬로 짐작했던 첫 조사와 달랐다).
@@ -66,14 +68,25 @@ export function MobileVerticalBarChart({ bars }: { bars: { label: string; percen
   );
 }
 
-/** S08(캘린더) "7월 요약"처럼 세로 구분선으로 나뉜 3~4분할 요약 행. */
+/**
+ * S08(캘린더) "7월 요약"처럼 세로 구분선으로 나뉜 3~4분할 요약 행. Figma의 "Info" 컴포넌트는
+ * 값 컬럼과 구분선을 전부 형제 요소로 두고 동일하게 `flex-[1_0_0]`(자라나는 영역)를 줘서
+ * 5개(컬럼-선-컬럼-선-컬럼)가 균등 분할된다 — 구분선에 고정 margin을 주고 컬럼만
+ * flex-1로 처리하면(이전 구현) 항목별 텍스트 폭 차이 때문에 컬럼 중심이 서로 어긋난다
+ * (실측: "22"/"176h"/"1" 중심 간격이 112.8px/104.3px로 불균등했던 문제, MobileHomeInfoRow와
+ * 동일한 원인).
+ */
 export function MobileSummaryRow({ items }: { items: { value: string; label: string }[] }) {
   return (
-    <div className="flex w-full items-stretch justify-between px-[var(--mobile-space-10)] pt-[var(--mobile-space-10)]">
+    <div className="flex w-full items-start justify-between px-[var(--mobile-space-10)] pt-[var(--mobile-space-10)]">
       {items.map((item, index) => (
-        <div key={item.label} className="flex flex-1 items-center">
-          {index > 0 ? <div className="mr-4 h-full w-px self-stretch bg-[var(--mobile-color-light-gray)]" aria-hidden /> : null}
-          <div className="flex flex-1 flex-col items-center gap-[6px]">
+        <Fragment key={item.label}>
+          {index > 0 ? (
+            <div className="flex flex-[1_0_0] items-center justify-center self-stretch">
+              <div className="h-full w-px bg-[var(--mobile-color-light-gray)]" />
+            </div>
+          ) : null}
+          <div className="flex flex-[1_0_0] flex-col items-center gap-[6px]">
             <p className="text-[length:var(--mobile-text-display)] font-extrabold tracking-[var(--mobile-text-display-tracking)] text-[var(--mobile-color-black)]">
               {item.value}
             </p>
@@ -81,7 +94,7 @@ export function MobileSummaryRow({ items }: { items: { value: string; label: str
               {item.label}
             </p>
           </div>
-        </div>
+        </Fragment>
       ))}
     </div>
   );

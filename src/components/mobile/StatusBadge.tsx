@@ -13,7 +13,7 @@ const STATUS_CLASSNAME: Record<MobileStatus, string> = {
 export function MobileStatusBadge({ status, children }: { status: MobileStatus; children: React.ReactNode }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-chip)] px-[var(--mobile-space-16)] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)] ${STATUS_CLASSNAME[status]}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-chip)] px-[var(--mobile-space-12)] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)] ${STATUS_CLASSNAME[status]}`}
     >
       {children}
     </span>

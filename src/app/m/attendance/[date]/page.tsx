@@ -16,7 +16,7 @@ export default function MobileAttendanceDetailPage() {
           meta={
             <div className="flex items-center gap-[var(--mobile-space-20)]">
               <MobileStatusBadge status="normal">정상근무</MobileStatusBadge>
-              <p className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
+              <p className="text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
                 총 8h 57m
               </p>
             </div>
