@@ -2,6 +2,7 @@
 
 import { Suspense, useActionState } from "react";
 import { TextField } from "@/components/admin/TextField";
+import { PasswordField } from "@/components/admin/PasswordField";
 import { Button } from "@/components/admin/Button";
 import { login, requestPasswordReset, type LoginState } from "./actions";
 import { LoginLinkError } from "./LoginLinkError";
@@ -47,8 +48,7 @@ export default function LoginPage() {
                 borderColor="line"
                 required
               />
-              <TextField
-                type="password"
+              <PasswordField
                 name="password"
                 placeholder="••••••••"
                 fullWidth
