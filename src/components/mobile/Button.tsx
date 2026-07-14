@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 
 /**
@@ -17,25 +18,29 @@ const VARIANT_CLASSNAME: Record<MobileButtonVariant, string> = {
   "filled-muted": "bg-[var(--mobile-color-soft-gray)] text-[var(--mobile-color-white)]",
 };
 
-type MobileButtonProps = {
+type MobileButtonOwnProps = {
   variant?: MobileButtonVariant;
   fullWidth?: boolean;
+  href?: string;
   className?: string;
-} & Omit<ComponentPropsWithoutRef<"button">, "className">;
+  children: React.ReactNode;
+};
 
-export function MobileButton({
-  variant = "filled-accent",
-  fullWidth = true,
-  className = "",
-  children,
-  ...rest
-}: MobileButtonProps) {
+type MobileButtonProps = MobileButtonOwnProps & Omit<ComponentPropsWithoutRef<"button">, "className" | "children">;
+
+export function MobileButton({ variant = "filled-accent", fullWidth = true, href, className = "", children, ...rest }: MobileButtonProps) {
+  const classes = `flex items-center justify-center gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-pill)] px-[var(--mobile-space-24)] pt-[18px] pb-[19px] text-[length:var(--mobile-text-subtitle)] font-bold tracking-[var(--mobile-text-subtitle-tracking)] ${fullWidth ? "w-full" : ""} ${VARIANT_CLASSNAME[variant]} ${className}`;
+
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <button
-      type="button"
-      {...rest}
-      className={`flex items-center justify-center gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-pill)] px-[var(--mobile-space-24)] pt-[18px] pb-[19px] text-[length:var(--mobile-text-subtitle)] font-bold tracking-[var(--mobile-text-subtitle-tracking)] ${fullWidth ? "w-full" : ""} ${VARIANT_CLASSNAME[variant]} ${className}`}
-    >
+    <button type="button" {...rest} className={classes}>
       {children}
     </button>
   );

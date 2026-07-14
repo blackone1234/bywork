@@ -19,18 +19,25 @@ export function MobileInfoRow({ label, value }: { label: string; value: ReactNod
 }
 
 /**
- * S09(근태 날짜 상세) "근무기록"/"분석" 카드 — MobileInfoBox와 달리 테두리 박스가 아니라
- * 검은 border-top-2 + soft-gray 섹션 캡션, 그 아래 label/value 행들이 light-gray 구분선으로
- * 나뉜다(마지막 행만 구분선 없음).
+ * S09(근무기록/분석)·S10(신청내역)이 공유하는 섹션 캡션 — 검은 border-top-2 + soft-gray
+ * 라벨. 아래에 오는 목록 형태(label/value 행 vs MobileListRow)가 화면마다 달라서 캡션만
+ * 따로 떼어냈다.
  */
+export function MobileSectionLabel({ title }: { title: string }) {
+  return (
+    <div className="flex w-full items-center justify-center border-t-2 border-[var(--mobile-color-black)] pt-[var(--mobile-space-10)]">
+      <p className="w-full text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+        {title}
+      </p>
+    </div>
+  );
+}
+
+/** S09(근태 날짜 상세) "근무기록"/"분석" 카드 — label/value 행이 light-gray 구분선으로 나뉜다. */
 export function MobileRecordCard({ title, rows }: { title: string; rows: { label: string; value: ReactNode }[] }) {
   return (
     <div className="flex w-full flex-col items-start gap-[var(--mobile-space-30)]">
-      <div className="flex w-full items-center justify-center border-t-2 border-[var(--mobile-color-black)] pt-[var(--mobile-space-10)]">
-        <p className="w-full text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
-          {title}
-        </p>
-      </div>
+      <MobileSectionLabel title={title} />
       <div className="flex w-full flex-col items-start gap-[14px]">
         {rows.map((row, index) => (
           <div
