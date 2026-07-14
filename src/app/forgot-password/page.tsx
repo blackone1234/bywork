@@ -1,8 +1,13 @@
 import { ModalScreen, ModalSuccessIcon } from "@/components/admin/ModalScreen";
 import { Button } from "@/components/admin/Button";
-import { adminAccount } from "@/lib/dummy-data";
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>;
+}) {
+  const { email } = await searchParams;
+
   return (
     <ModalScreen>
       <div className="flex flex-col items-center gap-[12px]">
@@ -11,9 +16,15 @@ export default function ForgotPasswordPage() {
         </p>
         <ModalSuccessIcon />
         <p className="text-center text-[12px] font-semibold leading-[20px] tracking-[-0.24px] text-muted">
-          {adminAccount.email} 으로
-          <br />
-          재설정 링크가 발송되었습니다. 24시간 후 만료됩니다.
+          {email ? (
+            <>
+              {email} 으로
+              <br />
+              재설정 링크가 발송되었습니다. 24시간 후 만료됩니다.
+            </>
+          ) : (
+            "입력하신 이메일로 재설정 링크가 발송되었습니다. 24시간 후 만료됩니다."
+          )}
         </p>
       </div>
 

@@ -1,8 +1,16 @@
-import Link from "next/link";
+"use client";
+
+import { Suspense, useActionState } from "react";
 import { TextField } from "@/components/admin/TextField";
 import { Button } from "@/components/admin/Button";
+import { login, requestPasswordReset, type LoginState } from "./actions";
+import { LoginLinkError } from "./LoginLinkError";
+
+const initialState: LoginState = {};
 
 export default function LoginPage() {
+  const [state, formAction] = useActionState(login, initialState);
+
   return (
     <div className="flex min-h-screen w-full items-stretch bg-page">
       <div className="hidden w-[800px] shrink-0 flex-col justify-between bg-black px-[100px] py-[120px] text-white lg:flex">
@@ -29,36 +37,50 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form className="flex w-full flex-col gap-[30px]">
+          <form action={formAction} className="flex w-full flex-col gap-[30px]">
             <div className="flex flex-col gap-[12px]">
               <TextField
                 type="email"
+                name="email"
                 placeholder="admin@by-bk.com"
                 fullWidth
                 borderColor="line"
+                required
               />
               <TextField
                 type="password"
+                name="password"
                 placeholder="••••••••"
                 fullWidth
                 borderColor="line"
               />
             </div>
 
+            {state.error ? (
+              <p role="alert" className="text-body font-semibold text-red-600">
+                {state.error}
+              </p>
+            ) : (
+              <Suspense fallback={null}>
+                <LoginLinkError />
+              </Suspense>
+            )}
+
             <Button type="submit" variant="outline-pill" className="w-full">
               로그인
             </Button>
-          </form>
 
-          <div className="flex w-full items-center justify-center pb-[5px]">
-            <Link
-              href="/forgot-password"
-              className="flex items-center gap-[10px] text-[12px] font-medium tracking-[-0.24px] text-muted transition-colors hover:text-black hover:underline"
-            >
-              비밀번호를 잊으셨나요?
-              <span aria-hidden>›</span>
-            </Link>
-          </div>
+            <div className="flex w-full items-center justify-center pb-[5px]">
+              <button
+                type="submit"
+                formAction={requestPasswordReset}
+                className="flex items-center gap-[10px] text-[12px] font-medium tracking-[-0.24px] text-muted transition-colors hover:text-black hover:underline"
+              >
+                비밀번호를 잊으셨나요?
+                <span aria-hidden>›</span>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

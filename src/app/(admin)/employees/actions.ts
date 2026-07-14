@@ -1,18 +1,11 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { authMethodToDb, findEmployeeByEmail, formatDateDot } from "@/lib/employees";
 import { assertAdminRequest } from "@/lib/admin-guard";
-
-async function getOrigin() {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("host") ?? "localhost:3000";
-  const protocol = host.startsWith("localhost") || host.startsWith("127.0.0.1") ? "http" : "https";
-  return `${protocol}://${host}`;
-}
+import { getRequestOrigin } from "@/lib/origin";
 
 export type RehireCandidate = {
   id: string;
@@ -62,10 +55,10 @@ export async function createEmployee(
 
   // 1) Supabase Auth 계정을 먼저 만들면서 초대 메일을 발송한다.
   //    (등록 즉시 계정 생성 + 초대 메일 발송을 한 번에 처리 — 자세한 설계 이유는 대화 참고)
-  const origin = await getOrigin();
+  const origin = await getRequestOrigin();
   const { data: invited, error: inviteError } = await supabase.auth.admin.inviteUserByEmail(
     email,
-    { redirectTo: `${origin}/reset-password` },
+    { redirectTo: `${origin}/auth/confirm?next=/reset-password` },
   );
 
   if (inviteError || !invited?.user) {
@@ -171,10 +164,10 @@ export async function sendPasswordResetEmail(email: string) {
   await assertAdminRequest();
 
   const supabase = createSupabaseAdminClient();
-  const origin = await getOrigin();
+  const origin = await getRequestOrigin();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/reset-password`,
+    redirectTo: `${origin}/auth/confirm?next=/reset-password`,
   });
 
   if (error) {

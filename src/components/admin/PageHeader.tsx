@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronIcon } from "@/components/admin/ChevronIcon";
+import { logout } from "@/app/login/actions";
 
 const MENU_ITEMS = [
   { label: "관리자 계정 설정", href: "/settings/system" },
@@ -67,12 +68,14 @@ export function PageHeader({ breadcrumb }: { breadcrumb: string[] }) {
                     {item.label}
                   </Link>
                 ))}
-                <button
-                  type="button"
-                  className="rounded-[10px] px-[14px] py-[8px] text-center text-[12px] font-semibold tracking-[-0.24px] whitespace-nowrap text-line transition-colors hover:rounded-[8px] hover:bg-avatar-text hover:py-[6px] hover:text-white"
-                >
-                  로그아웃
-                </button>
+                <form action={logout}>
+                  <button
+                    type="submit"
+                    className="w-full rounded-[10px] px-[14px] py-[8px] text-center text-[12px] font-semibold tracking-[-0.24px] whitespace-nowrap text-line transition-colors hover:rounded-[8px] hover:bg-avatar-text hover:py-[6px] hover:text-white"
+                  >
+                    로그아웃
+                  </button>
+                </form>
               </div>
             </>
           ) : null}
