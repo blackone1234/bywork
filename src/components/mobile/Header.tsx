@@ -39,10 +39,13 @@ export function MobileGreeting({ name, date }: { name: string; date: string }) {
 export function MobileSubPageHeader({
   title,
   subtitle,
+  meta,
   onBack,
 }: {
   title: string;
   subtitle?: string;
+  /** S09처럼 subtitle 대신 상태 뱃지+요약 텍스트 같은 커스텀 콘텐츠를 타이틀 아래에 둘 때. */
+  meta?: ReactNode;
   onBack?: () => void;
 }) {
   return (
@@ -59,6 +62,7 @@ export function MobileSubPageHeader({
             {subtitle}
           </p>
         ) : null}
+        {meta}
       </div>
     </div>
   );
