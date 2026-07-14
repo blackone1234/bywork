@@ -1,12 +1,14 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { assertAdminRequest } from "@/lib/admin-guard";
 import { changeAdminPassword } from "@/lib/adminAccount";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
+import { createSupabaseSessionClient } from "@/lib/supabase/session";
 import { fetchHolidaysForYear } from "@/lib/holidaySync";
+import { revalidatePath } from "next/cache";
 
-export type ChangePasswordState = { error?: string; success?: boolean };
+export type ChangePasswordState = { error?: string };
 
 export async function saveAdminPassword(
   adminId: string,
@@ -31,8 +33,13 @@ export async function saveAdminPassword(
     return { error: err instanceof Error ? err.message : "비밀번호 변경에 실패했습니다." };
   }
 
-  revalidatePath("/settings/system");
-  return { success: true };
+  // 비밀번호를 바꾸면 Supabase가 지금 세션을 무효화한다. 그 상태로 이 페이지를 그대로
+  // revalidatePath해서 다시 그리면, 재렌더링 중 세션 조회(getCurrentAdmin)가 실패해서
+  // 에러 화면이 뜬다 — 실제로 이 화면에서 겪은 문제다. 그래서 여기서 세션을 정리하고
+  // 새 비밀번호로 다시 로그인하도록 안내한다.
+  const sessionClient = await createSupabaseSessionClient();
+  await sessionClient.auth.signOut();
+  redirect(`/login?message=${encodeURIComponent("비밀번호가 변경됐습니다. 새 비밀번호로 다시 로그인해주세요.")}`);
 }
 
 export async function refreshHolidays() {

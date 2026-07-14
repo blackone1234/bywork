@@ -43,11 +43,6 @@ export function AdminPasswordForm({ adminId, email }: { adminId: string; email: 
           {state.error}
         </p>
       ) : null}
-      {state.success ? (
-        <p role="status" className="text-body font-semibold text-sidebar-active">
-          비밀번호가 변경됐습니다.
-        </p>
-      ) : null}
 
       <div className="flex w-full justify-end">
         <Button type="submit" className="w-full sm:w-[140px]">
