@@ -99,7 +99,7 @@ export function MobileHomeInfoRow({ items }: { items: { label: string; value: st
               <div className="h-full w-px bg-[var(--mobile-color-warm-gray)]" />
             </div>
           ) : null}
-          <div className="flex shrink-0 flex-col items-center gap-[9px]">
+          <div className="flex shrink-0 flex-col items-center gap-[11px]">
             <p className="leading-none text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
               {item.label}
             </p>
