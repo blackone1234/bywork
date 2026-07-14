@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { MobileProgressBar } from "@/components/mobile/ProgressBar";
 
 export type WeekdayHours = { day: string; hours: string | null };
@@ -76,23 +77,30 @@ export function MobileWeeklyProgress({ current, total, percent }: { current: str
 /**
  * S05/S06의 출근·외출(또는 외근)·순 근무 3분할 정보 행 — dark 배경용. Figma의 "Info"
  * 컴포넌트는 이미 333px 너비인 #Contents 안에서 자체적으로 pt-10 px-30을 한 번 더 가져서,
- * 다른 형제 요소(버튼 등)보다 좌우로 살짝 더 인셋된다 — 이전엔 이 자체 패딩이 빠져 있었다.
+ * 다른 형제 요소(버튼 등)보다 좌우로 살짝 더 인셋된다.
+ *
+ * 구분선은 Figma에서 flex-[1_0_0](자라나는 영역)이라 실제 남는 공간을 전부 흡수하고,
+ * 3개 라벨 컬럼은 각자 콘텐츠 폭만큼만 차지한다 — 이전엔 구분선에 고정 mr-20을 주고
+ * 바깥 행을 justify-between으로 처리해서, 컬럼별 텍스트 폭이 다르면(출근/외출/순 근무)
+ * 3영역 간격이 고르지 않게 벌어졌다.
  */
 export function MobileHomeInfoRow({ items }: { items: { label: string; value: string }[] }) {
   return (
-    <div className="flex w-full items-stretch justify-between px-[var(--mobile-space-30)] pt-[10px]">
+    <div className="flex w-full items-start px-[var(--mobile-space-30)] pt-[10px]">
       {items.map((item, index) => (
-        <div key={item.label} className="flex items-center">
-          {/* Figma는 회전 트릭으로 세로선을 self-stretch 시킨다 — 값 텍스트 높이에 맞춰
-              늘어나게 self-stretch로 재현(고정 38px 대신). */}
-          {index > 0 ? <div className="mr-[20px] w-px self-stretch bg-[var(--mobile-color-warm-gray)]" aria-hidden /> : null}
-          <div className="flex flex-col items-center gap-[10px]">
-            <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
+        <Fragment key={item.label}>
+          {index > 0 ? (
+            <div className="flex flex-1 items-stretch justify-center px-[10px]">
+              <div className="w-px bg-[var(--mobile-color-warm-gray)]" />
+            </div>
+          ) : null}
+          <div className="flex shrink-0 flex-col items-center gap-[6px]">
+            <p className="leading-none text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-light-gray)]">
               {item.label}
             </p>
-            <p className="text-[18px] tracking-[-0.36px] text-[var(--mobile-color-white)]">{item.value}</p>
+            <p className="font-semibold leading-none text-[18px] tracking-[-0.36px] text-[var(--mobile-color-white)]">{item.value}</p>
           </div>
-        </div>
+        </Fragment>
       ))}
     </div>
   );
