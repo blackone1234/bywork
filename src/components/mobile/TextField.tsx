@@ -38,6 +38,17 @@ const PADDING_CLASSNAME: Record<MobileTextFieldBg, string> = {
   filled: "px-[20px] py-[14px]",
 };
 
+/**
+ * 라벨 크기는 bg 변형마다 실제로 다르다 — S16(transparent, 비밀번호 필드) 재검증 결과
+ * 13px(caption)인데, S11(filled, 날짜선택)만 12px(badge)였다. 이전에 S11 기준으로
+ * label을 전부 12px로 바꿨던 게 S01/S02/S16(transparent 전부)에 회귀였다 — bg별로
+ * 분리해서 되돌림.
+ */
+const LABEL_TEXT_CLASSNAME: Record<MobileTextFieldBg, string> = {
+  transparent: "text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)]",
+  filled: "text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)]",
+};
+
 const TEXT_COLOR_CLASSNAME: Record<MobileTextFieldTextColor, string> = {
   dark: "text-[var(--mobile-color-black)]",
   light: "text-[var(--mobile-color-white)]",
@@ -56,7 +67,7 @@ export function MobileTextField({
       {label ? (
         <label
           htmlFor={id}
-          className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]"
+          className={`font-semibold text-[var(--mobile-color-soft-gray)] ${LABEL_TEXT_CLASSNAME[bg]}`}
         >
           {label}
         </label>

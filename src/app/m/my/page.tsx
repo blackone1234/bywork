@@ -18,10 +18,10 @@ export default function MobileMyPage() {
             <div className="flex flex-1 flex-col gap-[10px]">
               <p className="text-[20px] font-bold tracking-[-0.4px] text-[var(--mobile-color-black)]">이동석</p>
               <div className="flex flex-col gap-[5px]">
-                <p className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
+                <p className="text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
                   blackds@by-bk.com
                 </p>
-                <p className="text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+                <p className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
                   입사일 : 2012.06.25
                 </p>
               </div>
@@ -29,22 +29,22 @@ export default function MobileMyPage() {
           </div>
 
           <div className="flex w-full flex-col gap-[8px]">
-            <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+            <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
               계정설정
             </p>
             <MobileFieldRow
               label="비밀번호 변경"
               href="/m/my/password"
-              trailing={<ChevronRightIcon className="size-2 text-[var(--mobile-color-black)]" />}
+              trailing={<ChevronRightIcon className="h-2 w-1 text-[var(--mobile-color-black)]" />}
             />
             <MobileFieldRow
               label="생체인증 설정"
-              trailing={<ChevronRightIcon className="size-2 text-[var(--mobile-color-black)]" />}
+              trailing={<ChevronRightIcon className="h-2 w-1 text-[var(--mobile-color-black)]" />}
             />
           </div>
 
           <div className="flex w-full flex-col gap-[8px]">
-            <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+            <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
               내 정보
             </p>
             <MobileFieldRow label="입사일" value="2012.06.25" />

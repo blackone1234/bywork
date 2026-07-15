@@ -60,8 +60,10 @@ export function MobileRecordCard({ title, rows }: { title: string; rows: { label
 }
 
 /**
- * S15(마이페이지) "계정설정"/"내 정보" 행 — rounded-input(14px) 카드형, 클릭 가능한 항목은
- * trailing에 ChevronRightIcon을 넣고 href로 다음 화면(S16 등)을 연결한다.
+ * S15(마이페이지) "계정설정"/"내 정보" 행 — rounded-input(14px) 카드형. get_design_context
+ * 재확인 결과 Figma에는 서로 다른 두 컴포넌트가 있다: value가 있는 행(입사일 등)은
+ * 라벨이 13px warm-gray, value가 없고 trailing(chevron)만 있는 행(비밀번호 변경 등)은
+ * 라벨이 14px soft-gray — 이전엔 하나의 스타일(13px soft-gray)로 통일해서 틀렸었다.
  */
 export function MobileFieldRow({
   label,
@@ -76,11 +78,17 @@ export function MobileFieldRow({
 }) {
   const content = (
     <>
-      <span className="text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+      <span
+        className={
+          value
+            ? "text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-warm-gray)]"
+            : "text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-soft-gray)]"
+        }
+      >
         {label}
       </span>
       {value ? (
-        <span className="text-[length:var(--mobile-text-body)] tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
+        <span className="text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
           {value}
         </span>
       ) : null}
