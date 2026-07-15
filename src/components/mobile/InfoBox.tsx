@@ -12,7 +12,7 @@ export function MobileInfoBox({ children }: { children: ReactNode }) {
 
 export function MobileInfoRow({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex w-full items-center justify-between text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)]">
+    <div className="flex w-full items-center justify-between text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)]">
       <span className="text-[var(--mobile-color-soft-gray)]">{label}</span>
       <span className="text-[var(--mobile-color-black)]">{value}</span>
     </div>

@@ -10,10 +10,26 @@ const STATUS_CLASSNAME: Record<MobileStatus, string> = {
   leave: "bg-[var(--mobile-color-state-leave)]",
 };
 
-export function MobileStatusBadge({ status, children }: { status: MobileStatus; children: React.ReactNode }) {
+/**
+ * S09의 "State"와 S10/S12의 "Confirm"은 Figma에서 서로 다른 컴포넌트인데(각각
+ * px-12/px-15) 색상 규칙이 같아서 한 React 컴포넌트로 묶었다 — get_design_context로
+ * 개별 재확인해서 발견. size="list"(기본, S10/S12 목록 뱃지)/size="compact"(S09
+ * 헤더 메타 뱃지)로 구분.
+ */
+export function MobileStatusBadge({
+  status,
+  children,
+  size = "list",
+}: {
+  status: MobileStatus;
+  children: React.ReactNode;
+  size?: "list" | "compact";
+}) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-chip)] px-[var(--mobile-space-12)] py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)] ${STATUS_CLASSNAME[status]}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-[var(--mobile-radius-chip)] ${
+        size === "list" ? "px-[15px]" : "px-[var(--mobile-space-12)]"
+      } py-[var(--mobile-space-8)] text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)] ${STATUS_CLASSNAME[status]}`}
     >
       {children}
     </span>

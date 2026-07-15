@@ -17,7 +17,9 @@ export default function MobileLeavePage() {
         <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
           <MobileSummaryRow items={[{ value: "15", label: "총부여" }, { value: "3", label: "사용" }, { value: "12", label: "잔여" }]} />
 
-          <MobileButton variant="outline-dark" href="/m/leave/new" className="gap-[10px]">
+          {/* 사용자 지시로 표준 버튼 높이(pt18/pb19)보다 4px 낮게 강제 고정 — !important로
+              공용 SIZE_CLASSNAME.standard를 이 버튼에서만 덮어씀. */}
+          <MobileButton variant="outline-dark" href="/m/leave/new" className="gap-[10px] !pt-[16px] !pb-[17px]">
             <PlusIcon className="size-2.5" />
             휴가 신청하기
           </MobileButton>

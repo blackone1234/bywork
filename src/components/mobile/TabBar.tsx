@@ -11,7 +11,10 @@ export function MobileTabBar({
   onChange?: (index: number) => void;
 }) {
   return (
-    <div className="flex w-full items-center justify-between border-b-2 border-[var(--mobile-color-soft-gray)] pb-[var(--mobile-space-10)]">
+    // Figma는 탭마다 고정 폭(333px / 탭 개수)을 쓴다 — justify-between으로 흉내 내면
+    // 라벨 글자 수가 다를 때(예: "대기중" 3자 vs "전체" 2자) 점(dot) 간격이 고르지
+    // 않게 벌어진다(실측 확인: 94px/105px/94px). flex-1로 탭마다 동일 폭을 준다.
+    <div className="flex w-full items-center border-b-2 border-[var(--mobile-color-soft-gray)] pb-[var(--mobile-space-10)]">
       {tabs.map((tab, index) => {
         const active = index === activeIndex;
         return (
@@ -20,7 +23,7 @@ export function MobileTabBar({
             type="button"
             onClick={() => onChange?.(index)}
             aria-pressed={active}
-            className="flex items-center gap-[var(--mobile-space-10)] border-0 p-0"
+            className="flex flex-1 items-center gap-[var(--mobile-space-10)] border-0 p-0"
           >
             <span
               className={`size-2 rounded-full ${active ? "bg-[var(--mobile-color-accent)]" : "bg-[var(--mobile-color-light-gray)]"}`}

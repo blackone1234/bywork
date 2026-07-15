@@ -22,7 +22,7 @@ export default function MobileLeaveNewPage() {
 
         <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
           <div className="flex w-full flex-col gap-[10px]">
-            <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+            <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
               휴가 종류
             </p>
             <div className="flex w-full gap-[10px]">
@@ -37,16 +37,17 @@ export default function MobileLeaveNewPage() {
               <MobileTextField label="날짜 선택" bg="filled" defaultValue="2026년 7월 15일 (수)" readOnly className="text-center" />
               <button type="button" className="flex w-full items-center justify-center gap-[10px] border-0 p-0 pt-[10px]">
                 <PlusIcon className="size-2.5 text-[var(--mobile-color-soft-gray)]" />
-                <span className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+                <span className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
                   날짜 추가
                 </span>
               </button>
             </div>
 
-            <MobileTextArea label="사유 입력" placeholder="사유를 입력해주세요." rows={3} />
+            {/* 사용자 지시로 높이를 154px로 강제 고정(기존 자동높이 125px). */}
+            <MobileTextArea label="사유 입력" placeholder="사유를 입력해주세요." rows={3} className="h-[154px]" />
 
             <div className="flex w-full flex-col gap-[8px]">
-              <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+              <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
                 신청 정보
               </p>
               <MobileInfoBox>
@@ -57,7 +58,10 @@ export default function MobileLeaveNewPage() {
           </div>
 
           <div className="py-[10px]">
-            <MobileButton variant="outline-dark">신청하기</MobileButton>
+            {/* 사용자 지시로 표준 버튼 높이보다 4px 낮게 강제 고정. */}
+            <MobileButton variant="outline-dark" className="!pt-[16px] !pb-[17px]">
+              신청하기
+            </MobileButton>
           </div>
         </div>
       </div>

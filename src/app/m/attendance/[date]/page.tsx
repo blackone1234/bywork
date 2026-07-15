@@ -17,7 +17,7 @@ export default function MobileAttendanceDetailPage() {
           title="2026년 7월 2일 목요일"
           meta={
             <div className="flex items-center gap-[var(--mobile-space-20)]">
-              <MobileStatusBadge status="normal">정상근무</MobileStatusBadge>
+              <MobileStatusBadge status="normal" size="compact">정상근무</MobileStatusBadge>
               <p className="text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
                 총 8h 57m
               </p>
