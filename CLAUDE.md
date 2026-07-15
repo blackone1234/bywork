@@ -48,9 +48,12 @@
   - `proxy.ts`에 `/m/:path*` 세션 게이트 추가(`/m/login`, `/m/register-password`만 예외).
   - **라이브 테스트 전부 완료**: 로그인 실패(존재하지 않는 계정) 확인, 퇴사 계정 로그인 차단
     확인("퇴사 처리된 계정입니다. 관리자에게 문의하세요." 메시지 정확히 표시), proxy
-    리다이렉트(307→`/m/login`) 확인, 실제 `inviteUserByEmail`로 발송된 초대 메일을 사용자가
-    직접 클릭해서 `/auth/confirm`→`/m/register-password`→비밀번호 설정→로그인 성공까지
-    end-to-end 확인. 테스트로 만든 employees/auth 레코드는 전부 정리 완료(원래 상태 복원).
+    리다이렉트(307→`/m/login`) 확인. 실제 `inviteUserByEmail`로 발송된 초대 메일을 **사용자가
+    직접 메일함에서 클릭해서** `/auth/confirm`→`/m/register-password`→비밀번호 설정→로그인
+    성공까지 완료 — `auth.users.updated_at`(비밀번호 변경 시각)과 `last_sign_in_at`(로그인
+    시각)이 초대 발송 5분여 뒤 같은 타임스탬프로 찍힌 걸로 DB 레벨에서 재확인함(제가 대신
+    클릭한 게 아니라 실제 사람이 메일 링크를 눌렀다는 증거). 테스트로 만든 employees/auth
+    레코드는 전부 정리 완료(원래 상태 복원, `이동석` 레코드만 남음).
   - S03~S16(체크인/휴가신청/통계 등)은 여전히 백엔드 미연동 — 그룹B부터 순서대로 예정.
 
 ## 배포 전 확인 필요
