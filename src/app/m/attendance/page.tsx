@@ -65,39 +65,44 @@ const LEGEND: { label: string; status: MobileCalendarCellStatus }[] = [
 export default function MobileAttendancePage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
-      <div className="flex w-full flex-col gap-[40px] pb-[30px]">
+      <div className="flex w-full flex-col gap-[30px] pb-[30px]">
+        {/* get_metadata 실측: welcome(타이틀) 하단→#info(캘린더) 상단은 30px지만, #info 내부의
+            그리드→범례→7월요약 간격은 전부 40px다 — 하나의 gap 값으로 4개 형제를 묶으면
+            첫 간격만 어긋난다. 타이틀을 별도 30px 래퍼로, 나머지 3개를 40px 래퍼로 분리했다. */}
         <MobileMonthPager label="2026년 7월" />
-        <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
-          <div className="flex w-full justify-between">
-            {WEEKDAY_LABELS.map((label) => (
-              <MobileCalendarWeekdayHeader key={label} label={label} />
-            ))}
+        <div className="flex w-full flex-col gap-[40px]">
+          <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
+            <div className="flex w-full justify-between">
+              {WEEKDAY_LABELS.map((label) => (
+                <MobileCalendarWeekdayHeader key={label} label={label} />
+              ))}
+            </div>
+            <div className="flex w-full flex-col gap-[8px]">
+              {CALENDAR_ROWS.map((row, index) => (
+                <div key={index} className="flex w-full justify-between">
+                  {row.map((cell, cellIndex) => (
+                    <MobileCalendarCell key={cellIndex} day={cell.day} status={cell.status} />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex w-full flex-col gap-[8px]">
-            {CALENDAR_ROWS.map((row, index) => (
-              <div key={index} className="flex w-full justify-between">
-                {row.map((cell, cellIndex) => (
-                  <MobileCalendarCell key={cellIndex} day={cell.day} status={cell.status} />
-                ))}
+          <div className="flex w-full items-center justify-center gap-[40px] px-[var(--mobile-space-30)]">
+            {LEGEND.map((item) => (
+              <div key={item.label} className="flex items-center gap-[8px]">
+                <LegendDot status={item.status} />
+                <p className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-black)]">
+                  {item.label}
+                </p>
               </div>
             ))}
           </div>
-        </div>
-        <div className="flex w-full items-center justify-center gap-[40px] px-[var(--mobile-space-30)]">
-          {LEGEND.map((item) => (
-            <div key={item.label} className="flex items-center gap-[8px]">
-              <LegendDot status={item.status} />
-              <p className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-black)]">
-                {item.label}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
-          <p className="w-full text-center text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
-            7월 요약
-          </p>
-          <MobileSummaryRow items={[{ value: "22", label: "근무일" }, { value: "176h", label: "총 근무일" }, { value: "1", label: "연차" }]} />
+          <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
+            <p className="w-full text-center text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+              7월 요약
+            </p>
+            <MobileSummaryRow items={[{ value: "22", label: "근무일" }, { value: "176h", label: "총 근무일" }, { value: "1", label: "연차" }]} />
+          </div>
         </div>
       </div>
       <MobileBottomNav active="attendance" theme="light" />

@@ -27,7 +27,7 @@ export function MobileInfoRow({ label, value }: { label: string; value: ReactNod
 export function MobileSectionLabel({ title }: { title: string }) {
   return (
     <div className="flex w-full items-center justify-center border-t-2 border-[var(--mobile-color-black)] pt-[var(--mobile-space-10)]">
-      <p className="w-full text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+      <p className="w-full leading-none text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
         {title}
       </p>
     </div>

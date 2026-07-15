@@ -10,7 +10,9 @@ import { MobileBottomNav } from "@/components/mobile/BottomNav";
 export default function MobileAttendanceDetailPage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
-      <div className="flex w-full flex-col gap-[40px]">
+      {/* get_metadata 실측: welcome(타이틀+뱃지행) 하단→#info(첫 구분선) 상단은 40px가 아니라
+          30px다 — 카드 두 개(근무기록/분석) 사이 40px와 헷갈리기 쉬워 별도로 확인 필요했다. */}
+      <div className="flex w-full flex-col gap-[30px]">
         <MobileSubPageHeader
           title="2026년 7월 2일 목요일"
           meta={
