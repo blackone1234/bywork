@@ -12,10 +12,11 @@ export default function MobileMyPasswordPage() {
 
         <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
           <div className="flex w-full flex-col gap-[20px]">
-            <MobileTextField label="현재 비밀번호" placeholder="비밀번호를 입력해주세요" type="password" className="text-center" />
+            {/* 사용자 지시로 중앙정렬 대신 좌측정렬로 강제 고정. */}
+            <MobileTextField label="현재 비밀번호" placeholder="비밀번호를 입력해주세요" type="password" className="text-left" />
 
             <div className="flex w-full flex-col gap-[8px]">
-              <MobileTextField label="새 비밀번호" placeholder="8자리 이상 입력해주세요" type="password" className="text-center" />
+              <MobileTextField label="새 비밀번호" placeholder="8자리 이상 입력해주세요" type="password" className="text-left" />
               {/* get_design_context 재확인: "✓ " 체크마크만 Regular(400)이고 나머지 라벨
                   텍스트는 SemiBold(600) — 코드는 전체가 400이었다. */}
               <p className="w-full pt-[2px] text-center text-[12px] tracking-[-0.24px] text-[var(--mobile-color-warm-gray)]">
@@ -27,7 +28,7 @@ export default function MobileMyPasswordPage() {
               </p>
             </div>
 
-            <MobileTextField label="새 비밀번호 확인" placeholder="비밀번호를 다시 입력해주세요" type="password" className="text-center" />
+            <MobileTextField label="새 비밀번호 확인" placeholder="비밀번호를 다시 입력해주세요" type="password" className="text-left" />
           </div>
 
           <MobileButton variant="outline-dark">변경하기</MobileButton>

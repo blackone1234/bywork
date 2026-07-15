@@ -95,8 +95,9 @@ export function MobileFieldRow({
       {trailing}
     </>
   );
+  // 사용자 지시로 행 높이를 55px→50px로 강제 고정.
   const className =
-    "flex w-full items-center justify-between rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-16)]";
+    "flex w-full items-center justify-between rounded-[var(--mobile-radius-input)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[13.5px]";
 
   if (href) {
     return (
