@@ -100,10 +100,25 @@ export function MobileTabRootHeader({
   );
 }
 
-/** S08(근태 캘린더) "‹ 2026년 7월 ›" 처럼 좌우 화살표로 기간을 넘기는 타이틀 행. */
-export function MobileMonthPager({ label, onPrev, onNext }: { label: string; onPrev?: () => void; onNext?: () => void }) {
+/**
+ * S08(근태 캘린더) "‹ 2026년 7월 ›" 처럼 좌우 화살표로 기간을 넘기는 타이틀 행.
+ * S08에서는 페이지 맨 위(루트 헤더)로 쓰여서 자체 pt-[100px]가 필요하지만, S13/S14
+ * (통계)에서는 TabRootHeader+TabBar 다음에 오는 2차 요소라 pt-100이 또 붙으면
+ * 바깥 gap-30과 합쳐져 130px로 벌어진다(실측 확인) — asRoot=false로 그 pt를 뺀다.
+ */
+export function MobileMonthPager({
+  label,
+  onPrev,
+  onNext,
+  asRoot = true,
+}: {
+  label: string;
+  onPrev?: () => void;
+  onNext?: () => void;
+  asRoot?: boolean;
+}) {
   return (
-    <div className="flex w-full items-center justify-between px-[var(--mobile-space-30)] pt-[100px]">
+    <div className={`flex w-full items-center justify-between px-[var(--mobile-space-30)] ${asRoot ? "pt-[100px]" : ""}`}>
       <button type="button" onClick={onPrev} aria-label="이전" className="block border-0 p-0 text-[var(--mobile-color-black)]">
         <PagerChevronIcon direction="left" />
       </button>

@@ -54,7 +54,7 @@ export default function MobileStatsPage() {
 function MonthlyView() {
   return (
     <>
-      <MobileMonthPager label="2026년 7월" />
+      <MobileMonthPager label="2026년 7월" asRoot={false} />
       <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
         <div className="flex w-full gap-[10px]">
           <MobileStatCard value="22일" label="총 근무일" />
@@ -83,7 +83,7 @@ function MonthlyView() {
 function YearlyView() {
   return (
     <>
-      <MobileMonthPager label="2026년" />
+      <MobileMonthPager label="2026년" asRoot={false} />
       <div className="flex w-full flex-col gap-[20px] px-[var(--mobile-space-30)]">
         {/* get_design_context 재확인: Figma 원본은 이 wrapper에 pt-10/pb-20이 있는데
             코드에는 없었다. */}
