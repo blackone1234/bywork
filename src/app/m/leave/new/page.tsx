@@ -57,9 +57,12 @@ export default function MobileLeaveNewPage() {
             </div>
           </div>
 
-          <div className="py-[10px]">
-            <MobileButton variant="outline-dark">신청하기</MobileButton>
-          </div>
+          {/* 사용자 지시로 신청정보 박스↔버튼 간격을 40px(바깥 gap-30+기존 pt-10)→20px로
+              강제 고정 — 바깥 gap-30은 다른 섹션 사이에도 쓰여서 건드리지 않고, 이 버튼에만
+              -10px 마진으로 보정. */}
+          <MobileButton variant="outline-dark" className="mt-[-10px]">
+            신청하기
+          </MobileButton>
         </div>
       </div>
       <MobileBottomNav active="leave" theme="light" />

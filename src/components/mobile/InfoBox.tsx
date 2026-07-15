@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 /** S11 "신청 정보" 요약 박스 — 라벨(soft-gray)/값(black) 행이 쌓이는 테두리 박스. */
 export function MobileInfoBox({ children }: { children: ReactNode }) {
   return (
-    <div className="flex w-full flex-col items-start gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[var(--mobile-space-20)]">
+    // 사용자 지시로 박스 height를 82px로 강제 고정 — 행간(leading-none)과 py를 함께 조정.
+    <div className="flex w-full flex-col items-start gap-[var(--mobile-space-10)] rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] px-[var(--mobile-space-30)] py-[22px]">
       {children}
     </div>
   );
@@ -12,7 +13,7 @@ export function MobileInfoBox({ children }: { children: ReactNode }) {
 
 export function MobileInfoRow({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex w-full items-center justify-between text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)]">
+    <div className="flex w-full items-center justify-between text-[length:var(--mobile-text-caption)] leading-none font-semibold tracking-[var(--mobile-text-caption-tracking)]">
       <span className="text-[var(--mobile-color-soft-gray)]">{label}</span>
       <span className="text-[var(--mobile-color-black)]">{value}</span>
     </div>

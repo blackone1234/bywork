@@ -91,7 +91,8 @@ export function MobileTextArea({ label, className = "", id, ...rest }: MobileTex
       <textarea
         id={id}
         {...rest}
-        className={`w-full rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] bg-[var(--mobile-color-input-bg)] p-[var(--mobile-space-30)] text-center text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)] placeholder:text-[var(--mobile-color-warm-gray)] focus:outline-none ${className}`}
+        // 사용자 지시로 중앙정렬 대신 좌측정렬로 강제 고정.
+        className={`w-full rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] bg-[var(--mobile-color-input-bg)] p-[var(--mobile-space-30)] text-left text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)] placeholder:text-[var(--mobile-color-warm-gray)] focus:outline-none ${className}`}
       />
     </div>
   );
