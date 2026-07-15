@@ -6,11 +6,12 @@ import { Fragment } from "react";
  */
 export function MobileStatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex flex-1 flex-col items-center gap-[var(--mobile-space-20)] rounded-[var(--mobile-radius-card)] border border-[var(--mobile-color-light-gray)] pt-[16px] pb-[14px]">
-      <p className="w-full px-[var(--mobile-space-20)] text-center text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
+    // 사용자 지시로 라벨 좌측정렬 + 카드 높이 98px(기존 113.5px, Figma 스펙과 무관) 강제 고정.
+    <div className="flex flex-1 flex-col items-center gap-[var(--mobile-space-20)] rounded-[var(--mobile-radius-card)] border border-[var(--mobile-color-light-gray)] pt-[18px] pb-[17px]">
+      <p className="w-full px-[var(--mobile-space-20)] leading-none text-left text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
         {label}
       </p>
-      <p className="w-full px-[var(--mobile-space-20)] text-right text-[28px] font-extrabold tracking-[-0.56px] text-[var(--mobile-color-black)]">
+      <p className="w-full px-[var(--mobile-space-20)] leading-none text-right text-[28px] font-extrabold tracking-[-0.56px] text-[var(--mobile-color-black)]">
         {value}
       </p>
     </div>
@@ -22,13 +23,13 @@ export function MobileHorizontalBarRow({ label, value, percent }: { label: strin
   const clamped = Math.min(100, Math.max(0, percent));
   return (
     <div className="flex w-full items-center gap-[20px]">
-      <p className="w-6 shrink-0 text-center text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+      <p className="w-6 shrink-0 text-center text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
         {label}
       </p>
       <div className="h-2 flex-1 rounded-[2px] bg-[var(--mobile-color-line-gray)]">
         <div className="h-2 rounded-[2px] bg-[var(--mobile-color-mint)]" style={{ width: `${clamped}%` }} />
       </div>
-      <p className="w-6 shrink-0 text-right text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)]">
+      <p className="w-6 shrink-0 text-right text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)]">
         {value}
       </p>
     </div>
@@ -43,7 +44,9 @@ export function MobileHorizontalBarRow({ label, value, percent }: { label: strin
  */
 export function MobileVerticalBarChart({ bars }: { bars: { label: string; percent: number }[] }) {
   return (
-    <div className="flex w-full gap-[10px] overflow-x-auto pb-[4px]">
+    // 사용자 지시로 스크롤바를 안 보이게 처리 — Figma는 스크롤 UI가 없어서 브라우저
+    // 기본 스크롤바만 숨기고 스와이프 동작은 그대로 둔다.
+    <div className="flex w-full gap-[10px] overflow-x-auto pb-[4px] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {bars.map((bar) => {
         const clamped = Math.min(100, Math.max(0, bar.percent));
         return (
@@ -58,7 +61,7 @@ export function MobileVerticalBarChart({ bars }: { bars: { label: string; percen
                 </div>
               </div>
             </div>
-            <p className="w-6 text-center text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+            <p className="w-6 text-center text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
               {bar.label}
             </p>
           </div>

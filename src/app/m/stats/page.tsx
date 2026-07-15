@@ -37,7 +37,9 @@ export default function MobileStatsPage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
       <div className="flex w-full flex-col gap-[30px]">
-        <MobileTabRootHeader title="통계" size="sm" />
+        {/* get_design_context 재확인: "통계" 타이틀은 24px ExtraBold(S10 "휴가현황"과 동일)라
+            size="sm"(20px)이 아니라 기본값(md)이어야 한다. */}
+        <MobileTabRootHeader title="통계" />
         <div className="px-[var(--mobile-space-30)]">
           <MobileTabBar tabs={["월간", "연간"]} activeIndex={period} onChange={(index) => setPeriod(index as 0 | 1)} />
         </div>
@@ -64,7 +66,7 @@ function MonthlyView() {
         </div>
 
         <div className="flex w-full flex-col gap-[14px] rounded-[var(--mobile-radius-chip)] border border-[var(--mobile-color-light-gray)] p-[var(--mobile-space-20)]">
-          <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+          <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
             주별 근무시간
           </p>
           <div className="flex w-full flex-col gap-[12px]">
@@ -83,15 +85,17 @@ function YearlyView() {
     <>
       <MobileMonthPager label="2026년" />
       <div className="flex w-full flex-col gap-[20px] px-[var(--mobile-space-30)]">
-        <div className="flex w-full flex-col gap-[14px]">
-          <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+        {/* get_design_context 재확인: Figma 원본은 이 wrapper에 pt-10/pb-20이 있는데
+            코드에는 없었다. */}
+        <div className="flex w-full flex-col gap-[14px] pt-[10px] pb-[20px]">
+          <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
             월별 근무시간
           </p>
           <MobileVerticalBarChart bars={MONTHLY_HOURS} />
         </div>
 
         <div className="flex w-full flex-col gap-[10px]">
-          <p className="text-[length:var(--mobile-text-badge)] tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
+          <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
             연간 연차 현황
           </p>
           <MobileSummaryRow items={[{ value: "15", label: "총부여" }, { value: "3", label: "사용" }, { value: "12", label: "잔여" }]} />
