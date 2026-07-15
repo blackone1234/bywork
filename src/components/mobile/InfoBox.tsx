@@ -39,8 +39,9 @@ export function MobileRecordCard({ title, rows }: { title: string; rows: { label
   return (
     <div className="flex w-full flex-col items-start gap-[var(--mobile-space-30)]">
       <MobileSectionLabel title={title} />
-      {/* 사용자 지시로 Figma 스펙(14px)보다 넓게 강제 고정 — gap-24. */}
-      <div className="flex w-full flex-col items-start gap-[24px]">
+      {/* 각 행의 pb-[12px](텍스트↔자기 구분선)와 대칭되도록, 구분선↔다음 행 간격도 12px로
+          맞춤 — 이전엔 24px라 위/아래 간격이 24px/12px로 어긋나 보였다. */}
+      <div className="flex w-full flex-col items-start gap-[12px]">
         {rows.map((row, index) => (
           <div
             key={row.label}
