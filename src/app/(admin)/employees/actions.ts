@@ -55,10 +55,13 @@ export async function createEmployee(
 
   // 1) Supabase Auth 계정을 먼저 만들면서 초대 메일을 발송한다.
   //    (등록 즉시 계정 생성 + 초대 메일 발송을 한 번에 처리 — 자세한 설계 이유는 대화 참고)
+  //    직원용 최초 비밀번호 설정은 관리자 웹의 /reset-password가 아니라 모바일 앱의
+  //    /m/register-password(S02)로 보낸다 — /auth/confirm이 verifyOtp로 세션을 심은 뒤
+  //    이 경로로 리다이렉트한다.
   const origin = await getRequestOrigin();
   const { data: invited, error: inviteError } = await supabase.auth.admin.inviteUserByEmail(
     email,
-    { redirectTo: `${origin}/auth/confirm?next=/reset-password` },
+    { redirectTo: `${origin}/auth/confirm?next=/m/register-password` },
   );
 
   if (inviteError || !invited?.user) {
@@ -160,6 +163,9 @@ export async function updateEmployeeAuthMethod(employeeId: string, formData: For
   redirect(`/employees/${employeeId}`);
 }
 
+// 이 함수의 두 호출부(A04 "비밀번호 초기화 메일 발송" 버튼, rehireEmployee)는 전부 직원
+// 이메일 대상이다 — 관리자 자신의 비밀번호 재설정은 별도로 login/actions.ts의
+// requestPasswordReset을 쓴다. 그래서 여기 redirectTo는 항상 모바일 앱(S02)으로 보낸다.
 export async function sendPasswordResetEmail(email: string) {
   await assertAdminRequest();
 
@@ -167,7 +173,7 @@ export async function sendPasswordResetEmail(email: string) {
   const origin = await getRequestOrigin();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/confirm?next=/reset-password`,
+    redirectTo: `${origin}/auth/confirm?next=/m/register-password`,
   });
 
   if (error) {
