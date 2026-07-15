@@ -43,8 +43,8 @@ export default function MobileLeaveNewPage() {
               </button>
             </div>
 
-            {/* 사용자 지시로 높이를 154px로 강제 고정(기존 자동높이 125px). */}
-            <MobileTextArea label="사유 입력" placeholder="사유를 입력해주세요." rows={3} className="h-[154px]" />
+            {/* 사용자 지시로 높이를 78px로 강제 고정(125px→154px→78px). */}
+            <MobileTextArea label="사유 입력" placeholder="사유를 입력해주세요." rows={3} className="h-[78px]" />
 
             <div className="flex w-full flex-col gap-[8px]">
               <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
@@ -58,10 +58,7 @@ export default function MobileLeaveNewPage() {
           </div>
 
           <div className="py-[10px]">
-            {/* 사용자 지시로 표준 버튼 높이보다 4px 낮게 강제 고정. */}
-            <MobileButton variant="outline-dark" className="!pt-[16px] !pb-[17px]">
-              신청하기
-            </MobileButton>
+            <MobileButton variant="outline-dark">신청하기</MobileButton>
           </div>
         </div>
       </div>

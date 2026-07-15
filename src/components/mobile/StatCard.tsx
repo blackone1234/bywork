@@ -83,12 +83,12 @@ export function MobileSummaryRow({ items }: { items: { value: string; label: str
         <Fragment key={item.label}>
           {index > 0 ? (
             <div className="flex flex-[1_0_0] items-center justify-center self-stretch">
-              {/* 사용자 지시로 Figma 스펙보다 짧게 강제 고정(73.5→71.5→69.5px) — h-full 대신
-                  명시적 px. */}
-              <div className="h-[69.5px] w-px bg-[var(--mobile-color-light-gray)]" />
+              {/* 사용자 지시로 Figma 스펙보다 짧게 강제 고정(73.5→71.5→69.5→65.5px) — h-full
+                  대신 명시적 px. */}
+              <div className="h-[65.5px] w-px bg-[var(--mobile-color-light-gray)]" />
             </div>
           ) : null}
-          <div className="flex flex-[1_0_0] flex-col items-center gap-[8px]">
+          <div className="flex flex-[1_0_0] flex-col items-center gap-[4px]">
             <p className="text-[length:var(--mobile-text-display)] font-extrabold tracking-[var(--mobile-text-display-tracking)] text-[var(--mobile-color-black)]">
               {item.value}
             </p>
