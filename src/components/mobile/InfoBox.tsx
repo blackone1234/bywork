@@ -39,7 +39,8 @@ export function MobileRecordCard({ title, rows }: { title: string; rows: { label
   return (
     <div className="flex w-full flex-col items-start gap-[var(--mobile-space-30)]">
       <MobileSectionLabel title={title} />
-      <div className="flex w-full flex-col items-start gap-[14px]">
+      {/* 사용자 지시로 Figma 스펙(14px)보다 넓게 강제 고정 — gap-24. */}
+      <div className="flex w-full flex-col items-start gap-[24px]">
         {rows.map((row, index) => (
           <div
             key={row.label}

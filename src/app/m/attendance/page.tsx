@@ -97,7 +97,9 @@ export default function MobileAttendancePage() {
               </div>
             ))}
           </div>
-          <div className="flex w-full flex-col gap-[10px] px-[var(--mobile-space-30)]">
+          {/* 사용자 지시로 Figma 스펙(20px = 여기 gap-10 + MobileSummaryRow 내부 pt-10)보다
+              4px 좁게 강제 고정 — gap-6으로 줄임(합산 16px). */}
+          <div className="flex w-full flex-col gap-[6px] px-[var(--mobile-space-30)]">
             <p className="w-full text-center text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-soft-gray)]">
               7월 요약
             </p>
