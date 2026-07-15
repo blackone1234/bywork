@@ -46,9 +46,31 @@
     덕분에 "최초 로그인 임시비번 판별" 로직 자체가 불필요해짐 — 비번 설정 전엔
     `signInWithPassword`가 항상 실패하므로 S01/S02 라우팅이 자연히 분리됨.
   - `proxy.ts`에 `/m/:path*` 세션 게이트 추가(`/m/login`, `/m/register-password`만 예외).
-  - 라이브 테스트: 로그인 실패(존재하지 않는 계정) 확인 완료, proxy 리다이렉트(307→`/m/login`)
-    확인 완료. 로그인 성공 + S02 초대링크 클릭 흐름은 실제 이메일 확인이 필요해 사용자 진행 중.
+  - **라이브 테스트 전부 완료**: 로그인 실패(존재하지 않는 계정) 확인, 퇴사 계정 로그인 차단
+    확인("퇴사 처리된 계정입니다. 관리자에게 문의하세요." 메시지 정확히 표시), proxy
+    리다이렉트(307→`/m/login`) 확인, 실제 `inviteUserByEmail`로 발송된 초대 메일을 사용자가
+    직접 클릭해서 `/auth/confirm`→`/m/register-password`→비밀번호 설정→로그인 성공까지
+    end-to-end 확인. 테스트로 만든 employees/auth 레코드는 전부 정리 완료(원래 상태 복원).
   - S03~S16(체크인/휴가신청/통계 등)은 여전히 백엔드 미연동 — 그룹B부터 순서대로 예정.
+
+## 배포 전 확인 필요
+
+- **"이동석"(`blackds@by-bk.com`) employees 레코드 이상 상태**: `employment_status='terminated'`인데
+  `auth_user_id=null`. 정상적인 `createEmployee`/`terminateEmployee` 플로우로 만들어진 행이
+  아니라 시드/수동 삽입으로 보임(`supabase/seed.sql` 주석 참고 — "이 프로젝트에 등록된 첫
+  번째 직원 기준"으로 attendance_records 더미 데이터를 넣을 때 쓰인 행). 실제 이 사람이
+  재직 중인 직원이라면 관리자 웹에서 재입사 처리하거나 인사 정보를 다시 확인해야 하고, 테스트용
+  더미 행이라면 배포 전에 삭제 검토. **이번 세션에서는 사용자 지시로 이 레코드를 건드리지
+  않았음** — 배포 전 반드시 실제 인사팀/CD 확인 필요.
+- **Supabase 이메일 발송 rate limit**: 기본 내장 이메일 서비스(커스텀 SMTP 미설정 —
+  `.env`에 SMTP 관련 변수 없음, 프로젝트 API 키만 존재)를 쓰고 있어 발송 한도가 낮음.
+  이번 세션에서 실제로 1회 초대 메일 발송 후 곧바로 재발송 시도가 "email rate limit
+  exceeded"로 막혔다가 시간 경과 후(정확한 리셋 주기는 확인 못함) 재시도해서 성공한 걸
+  실측함. 정확한 한도/리셋 주기는 Supabase 대시보드 Project Settings → Auth → Rate
+  Limits에서 직접 확인 필요(Management API 권한 없이는 코드로 조회 불가). **여러 직원을
+  동시/연속으로 초대해야 하는 실제 온보딩 시나리오라면, 배포 전 커스텀 SMTP(SendGrid/Resend
+  등) 연동을 강하게 권장** — Supabase 공식 문서도 기본 내장 이메일은 프로덕션 대량 발송용이
+  아니라고 명시함.
 
 ## 다음 작업
 
