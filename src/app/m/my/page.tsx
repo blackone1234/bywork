@@ -15,9 +15,9 @@ export default function MobileMyPage() {
         <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
           <div className="flex w-full items-center gap-[20px]">
             <MobileAvatar initial="이" />
-            <div className="flex flex-1 flex-col gap-[10px]">
+            <div className="flex flex-1 flex-col gap-[6px]">
               <p className="text-[20px] font-bold tracking-[-0.4px] text-[var(--mobile-color-black)]">이동석</p>
-              <div className="flex flex-col gap-[5px]">
+              <div className="flex flex-col gap-[4px]">
                 <p className="text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)]">
                   blackds@by-bk.com
                 </p>
