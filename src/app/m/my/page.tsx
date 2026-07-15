@@ -52,11 +52,9 @@ export default function MobileMyPage() {
             <MobileFieldRow label="근무지" value="본사 (기본 IP)" />
           </div>
 
-          <div className="py-[10px]">
-            <MobileButton variant="outline-dark" href="/m/login">
-              로그아웃
-            </MobileButton>
-          </div>
+          <MobileButton variant="outline-dark" href="/m/login">
+            로그아웃
+          </MobileButton>
         </div>
       </div>
       <MobileBottomNav active="my" theme="light" />
