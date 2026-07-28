@@ -18,11 +18,18 @@ export function FilterDropdown({
   const [selected, setSelected] = useState(label);
 
   return (
-    <div className="relative" style={{ width }}>
+    // 좁은 화면에서는 필드가 화면을 꽉 채우도록 w-full, sm 이상에서만 지정된 고정폭으로
+    // 돌아간다(CD가 A07 모바일 스크린샷으로 직접 지적 — 연/월 필드를 좌우로 넓게).
+    // 고정폭은 CSS 커스텀 프로퍼티로 넘겨서 Tailwind arbitrary value(sm:w-[var(...)])가
+    // 매 인스턴스마다 다른 값을 쓸 수 있게 한다(문자열 보간 클래스는 JIT가 못 읽음).
+    <div
+      className="relative w-full sm:w-[var(--filter-dropdown-width)]"
+      style={{ "--filter-dropdown-width": `${width}px` } as React.CSSProperties}
+    >
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className={`flex w-full items-center justify-between rounded-[30px] border text-[14px] font-semibold tracking-[-0.28px] transition-colors ${
+        className={`flex w-full items-center justify-between whitespace-nowrap rounded-[30px] border text-[14px] font-semibold tracking-[-0.28px] transition-colors ${
           open
             ? "border-2 border-black bg-white px-[23px] py-[10px] text-black shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"
             : "border-divider px-[24px] py-[11px] text-line hover:border-black"
