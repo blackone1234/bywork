@@ -4,13 +4,14 @@ import { assertAdminRequest } from "@/lib/admin-guard";
 import { formatDateDot } from "@/lib/employees";
 import type { LeaveRequestStatus } from "@/components/admin/LeaveStatusBadge";
 
-export type LeaveRequestStatusDb = "pending" | "approved" | "rejected";
+export type LeaveRequestStatusDb = "pending" | "approved" | "rejected" | "cancelled";
 export type LeaveStatusFilter = "all" | LeaveRequestStatusDb;
 
 const STATUS_TO_UI: Record<LeaveRequestStatusDb, LeaveRequestStatus> = {
   pending: "대기중",
   approved: "승인",
   rejected: "반려",
+  cancelled: "취소",
 };
 
 export type LeaveRequest = {
