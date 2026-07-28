@@ -14,11 +14,17 @@ export function MobileRegisterPasswordForm() {
   return (
     <div className="flex min-h-screen w-full flex-col items-start bg-[var(--mobile-color-white)]">
       <form action={formAction} className="flex w-full flex-1 flex-col items-start gap-[80px]">
-        <MobileSubPageHeader title="비밀번호 등록" subtitle="처음 로그인하셨습니다. 새 비밀번호를 등록해주세요." />
+        {/* S02만 Figma TOP이 100px — 나머지 MobileSubPageHeader 사용처(S09/S11/S12/S16)는 60px 기본값. */}
+        <MobileSubPageHeader
+          title="비밀번호 등록"
+          subtitle="처음 로그인하셨습니다. 새 비밀번호를 등록해주세요."
+          topPadding="100px"
+        />
 
         <div className="flex w-full flex-col items-center gap-[var(--mobile-space-30)] px-[var(--mobile-space-30)]">
           <div className="flex w-full flex-col items-start gap-[var(--mobile-space-30)]">
             <MobileTextField
+              id="newPassword"
               label="새 비밀번호"
               name="newPassword"
               placeholder="8자리 이상 입력해주세요"
@@ -28,6 +34,7 @@ export function MobileRegisterPasswordForm() {
             />
             <div className="flex w-full flex-col items-start gap-[var(--mobile-space-12)]">
               <MobileTextField
+                id="confirmPassword"
                 label="비밀번호 확인"
                 name="confirmPassword"
                 placeholder="비밀번호를 다시 입력해주세요"

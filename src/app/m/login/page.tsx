@@ -1,16 +1,60 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState, useEffect, useState, type ChangeEvent } from "react";
 import { MobileTextField } from "@/components/mobile/TextField";
 import { MobileButton } from "@/components/mobile/Button";
+import { MobileCheckbox } from "@/components/mobile/Checkbox";
 import { BIOMETRIC_LOGIN_ENABLED } from "@/lib/featureFlags";
 import { login, type MobileLoginState } from "./actions";
+import { MobileLoginNotice } from "./MobileLoginNotice";
 
 const initialState: MobileLoginState = {};
 
-/** S01 — 로그인 (dark, 인증 전이라 하단 네비 없음). */
+// 비밀번호는 절대 저장하지 않는다 — 저장 대상은 이메일뿐이고, 실제 비밀번호 저장/자동채움은
+// autoComplete 속성으로 브라우저 자체 비밀번호 관리자에 맡긴다(관리자 웹 로그인과 동일 방식).
+const SAVED_EMAIL_KEY = "bywork_mobile_saved_email";
+
+/**
+ * S01 — 로그인 (dark, 인증 전이라 하단 네비 없음).
+ *
+ * ?error= 쿼리는 /auth/confirm(초대/재설정 링크 검증)이 실패했을 때 여기로 붙여서
+ * 리다이렉트한다 — 관리자 쪽 /login의 LoginNotice와 동일한 이유·동일한 패턴
+ * (useSearchParams는 Suspense 경계 안에서만 정적 빌드가 통과해서 별도 컴포넌트로 뗐다).
+ * state.error(로그인 폼 제출 결과)가 있으면 그게 더 최신 정보라 우선한다.
+ */
 export default function MobileLoginPage() {
   const [state, formAction] = useActionState(login, initialState);
+  const [{ email, rememberEmail }, setEmailState] = useState({ email: "", rememberEmail: false });
+
+  useEffect(() => {
+    // localStorage는 서버에 없는 브라우저 전용 API라 마운트 후 effect에서만 읽을 수 있다
+    // (SSR 렌더와 값이 다를 수 있어 초기 렌더에서 바로 읽으면 하이드레이션 불일치가 남).
+    const saved = localStorage.getItem(SAVED_EMAIL_KEY);
+    if (saved) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEmailState({ email: saved, rememberEmail: true });
+    }
+  }, []);
+
+  function handleEmailChange(value: string) {
+    setEmailState((prev) => {
+      if (prev.rememberEmail) {
+        localStorage.setItem(SAVED_EMAIL_KEY, value);
+      }
+      return { email: value, rememberEmail: prev.rememberEmail };
+    });
+  }
+
+  function handleRememberToggle(next: boolean) {
+    setEmailState((prev) => {
+      if (next) {
+        localStorage.setItem(SAVED_EMAIL_KEY, prev.email);
+      } else {
+        localStorage.removeItem(SAVED_EMAIL_KEY);
+      }
+      return { email: prev.email, rememberEmail: next };
+    });
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col items-start bg-[var(--mobile-color-black)]">
@@ -25,8 +69,22 @@ export default function MobileLoginPage() {
 
         <div className="flex w-full flex-col items-center gap-[var(--mobile-space-30)]">
           <div className="flex w-full flex-col items-start gap-[var(--mobile-space-24)]">
-            <MobileMarkField label="이메일" name="email" placeholder="000000@by-bk.com" type="email" />
-            <MobileMarkField label="비밀번호" name="password" placeholder="••••••••" type="password" />
+            <MobileMarkField
+              label="이메일"
+              name="email"
+              placeholder="000000@by-bk.com"
+              type="email"
+              autoComplete="username"
+              value={email}
+              onChange={(event) => handleEmailChange(event.target.value)}
+            />
+            <MobileMarkField
+              label="비밀번호"
+              name="password"
+              placeholder="••••••••"
+              type="password"
+              autoComplete="current-password"
+            />
           </div>
 
           {/* Figma에 로그인 에러 상태 디자인이 없어서(재확인 완료) 최소한의 처리로 넣음. */}
@@ -34,11 +92,24 @@ export default function MobileLoginPage() {
             <p role="alert" className="w-full text-center text-[length:var(--mobile-text-caption)] tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-notification)]">
               {state.error}
             </p>
-          ) : null}
+          ) : (
+            <Suspense fallback={null}>
+              <MobileLoginNotice />
+            </Suspense>
+          )}
 
           <MobileButton type="submit" variant="filled-accent">
             로그인
           </MobileButton>
+
+          <div className="flex w-full items-center justify-center">
+            <MobileCheckbox
+              id="remember-email"
+              checked={rememberEmail}
+              onChange={handleRememberToggle}
+              label="아이디 저장"
+            />
+          </div>
 
           {/* 생체인증(WebAuthn)은 그룹F 착수 전까지 조건부 숨김 — BIOMETRIC_LOGIN_ENABLED만
               true로 바꾸면 구분선+버튼이 다시 보인다. Figma 원본엔 항상 노출돼 있어서
@@ -83,18 +154,37 @@ function MobileMarkField({
   name,
   placeholder,
   type = "text",
+  autoComplete,
+  value,
+  onChange,
 }: {
   label: string;
   name: string;
   placeholder: string;
   type?: string;
+  autoComplete?: string;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className="flex w-full flex-col items-start gap-[var(--mobile-space-10)]">
-      <label className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-line-gray)]">
+      <label
+        htmlFor={name}
+        className="text-[length:var(--mobile-text-caption)] font-semibold tracking-[var(--mobile-text-caption-tracking)] text-[var(--mobile-color-line-gray)]"
+      >
         {label}
       </label>
-      <MobileTextField name={name} placeholder={placeholder} type={type} textColor="light" required />
+      <MobileTextField
+        id={name}
+        name={name}
+        placeholder={placeholder}
+        type={type}
+        textColor="light"
+        autoComplete={autoComplete}
+        value={value}
+        onChange={onChange}
+        required
+      />
     </div>
   );
 }

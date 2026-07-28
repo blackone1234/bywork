@@ -19,7 +19,13 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // 이 라우트는 관리자용(next=/reset-password)과 모바일 직원용(next=/m/register-password,
+  // 초대/재설정/재입사 전부 여기로 옴) 링크가 같이 거쳐간다 — 검증 실패 시에도 원래
+  // 어디로 가려던 링크였는지에 맞는 로그인 화면으로 보내야 한다. 안 그러면 모바일
+  // 초대 링크가 만료됐을 때 393px 화면 대신 데스크톱 관리자 로그인 화면이 뜨는
+  // 버그가 난다(실제 발견됨).
+  const loginPath = next.startsWith("/m/") ? "/m/login" : "/login";
   return NextResponse.redirect(
-    `${origin}/login?error=${encodeURIComponent("만료되었거나 유효하지 않은 링크입니다.")}`,
+    `${origin}${loginPath}?error=${encodeURIComponent("만료되었거나 유효하지 않은 링크입니다.")}`,
   );
 }
