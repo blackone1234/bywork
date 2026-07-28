@@ -1,0 +1,12 @@
+-- attendance_events 도입(다음 마이그레이션, 20260716000000)에서 attendance_records의
+-- 기존 check_in_at/check_out_at 값을 attendance_events로 백필해야 하는데, 그 값들은
+-- IP/GPS 인증을 거친 게 아니라 이 테이블이 생기기 전에 들어간 이력 데이터라 실제
+-- 인증 방식을 알 수 없다. 기존 'manual'(관리자 수동승인 폴백용)에 얹으면 나중에
+-- "진짜 관리자가 수동승인한 이벤트"와 "이력이라 인증방식 자체를 모르는 이벤트"가
+-- 구분이 안 돼서, 별도 값을 추가한다.
+--
+-- ALTER TYPE ... ADD VALUE는 같은 트랜잭션 안에서 추가한 값을 바로 못 쓴다(Postgres
+-- 제약 — "unsafe use of new value" 에러) — 그래서 사용하는 마이그레이션과 파일을
+-- 분리했다. Supabase 대시보드 SQL Editor에서도 반드시 이 파일을 먼저 실행하고
+-- 완료된 뒤에 20260716000000_attendance_events.sql을 별도로 실행해야 한다.
+alter type check_in_method add value 'legacy_backfill';
