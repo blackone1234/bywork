@@ -1,10 +1,9 @@
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Card } from "@/components/admin/Card";
-import { Button } from "@/components/admin/Button";
 import { getAdminAccount } from "@/lib/adminAccount";
 import { getHolidayApiStatus } from "@/lib/holidays";
 import { AdminPasswordForm } from "./AdminPasswordForm";
-import { refreshHolidays } from "./actions";
+import { RefreshHolidaysButton } from "./RefreshHolidaysButton";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +16,11 @@ export default async function SystemSettingsPage() {
 
   return (
     <>
-      <PageHeader breadcrumb={["Dashboard", "시스템"]} />
+      <PageHeader breadcrumb={[{ label: "Dashboard", href: "/dashboard" }, "시스템"]} />
 
+      {/* 그룹3(A 확산) — 관리자계정/공휴일API 2섹션에 스태거 적용. */}
       <div className="flex flex-1 flex-col gap-8 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
-        <div className="flex w-full flex-col gap-[20px]">
+        <div className="stagger-item flex w-full flex-col gap-[20px]" style={{ animationDelay: "0ms" }}>
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             관리자 계정
           </h2>
@@ -33,7 +33,7 @@ export default async function SystemSettingsPage() {
           )}
         </div>
 
-        <div className="flex w-full flex-col gap-[18px]">
+        <div className="stagger-item flex w-full flex-col gap-[18px]" style={{ animationDelay: "70ms" }}>
           <h2 className="text-[20px] font-bold tracking-[-0.4px] text-black">
             공휴일 API
           </h2>
@@ -61,11 +61,7 @@ export default async function SystemSettingsPage() {
                 </div>
               </div>
             </div>
-            <form action={refreshHolidays}>
-              <Button type="submit" className="self-start sm:self-auto">
-                공휴일 데이터 수동 갱신
-              </Button>
-            </form>
+            <RefreshHolidaysButton />
           </Card>
         </div>
       </div>

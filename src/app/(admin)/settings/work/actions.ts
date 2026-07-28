@@ -22,7 +22,18 @@ function parseNullableNumber(value: FormDataEntryValue | null): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-export async function saveScheduleSettings(formData: FormData) {
+/**
+ * A11(근무설정) 3탭의 저장 액션이 공유하는 상태 — Toast 파일럿을 위해 plain FormData
+ * 액션에서 useActionState 시그니처로 바꿨다. AdminPasswordForm(A12)과 동일한 패턴:
+ * 검증 실패/예외는 throw 대신 { error }로 반환해서 기존 role="alert" 인라인 표시를
+ * 그대로 쓰고, 성공하면 { success: true }를 반환해서 WorkSettingsTabs가 Toast를 띄운다.
+ */
+export type SaveSettingsState = { error?: string; success?: boolean };
+
+export async function saveScheduleSettings(
+  _prevState: SaveSettingsState,
+  formData: FormData,
+): Promise<SaveSettingsState> {
   await assertAdminRequest();
 
   const standardStartTime = String(formData.get("startTime") ?? "");
@@ -34,37 +45,58 @@ export async function saveScheduleSettings(formData: FormData) {
     .sort((a, b) => a - b);
 
   if (!standardStartTime || !standardEndTime) {
-    throw new Error("시작/종료 시간을 모두 입력해주세요.");
+    return { error: "시작/종료 시간을 모두 입력해주세요." };
   }
 
-  await updateCompanyScheduleSettings({ standardStartTime, standardEndTime, workdays });
+  try {
+    await updateCompanyScheduleSettings({ standardStartTime, standardEndTime, workdays });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "근무 설정 저장에 실패했습니다." };
+  }
 
   revalidatePath("/settings/work");
+  return { success: true };
 }
 
-export async function saveLeavePolicySettings(formData: FormData) {
+export async function saveLeavePolicySettings(
+  _prevState: SaveSettingsState,
+  formData: FormData,
+): Promise<SaveSettingsState> {
   await assertAdminRequest();
 
   const policyType = String(formData.get("policyType") ?? "");
   if (policyType !== "statutory" && policyType !== "manual") {
-    throw new Error("휴가 정책을 선택해주세요.");
+    return { error: "휴가 정책을 선택해주세요." };
   }
 
-  await updateLeavePolicy(policyType as LeavePolicyType);
+  try {
+    await updateLeavePolicy(policyType as LeavePolicyType);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "휴가 정책 저장에 실패했습니다." };
+  }
 
   revalidatePath("/settings/work");
+  return { success: true };
 }
 
-export async function saveGpsSettings(formData: FormData) {
+export async function saveGpsSettings(
+  _prevState: SaveSettingsState,
+  formData: FormData,
+): Promise<SaveSettingsState> {
   await assertAdminRequest();
 
-  await updateCompanyGpsSettings({
-    gpsLatitude: parseNullableNumber(formData.get("gpsLatitude")),
-    gpsLongitude: parseNullableNumber(formData.get("gpsLongitude")),
-    gpsRadiusM: parseNullableNumber(formData.get("gpsRadiusM")),
-  });
+  try {
+    await updateCompanyGpsSettings({
+      gpsLatitude: parseNullableNumber(formData.get("gpsLatitude")),
+      gpsLongitude: parseNullableNumber(formData.get("gpsLongitude")),
+      gpsRadiusM: parseNullableNumber(formData.get("gpsRadiusM")),
+    });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "GPS 설정 저장에 실패했습니다." };
+  }
 
   revalidatePath("/settings/work");
+  return { success: true };
 }
 
 export async function addIpEntry(formData: FormData) {

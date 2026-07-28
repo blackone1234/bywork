@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { ChevronIcon } from "@/components/admin/ChevronIcon";
 import { Card } from "@/components/admin/Card";
 import { Button } from "@/components/admin/Button";
 import { TextField } from "@/components/admin/TextField";
+import { useToast } from "@/components/admin/ToastProvider";
 import type { CompanySettings } from "@/lib/companySettings";
 import type { LeavePolicyType } from "@/lib/leavePolicies";
 import type { IpWhitelistEntry } from "@/lib/ipWhitelist";
@@ -14,7 +15,10 @@ import {
   saveGpsSettings,
   addIpEntry,
   deleteIpEntry,
+  type SaveSettingsState,
 } from "./actions";
+
+const INITIAL_SAVE_STATE: SaveSettingsState = {};
 
 const TABS = [
   { key: "basic", label: "기본 근무 설정" },
@@ -37,6 +41,21 @@ export function WorkSettingsTabs({
   ipWhitelist: IpWhitelistEntry[];
 }) {
   const [activeTab, setActiveTab] = useState<TabKey>("basic");
+  const { showToast } = useToast();
+
+  const [scheduleState, scheduleAction] = useActionState(saveScheduleSettings, INITIAL_SAVE_STATE);
+  const [leaveState, leaveAction] = useActionState(saveLeavePolicySettings, INITIAL_SAVE_STATE);
+  const [gpsState, gpsAction] = useActionState(saveGpsSettings, INITIAL_SAVE_STATE);
+
+  useEffect(() => {
+    if (scheduleState.success) showToast("근무 설정이 저장되었습니다.");
+  }, [scheduleState, showToast]);
+  useEffect(() => {
+    if (leaveState.success) showToast("휴가 정책이 저장되었습니다.");
+  }, [leaveState, showToast]);
+  useEffect(() => {
+    if (gpsState.success) showToast("GPS 설정이 저장되었습니다.");
+  }, [gpsState, showToast]);
 
   return (
     <>
@@ -74,7 +93,7 @@ export function WorkSettingsTabs({
       </div>
 
       {activeTab === "basic" ? (
-        <form action={saveScheduleSettings} className="flex w-full flex-col gap-[40px]">
+        <form action={scheduleAction} className="flex w-full flex-col gap-[40px]">
           <div className="flex w-full flex-col gap-4 py-[10px] sm:flex-row sm:items-center sm:gap-[40px]">
             <p className="w-[80px] shrink-0 text-[16px] font-bold tracking-[-0.32px] text-black">
               요일선택
@@ -125,6 +144,12 @@ export function WorkSettingsTabs({
             </div>
           </div>
 
+          {scheduleState.error ? (
+            <p role="alert" className="text-body font-semibold text-red-600">
+              {scheduleState.error}
+            </p>
+          ) : null}
+
           <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
             <Button href="/settings/work" className="w-[110px] sm:w-[140px]">
               취소
@@ -137,7 +162,7 @@ export function WorkSettingsTabs({
       ) : null}
 
       {activeTab === "leave" ? (
-        <form action={saveLeavePolicySettings} className="flex w-full flex-col gap-[20px]">
+        <form action={leaveAction} className="flex w-full flex-col gap-[20px]">
           <Card
             as="label"
             interactive
@@ -180,6 +205,12 @@ export function WorkSettingsTabs({
             </span>
           </Card>
 
+          {leaveState.error ? (
+            <p role="alert" className="text-body font-semibold text-red-600">
+              {leaveState.error}
+            </p>
+          ) : null}
+
           <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
             <Button href="/settings/work" className="w-[110px] sm:w-[140px]">
               취소
@@ -191,9 +222,11 @@ export function WorkSettingsTabs({
         </form>
       ) : null}
 
+      {/* 그룹3(A 확산) — 인증탭만 구분 섹션(IP화이트리스트/GPS설정)이 있어 스태거 적용,
+          나머지 두 탭(기본근무/휴가정책)은 라벨 없는 평면 폼이라 제외(S02/S16과 동일 판단). */}
       {activeTab === "auth" ? (
         <div className="flex w-full flex-col gap-[20px]">
-          <div className="flex w-full flex-col gap-[12px]">
+          <div className="stagger-item flex w-full flex-col gap-[12px]" style={{ animationDelay: "0ms" }}>
             <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
               사무실 IP 화이트리스트
             </p>
@@ -232,7 +265,7 @@ export function WorkSettingsTabs({
             </form>
           </div>
 
-          <form action={saveGpsSettings} className="flex w-full flex-col gap-[12px]">
+          <form action={gpsAction} className="stagger-item flex w-full flex-col gap-[12px]" style={{ animationDelay: "70ms" }}>
             <p className="text-[16px] font-semibold tracking-[-0.32px] text-sidebar-active">
               GPS 설정
             </p>
@@ -273,6 +306,12 @@ export function WorkSettingsTabs({
               ⓘ 직원별 인증 방식(IP만/GPS만/하이브리드/수동승인)은 각 직원
               상세(A04)에서 개별 지정
             </p>
+
+            {gpsState.error ? (
+              <p role="alert" className="text-body font-semibold text-red-600">
+                {gpsState.error}
+              </p>
+            ) : null}
 
             <div className="flex w-full items-center justify-between gap-3 border-t border-muted pt-[30px]">
               <Button href="/settings/work" className="w-[110px] sm:w-[140px]">

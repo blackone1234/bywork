@@ -15,7 +15,7 @@ export default async function WorkSettingsPage() {
 
   return (
     <>
-      <PageHeader breadcrumb={["Dashboard", "근무설정"]} />
+      <PageHeader breadcrumb={[{ label: "Dashboard", href: "/dashboard" }, "근무설정"]} />
 
       <div className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-8 lg:gap-[40px] lg:px-[60px] lg:pt-[50px] lg:pb-[20px]">
         <WorkSettingsTabs
