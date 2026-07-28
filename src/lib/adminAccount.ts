@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { createSupabaseSessionClient } from "@/lib/supabase/session";
 
@@ -12,8 +13,14 @@ export type AdminAccount = {
  * 로그인 세션의 사용자가 admin_profiles에도 있는지 확인해서 반환한다. 없으면 null.
  * admin-guard.ts가 이 함수를 가져다 쓰므로(assertAdminRequest), 이 파일은 admin-guard.ts를
  * 다시 가져오면 안 된다 — 순환 참조가 생긴다.
+ *
+ * assertAdminRequest()가 관리자 페이지의 거의 모든 lib 함수에서 개별 호출되는 구조라
+ * React `cache()`로 감싸지 않으면 요청 하나당 이 함수(Auth getUser 왕복 + admin_profiles
+ * 조회, 총 2회 라운드트립)가 lib 함수 호출 개수만큼 중복 실행된다 — waterfall 진단 결과
+ * 반영(node_modules/next/dist/docs/.../caching-without-cache-components.md의 "Deduplicating
+ * requests" 패턴 그대로).
  */
-export async function getCurrentAdmin(): Promise<AdminAccount | null> {
+export const getCurrentAdmin = cache(async (): Promise<AdminAccount | null> => {
   const sessionClient = await createSupabaseSessionClient();
   const {
     data: { user },
@@ -30,7 +37,7 @@ export async function getCurrentAdmin(): Promise<AdminAccount | null> {
 
   if (error) throw new Error(`관리자 계정 정보를 불러오지 못했습니다: ${error.message}`);
   return data;
-}
+});
 
 /** A12에서 쓰는 이름 — 지금 로그인된 그 관리자 본인의 계정 정보. */
 export async function getAdminAccount(): Promise<AdminAccount | null> {

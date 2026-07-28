@@ -6,6 +6,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { authMethodToDb, findEmployeeByEmail, formatDateDot } from "@/lib/employees";
 import { assertAdminRequest } from "@/lib/admin-guard";
 import { getRequestOrigin } from "@/lib/origin";
+import { getLeavePolicy } from "@/lib/leavePolicies";
 
 export type RehireCandidate = {
   id: string;
@@ -137,36 +138,66 @@ export async function rehireEmployee(employeeId: string, formData: FormData) {
   }
 
   // A04의 "비밀번호 초기화 메일 발송"과 동일한 로직을 재사용해 자동으로 한 번 트리거한다.
-  await sendPasswordResetEmail(email);
+  await sendResetEmailInternal(email);
 
   revalidatePath("/employees");
   revalidatePath(`/employees/${employeeId}`);
   redirect("/employees");
 }
 
-export async function updateEmployeeAuthMethod(employeeId: string, formData: FormData) {
+/** Toast 확산(2단계)을 위해 plain FormData 액션에서 useActionState 시그니처로 바꿨다 —
+ * A11(WorkSettingsTabs)과 동일 패턴: 검증/에러는 throw 대신 { error }로 반환해서
+ * role="alert" 인라인 표시를 그대로 쓰고, 성공하면 { success: true }를 반환해서
+ * Toast를 띄운다. 저장 후 같은 페이지에 머무르므로(기존의 redirect(`/employees/${id}`)는
+ * 어차피 같은 경로로의 자기 리다이렉트였다) revalidatePath만으로 충분하다. */
+export type UpdateAuthMethodState = { error?: string; success?: boolean };
+
+export async function updateEmployeeAuthMethod(
+  employeeId: string,
+  _prevState: UpdateAuthMethodState,
+  formData: FormData,
+): Promise<UpdateAuthMethodState> {
   await assertAdminRequest();
 
   const authMethod = String(formData.get("authMethod") ?? "");
+  const update: { auth_method: ReturnType<typeof authMethodToDb>; annual_leave_days?: number; leave_days_manually_set_at?: string } = {
+    auth_method: authMethodToDb(authMethod),
+  };
+
+  // annualLeaveDays 필드는 "관리자수동입력" 정책일 때만 폼에 실제로 렌더링되지만,
+  // 클라이언트가 hidden 필드를 조작해 statutory 모드에서 값을 심어 보내더라도 서버가
+  // 정책을 다시 확인해서 무시한다(defense in depth) — leave_days_manually_set_at도
+  // 이때만 함께 찍어서, 이후 정책을 statutory로 갔다가 다시 manual로 돌아와도 이
+  // 직원의 값은 자동 스냅샷 대상에서 제외되고 그대로 유지된다(set_leave_policy RPC 참고).
+  const annualLeaveDaysRaw = formData.get("annualLeaveDays");
+  if (annualLeaveDaysRaw !== null) {
+    const policy = await getLeavePolicy();
+    if (policy === "manual") {
+      const parsed = Number(annualLeaveDaysRaw);
+      if (Number.isNaN(parsed) || parsed < 0) {
+        return { error: "연차는 0 이상의 숫자로 입력해주세요." };
+      }
+      update.annual_leave_days = parsed;
+      update.leave_days_manually_set_at = new Date().toISOString();
+    }
+  }
+
   const supabase = createSupabaseAdminClient();
 
-  const { error } = await supabase
-    .from("employees")
-    .update({ auth_method: authMethodToDb(authMethod) })
-    .eq("id", employeeId);
+  const { error } = await supabase.from("employees").update(update).eq("id", employeeId);
 
   if (error) {
-    throw new Error(`직원 정보 저장에 실패했습니다: ${error.message}`);
+    return { error: `직원 정보 저장에 실패했습니다: ${error.message}` };
   }
 
   revalidatePath(`/employees/${employeeId}`);
-  redirect(`/employees/${employeeId}`);
+  return { success: true };
 }
 
 // 이 함수의 두 호출부(A04 "비밀번호 초기화 메일 발송" 버튼, rehireEmployee)는 전부 직원
 // 이메일 대상이다 — 관리자 자신의 비밀번호 재설정은 별도로 login/actions.ts의
 // requestPasswordReset을 쓴다. 그래서 여기 redirectTo는 항상 모바일 앱(S02)으로 보낸다.
-export async function sendPasswordResetEmail(email: string) {
+async function sendResetEmailInternal(email: string): Promise<void> {
   await assertAdminRequest();
 
   const supabase = createSupabaseAdminClient();
@@ -179,6 +210,29 @@ export async function sendPasswordResetEmail(email: string) {
   if (error) {
     throw new Error(`비밀번호 초기화 메일 발송에 실패했습니다: ${error.message}`);
   }
+}
+
+export type SendResetEmailState = { error?: string; success?: boolean };
+
+/**
+ * A04 "비밀번호 초기화 메일 발송" 버튼 전용 — 지금까지 성공/실패 피드백이 전혀
+ * 없었다(plain 함수, 에러 시 throw만 하고 에러 바운더리로 감). A15(비밀번호 찾기
+ * 공개 플로우)와 달리 이건 로그인된 관리자가 이미 존재를 확인한 특정 직원을 대상으로
+ * 하는 운영 도구라 이메일 열거 공격 리스크가 없다 — 성공/실패를 있는 그대로 보여준다.
+ */
+export async function sendPasswordResetEmail(
+  _prevState: SendResetEmailState,
+  formData: FormData,
+): Promise<SendResetEmailState> {
+  const email = String(formData.get("email") ?? "");
+
+  try {
+    await sendResetEmailInternal(email);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "비밀번호 초기화 메일 발송에 실패했습니다." };
+  }
+
+  return { success: true };
 }
 
 export async function terminateEmployee(employeeId: string) {

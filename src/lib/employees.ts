@@ -60,6 +60,9 @@ export type Employee = {
   hireDate: string;
   status: EmploymentStatus;
   remainingLeaveDays: number;
+  /** A04 "관리자수동입력" 모드에서 연차 입력 필드의 기본값으로 쓰는 총 부여일수 원값. */
+  annualLeaveDaysGranted: number;
+  usedLeaveDays: number;
   authMethod: AuthMethod;
 };
 
@@ -78,14 +81,22 @@ function toEmployee(row: EmployeeRow): Employee {
     hireDate: formatDateDot(row.hire_date),
     status: EMPLOYMENT_STATUS_TO_UI[row.employment_status],
     remainingLeaveDays: Number(row.annual_leave_days) - Number(row.used_leave_days),
+    annualLeaveDaysGranted: Number(row.annual_leave_days),
+    usedLeaveDays: Number(row.used_leave_days),
     authMethod: AUTH_METHOD_TO_UI[row.auth_method],
   };
 }
 
+/**
+ * employees_with_leave VIEW — annual_leave_days가 leave_policies.policy_type에 따라
+ * 법정 자동계산값(hire_date 기반, 퇴사자는 termination_date에서 동결) 또는 관리자가
+ * 직접 입력한 원값 중 하나로 조회 시점에 계산돼 나온다(20260723000000 마이그레이션).
+ * 컬럼명이 employees와 동일해서 EMPLOYEE_COLUMNS/toEmployee()는 그대로 재사용 가능.
+ */
 export async function listEmployees(): Promise<Employee[]> {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
-    .from("employees")
+    .from("employees_with_leave")
     .select(EMPLOYEE_COLUMNS)
     .order("hire_date", { ascending: true })
     .returns<EmployeeRow[]>();
@@ -126,7 +137,7 @@ export async function findEmployeeByEmail(email: string): Promise<EmployeeEmailC
 export async function getEmployee(id: string): Promise<Employee | null> {
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
-    .from("employees")
+    .from("employees_with_leave")
     .select(EMPLOYEE_COLUMNS)
     .eq("id", id)
     .maybeSingle<EmployeeRow>();

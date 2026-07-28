@@ -5,3 +5,11 @@
  * 컴포넌트는 그대로 두고 이 플래그만 true로 바꾸면 다시 노출된다.
  */
 export const BIOMETRIC_LOGIN_ENABLED = false;
+
+/**
+ * S03~S07 홈 헤더의 알림 종 아이콘은 onClick도 없고 연결된 알림 데이터도 없는
+ * 정적 장식(hasAlert도 항상 true로 하드코딩)이었다 — 실제 알림 기능(목록/읽음처리/
+ * 데이터 소스)이 만들어지기 전까지 숨긴다. 컴포넌트(MobileHomeHeader/BellIcon)는
+ * 그대로 두고 이 플래그만 true로 바꾸면 다시 노출된다.
+ */
+export const NOTIFICATION_BELL_ENABLED = false;

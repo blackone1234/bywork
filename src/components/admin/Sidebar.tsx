@@ -35,6 +35,15 @@ export function Sidebar({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
+              // prefetch=false — 사이드바 6개 링크가 대시보드 진입 시 전부 뷰포트 안에
+              // 있어 기본값(자동 prefetch)이면 거의 동시에 여러 protected route로 백그라운드
+              // GET이 나간다. 로그인 직후처럼 access token이 막 발급된 시점에 이 요청들이
+              // 동시에 세션 갱신을 시도하면, Supabase가 refresh token을 1회용으로 회전시켜서
+              // 먼저 도착한 요청만 성공하고 나머지는 "Refresh Token Not Found"로 실패 —
+              // 그 요청이 middleware(proxy.ts)의 getUser()였다면 세션이 있는데도 /login으로
+              // 튕기는 것처럼 보인다(CD가 보고한 "가끔 비번이 안 먹는" 증상, 프로덕션 로그로
+              // 확인함). prefetch를 꺼서 동시 요청 자체를 없애 충돌 확률을 낮춘다.
+              prefetch={false}
               className={`flex h-[42px] w-[198px] items-center justify-between gap-[16px] rounded-[30px] px-[20px] py-[10px] text-[14px] font-semibold tracking-[-0.28px] transition-colors ${
                 isActive
                   ? "bg-sidebar-active text-white shadow-[2px_4px_2px_rgba(0,0,0,0.2)]"
