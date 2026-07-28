@@ -27,7 +27,12 @@ export function MobileHorizontalBarRow({ label, value, percent }: { label: strin
         {label}
       </p>
       <div className="h-2 flex-1 rounded-[2px] bg-[var(--mobile-color-line-gray)]">
-        <div className="h-2 rounded-[2px] bg-[var(--mobile-color-mint)]" style={{ width: `${clamped}%` }} />
+        {/* 파일럿(B): 0%→실제값 CSS transition — width 값 자체는 호출부(StatsView)가
+            useMotionReveal()로 0/실제값을 넘겨준다. */}
+        <div
+          className="h-2 rounded-[2px] bg-[var(--mobile-color-mint)] transition-[width] duration-[900ms] ease-out"
+          style={{ width: `${clamped}%` }}
+        />
       </div>
       <p className="w-6 shrink-0 text-right text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-black)]">
         {value}
@@ -55,7 +60,7 @@ export function MobileVerticalBarChart({ bars }: { bars: { label: string; percen
               <div className="w-[120px] rotate-[-90deg]">
                 <div className="h-[40px] w-[120px] overflow-clip rounded-[8px] bg-[var(--mobile-color-line-gray)]">
                   <div
-                    className="h-[40px] rounded-[8px] bg-[var(--mobile-color-state-leave)]"
+                    className="h-[40px] rounded-[8px] bg-[var(--mobile-color-state-leave)] transition-[width] duration-[900ms] ease-out"
                     style={{ width: `${clamped}%` }}
                   />
                 </div>

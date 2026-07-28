@@ -43,9 +43,12 @@ export function MobileRecordCard({ title, rows }: { title: string; rows: { label
       {/* 각 행의 pb-[12px](텍스트↔자기 구분선)와 대칭되도록, 구분선↔다음 행 간격도 12px로
           맞춤 — 이전엔 24px라 위/아래 간격이 24px/12px로 어긋나 보였다. */}
       <div className="flex w-full flex-col items-start gap-[12px]">
+        {/* 근무기록처럼 같은 라벨(예: "복귀")이 여러 번 나올 수 있는 목록도 있어서
+            row.label이 아니라 index로 키를 준다 — 라벨 중복 시 React key 충돌 경고가
+            나던 걸 실사용 중(외출→복귀 반복 시나리오)에 발견해서 고쳤다. */}
         {rows.map((row, index) => (
           <div
-            key={row.label}
+            key={index}
             className={`flex w-full items-center justify-between pb-[12px] text-[length:var(--mobile-text-body)] font-semibold tracking-[var(--mobile-text-body-tracking)] text-[var(--mobile-color-black)] ${
               index < rows.length - 1 ? "border-b border-[var(--mobile-color-light-gray)]" : ""
             }`}

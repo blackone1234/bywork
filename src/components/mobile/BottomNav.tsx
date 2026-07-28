@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HomeIcon, CalendarIcon, LeaveIcon, StatsIcon, MyIcon } from "@/components/mobile/icons";
 
 export type MobileNavKey = "home" | "attendance" | "leave" | "stats" | "my";
@@ -20,17 +21,19 @@ export function MobileBottomNav({ active, theme }: { active: MobileNavKey; theme
 
   return (
     <nav
-      className={`flex w-full items-start justify-between px-[var(--mobile-space-30)] pt-[var(--mobile-space-20)] pb-[var(--mobile-space-30)] ${
+      className={`fixed inset-x-0 bottom-0 z-10 flex w-full items-start justify-between px-[var(--mobile-space-30)] pt-[var(--mobile-space-20)] ${
         theme === "dark"
           ? "bg-[var(--mobile-color-black)]"
           : "border-t border-[var(--mobile-color-light-gray)] bg-[var(--mobile-color-white)]"
       }`}
+      // 사용자 실기기 확인 결과 하단 여백이 너무 넓어서 30px→10px로 20px 줄임(2026-07-20).
+      style={{ paddingBottom: "max(var(--mobile-space-10), env(safe-area-inset-bottom))" }}
     >
       {NAV_ITEMS.map(({ key, label, Icon, href }) => {
         const isActive = key === active;
         const color = isActive ? activeColor : "var(--mobile-color-light-gray)";
         return (
-          <a key={key} href={href} className="flex flex-col items-center gap-[var(--mobile-space-10)]" style={{ color }}>
+          <Link key={key} href={href} className="flex flex-col items-center gap-[var(--mobile-space-10)]" style={{ color }}>
             {/* 아이콘 크기는 각 컴포넌트의 실측 기본값(className 생략)을 그대로 쓴다 —
                 근태(캘린더) 아이콘만 19×20으로 다른 4개(20×20)와 비율이 달라서, 여기서
                 일괄 size-5로 덮어쓰면 근태 아이콘이 찌그러진다. */}
@@ -38,7 +41,7 @@ export function MobileBottomNav({ active, theme }: { active: MobileNavKey; theme
             <span className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)]">
               {label}
             </span>
-          </a>
+          </Link>
         );
       })}
     </nav>

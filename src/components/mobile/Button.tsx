@@ -8,8 +8,18 @@ import type { ComponentPropsWithoutRef } from "react";
  * S02/S11/S15/S16 등 밝은 배경에서는 outline-dark(dark-gray 테두리)를 primary CTA로 쓴다.
  * S02의 "비밀번호 등록 완료"만 filled-muted(soft-gray 채움)로 다른데, 폼이 아직 유효하지
  * 않은 상태의 표현으로 해석해 비활성처럼 보이는 이 스타일을 그대로 남겨둔다.
+ *
+ * outline-soft/outline-white는 E01~E07(에러 화면) 대조 중 발견 — E01/E02의 두 번째 버튼이
+ * soft-gray(#757575) 테두리를 쓰는데 기존 4개 variant 어디에도 없었고, E02의 첫 번째
+ * 버튼(둘 다 실제 버튼인 유일한 화면)은 흰색 테두리를 쓴다.
  */
-export type MobileButtonVariant = "filled-accent" | "outline-dark" | "outline-warm" | "filled-muted";
+export type MobileButtonVariant =
+  | "filled-accent"
+  | "outline-dark"
+  | "outline-warm"
+  | "outline-soft"
+  | "outline-white"
+  | "filled-muted";
 
 /**
  * outline-* variant는 실제 `border` 대신 inset box-shadow로 테두리를 그린다 — 사용자 지시로
@@ -20,6 +30,8 @@ const VARIANT_CLASSNAME: Record<MobileButtonVariant, string> = {
   "filled-accent": "bg-[var(--mobile-color-accent)] text-[var(--mobile-color-black)]",
   "outline-dark": "shadow-[inset_0_0_0_1px_var(--mobile-color-dark-gray)] text-[var(--mobile-color-dark-gray)]",
   "outline-warm": "shadow-[inset_0_0_0_1px_var(--mobile-color-warm-gray)] text-[var(--mobile-color-warm-gray)]",
+  "outline-soft": "shadow-[inset_0_0_0_1px_var(--mobile-color-soft-gray)] text-[var(--mobile-color-soft-gray)]",
+  "outline-white": "shadow-[inset_0_0_0_1px_var(--mobile-color-white)] text-[var(--mobile-color-white)]",
   "filled-muted": "bg-[var(--mobile-color-soft-gray)] text-[var(--mobile-color-white)]",
 };
 
