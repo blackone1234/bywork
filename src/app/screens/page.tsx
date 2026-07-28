@@ -25,8 +25,8 @@ const SCREEN_GROUPS: ScreenGroup[] = [
       { code: "A04", title: "직원 상세", href: "/employees/1" },
       {
         code: "A05",
-        title: "퇴사처리 확인 (모달)",
-        href: "/employees/1/terminate",
+        title: "퇴사처리 확인 (모달, A04 내 \"퇴사처리\" 버튼으로 트리거)",
+        href: "/employees/1",
       },
     ],
   },
@@ -111,6 +111,22 @@ const MOBILE_SCREEN_GROUPS: ScreenGroup[] = [
     screens: [
       { code: "S15", title: "마이페이지", href: "/m/my" },
       { code: "S16", title: "비밀번호 변경", href: "/m/my/password" },
+    ],
+  },
+  {
+    group: "에러 화면 (E01/E02/E04는 인라인으로 이미 연결됨, E03은 리뷰 전용, E06/E07은 실제 not-found.tsx/error.tsx로 연결됨)",
+    screens: [
+      { code: "E01", title: "초대링크 만료/오류(리뷰용, 실제는 로그인화면 배너로 처리)", href: "/screens/errors/e01" },
+      { code: "E02", title: "GPS 위치권한 거부(리뷰용, 실제는 버튼 아래 인라인 에러로 처리)", href: "/screens/errors/e02" },
+      { code: "E03", title: "세션 만료(리뷰 전용 — 실제는 로그인화면 배너로 처리)", href: "/screens/errors/e03" },
+      { code: "E04", title: "퇴사자 계정 로그인 시도(리뷰용, 실제는 로그인 폼 인라인 에러로 처리)", href: "/screens/errors/e04" },
+      { code: "E05", title: "네트워크 연결 오류(리뷰 전용 — 연결 지점 없음)", href: "/screens/errors/e05" },
+      {
+        code: "E06",
+        title: "404 페이지 없음 (실제 not-found.tsx 연결됨 — 클릭 시 존재하지 않는 경로로 이동해 직접 트리거)",
+        href: "/m/__404-preview__",
+      },
+      { code: "E07", title: "500 서버 오류(리뷰용, 실제는 error.tsx/global-error.tsx로 연결됨)", href: "/screens/errors/e07" },
     ],
   },
 ];

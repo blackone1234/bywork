@@ -12,6 +12,11 @@ import { createSupabaseProxyClient } from "@/lib/supabase/proxyClient";
 // 비밀번호 등록 화면 자체이므로) — 나머지 /m/* 경로는 세션 없으면 /m/login으로 보낸다.
 const MOBILE_PUBLIC_PATHS = ["/m/login", "/m/register-password"];
 
+// E03(세션만료) 배너 통일 — 모바일에서 세션 재검증 실패 시 조용히 리다이렉트하지 않고
+// ?error=로 메시지를 실어 보낸다. 관리자 쪽(/login)은 이번 범위 밖이라 그대로 둔다(기존
+// LoginNotice 배너로 충분하다고 판단됨 — 별도 확인받은 결정).
+const MOBILE_SESSION_EXPIRED_MESSAGE = "세션이 만료됐어요. 다시 로그인해주세요.";
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { supabase, getResponse } = createSupabaseProxyClient(request);
@@ -29,7 +34,9 @@ export async function proxy(request: NextRequest) {
       if (MOBILE_PUBLIC_PATHS.includes(pathname)) {
         return getResponse();
       }
-      return NextResponse.redirect(new URL("/m/login", request.url));
+      return NextResponse.redirect(
+        new URL(`/m/login?error=${encodeURIComponent(MOBILE_SESSION_EXPIRED_MESSAGE)}`, request.url),
+      );
     }
     return NextResponse.redirect(new URL("/login", request.url));
   }

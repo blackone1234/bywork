@@ -33,6 +33,9 @@
   --color-status-outside: #ffe09e;
   --color-status-leave: #77c9ff;
   --color-status-absent: #ffc5c5;
+  /* A07/A08 "정상"(검토 불필요) 뱃지 — Figma get_design_context 실측 emeral-green,
+     mobile의 --mobile-color-mint(#0dddb1)와 같은 hex지만 admin 네임스페이스는 분리 유지. */
+  --color-status-normal: #0dddb1;
 
   /* 재직 상태 배지 색상 */
   --color-status-active: #ffdd56;
@@ -159,4 +162,278 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   letter-spacing: -0.02em;
+}
+
+/* /m(사용자 앱) 전용 — 핀치줌 제스처를 막는다(viewport userScalable:false의 보강).
+   관리자 화면은 이 클래스가 붙지 않으므로 영향받지 않는다(TouchActionLock.tsx). */
+body.mobile-touch-lock {
+  touch-action: pan-x pan-y;
+}
+
+/*
+ * ============================================================
+ * 공용 모션 유틸 — 스태거(stagger) 등장 애니메이션. 어드민/모바일 공통으로 쓸 수 있게
+ * 전역에 둠(색상 등 테마 값은 전혀 안 건드리고 순수 opacity/transform만 다룸).
+ * 파일럿: S03(사용자 홈), A01(관리자 대시보드) — 확산 여부는 파일럿 확인 후 결정.
+ * ============================================================
+ */
+@keyframes stagger-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  /* to에서 transform을 아예 안 씀(명시적 translateY(0)이 아니라) — animation-fill-mode:
+     both가 애니메이션 종료 후에도 마지막 프레임 값을 유지하는데, translateY(0)이라도
+     "transform이 none이 아닌 값"이면 CSS 스펙상 그 엘리먼트가 영구적으로 새 stacking
+     context를 만든다(flex item이면 z-index도 자동 적용됨). 그 결과 애니메이션이 끝난
+     뒤에도 .stagger-item 하나가 같은 flex 컨테이너의 "나중 DOM 순서" 형제(z-index
+     auto)보다 항상 아래로 깔려서, 그 안에 있는 드롭다운 패널(absolute, z-50)이 뒤에
+     오는 다른 stagger-item(예: 테이블)에 시각적으로 가려지는 버그가 있었다(A07 연도/월
+     드롭다운에서 실측 확인). transform을 명시 안 하면 100% 시점엔 기본 계산값(none)으로
+     암묵 보간되어 시각 효과는 동일하되 stacking context가 안 남는다. */
+  to {
+    opacity: 1;
+  }
+}
+
+.stagger-item {
+  animation: stagger-fade-up 350ms ease-out both;
+}
+
+/* 우측 상단 성공 토스트(Toast.tsx) 등장 — 살짝 왼쪽으로 슬라이드 + 페이드인. */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(12px, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.toast-enter {
+  animation: toast-in 200ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-item,
+  .toast-enter {
+    animation: none;
+  }
+}
+
+/* From Uiverse.io by Nawsome */
+/*
+ * ============================================================
+ * 라우트 전환 로더(loading.tsx) — Uiverse.io by Nawsome
+ * Source: https://uiverse.io/Nawsome/young-goat-78
+ * License: MIT — 전문은 /public/licenses/nawsome-loader-LICENSE.txt 참고.
+ *
+ * 마크업/애니메이션/색상 전부 원본 그대로(4개 링이 각각 다른 색이 디자인의 핵심이라
+ * 이전 로더들과 달리 프로젝트 팔레트로 단색화하지 않음). 클래스 이름만 전역 충돌
+ * 방지를 위해 shared-loader- 접두사를 붙임.
+ * ============================================================
+ */
+.shared-loader-ring {
+  animation: shared-loader-ringA 2s linear infinite;
+}
+.shared-loader-ring--a {
+  stroke: #f42f25;
+}
+.shared-loader-ring--b {
+  animation-name: shared-loader-ringB;
+  stroke: #f49725;
+}
+.shared-loader-ring--c {
+  animation-name: shared-loader-ringC;
+  stroke: #255ff4;
+}
+.shared-loader-ring--d {
+  animation-name: shared-loader-ringD;
+  stroke: #f42582;
+}
+@keyframes shared-loader-ringA {
+  from,
+  4% {
+    stroke-dasharray: 0 660;
+    stroke-width: 20;
+    stroke-dashoffset: -330;
+  }
+  12% {
+    stroke-dasharray: 60 600;
+    stroke-width: 30;
+    stroke-dashoffset: -335;
+  }
+  32% {
+    stroke-dasharray: 60 600;
+    stroke-width: 30;
+    stroke-dashoffset: -595;
+  }
+  40%,
+  54% {
+    stroke-dasharray: 0 660;
+    stroke-width: 20;
+    stroke-dashoffset: -660;
+  }
+  62% {
+    stroke-dasharray: 60 600;
+    stroke-width: 30;
+    stroke-dashoffset: -665;
+  }
+  82% {
+    stroke-dasharray: 60 600;
+    stroke-width: 30;
+    stroke-dashoffset: -925;
+  }
+  90%,
+  to {
+    stroke-dasharray: 0 660;
+    stroke-width: 20;
+    stroke-dashoffset: -990;
+  }
+}
+@keyframes shared-loader-ringB {
+  from,
+  12% {
+    stroke-dasharray: 0 220;
+    stroke-width: 20;
+    stroke-dashoffset: -110;
+  }
+  20% {
+    stroke-dasharray: 20 200;
+    stroke-width: 30;
+    stroke-dashoffset: -115;
+  }
+  40% {
+    stroke-dasharray: 20 200;
+    stroke-width: 30;
+    stroke-dashoffset: -195;
+  }
+  48%,
+  62% {
+    stroke-dasharray: 0 220;
+    stroke-width: 20;
+    stroke-dashoffset: -220;
+  }
+  70% {
+    stroke-dasharray: 20 200;
+    stroke-width: 30;
+    stroke-dashoffset: -225;
+  }
+  90% {
+    stroke-dasharray: 20 200;
+    stroke-width: 30;
+    stroke-dashoffset: -305;
+  }
+  98%,
+  to {
+    stroke-dasharray: 0 220;
+    stroke-width: 20;
+    stroke-dashoffset: -330;
+  }
+}
+@keyframes shared-loader-ringC {
+  from {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: 0;
+  }
+  8% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -5;
+  }
+  28% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -175;
+  }
+  36%,
+  58% {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: -220;
+  }
+  66% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -225;
+  }
+  86% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -395;
+  }
+  94%,
+  to {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: -440;
+  }
+}
+@keyframes shared-loader-ringD {
+  from,
+  8% {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: 0;
+  }
+  16% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -5;
+  }
+  36% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -175;
+  }
+  44%,
+  50% {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: -220;
+  }
+  58% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -225;
+  }
+  78% {
+    stroke-dasharray: 40 400;
+    stroke-width: 30;
+    stroke-dashoffset: -395;
+  }
+  86%,
+  to {
+    stroke-dasharray: 0 440;
+    stroke-width: 20;
+    stroke-dashoffset: -440;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shared-loader-ring {
+    animation: none;
+  }
+}
+
+/*
+ * ============================================================
+ * 전역 상단 진행바(NavigationProgressBar.tsx) — NProgress 스타일.
+ * ============================================================
+ */
+.nav-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--color-accent);
+  z-index: 100;
+  transition: width 200ms ease-out, opacity 200ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-progress-bar {
+    transition: opacity 200ms ease-out;
+  }
 }
