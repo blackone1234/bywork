@@ -1,69 +1,27 @@
-"use client";
-
-import { useState } from "react";
+import { redirect } from "next/navigation";
 import { MobileSubPageHeader } from "@/components/mobile/Header";
-import { MobileChip } from "@/components/mobile/Chip";
-import { MobileTextField, MobileTextArea } from "@/components/mobile/TextField";
-import { MobileInfoBox, MobileInfoRow } from "@/components/mobile/InfoBox";
-import { MobileButton } from "@/components/mobile/Button";
 import { MobileBottomNav } from "@/components/mobile/BottomNav";
-import { PlusIcon } from "@/components/mobile/icons";
+import { getCurrentEmployee, EMPLOYEE_SESSION_EXPIRED_MESSAGE } from "@/lib/employeeAccount";
+import { getLeaveBalance } from "@/lib/employeeLeaveRequests";
+import { LeaveNewForm } from "./LeaveNewForm";
 
-const LEAVE_TYPES = ["연차", "반차 (오전)", "반차 (오후)"];
+export const dynamic = "force-dynamic";
 
 /** S11 — 휴가 신청 (light, 드릴인). */
-export default function MobileLeaveNewPage() {
-  const [selectedType, setSelectedType] = useState(0);
+export default async function MobileLeaveNewPage() {
+  const employee = await getCurrentEmployee();
+
+  if (!employee) {
+    redirect(`/m/login?error=${encodeURIComponent(EMPLOYEE_SESSION_EXPIRED_MESSAGE)}`);
+  }
+
+  const balance = await getLeaveBalance(employee.id);
 
   return (
-    <div className="flex min-h-screen w-full flex-col justify-between bg-[var(--mobile-color-white)]">
+    <div className="flex min-h-screen w-full flex-col bg-[var(--mobile-color-white)] pb-[110px]">
       <div className="flex w-full flex-col gap-[30px]">
         <MobileSubPageHeader title="휴가신청" />
-
-        <div className="flex w-full flex-col gap-[30px] px-[var(--mobile-space-30)]">
-          <div className="flex w-full flex-col gap-[10px]">
-            <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
-              휴가 종류
-            </p>
-            <div className="flex w-full gap-[10px]">
-              {LEAVE_TYPES.map((type, index) => (
-                <MobileChip key={type} label={type} selected={index === selectedType} onClick={() => setSelectedType(index)} />
-              ))}
-            </div>
-          </div>
-
-          <div className="flex w-full flex-col gap-[16px]">
-            <div className="flex w-full flex-col gap-[8px]">
-              <MobileTextField label="날짜 선택" bg="filled" defaultValue="2026년 7월 15일 (수)" readOnly className="text-center" />
-              <button type="button" className="flex w-full items-center justify-center gap-[10px] border-0 p-0 pt-[10px]">
-                <PlusIcon className="size-2.5 text-[var(--mobile-color-soft-gray)]" />
-                <span className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
-                  날짜 추가
-                </span>
-              </button>
-            </div>
-
-            {/* 사용자 지시로 높이를 78px로 강제 고정(125px→154px→78px). */}
-            <MobileTextArea label="사유 입력" placeholder="사유를 입력해주세요." rows={3} className="h-[78px]" />
-
-            <div className="flex w-full flex-col gap-[8px]">
-              <p className="text-[length:var(--mobile-text-badge)] font-semibold tracking-[var(--mobile-text-badge-tracking)] text-[var(--mobile-color-soft-gray)]">
-                신청 정보
-              </p>
-              <MobileInfoBox>
-                <MobileInfoRow label="신청일수" value="1일" />
-                <MobileInfoRow label="신청 후 잔여 연차" value="14일" />
-              </MobileInfoBox>
-            </div>
-          </div>
-
-          {/* 사용자 지시로 신청정보 박스↔버튼 간격을 40px(바깥 gap-30+기존 pt-10)→20px로
-              강제 고정 — 바깥 gap-30은 다른 섹션 사이에도 쓰여서 건드리지 않고, 이 버튼에만
-              -10px 마진으로 보정. */}
-          <MobileButton variant="outline-dark" className="mt-[-10px]">
-            신청하기
-          </MobileButton>
-        </div>
+        <LeaveNewForm remaining={balance.remaining} />
       </div>
       <MobileBottomNav active="leave" theme="light" />
     </div>
