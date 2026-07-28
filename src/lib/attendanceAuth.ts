@@ -16,7 +16,7 @@ export type AttendanceAuthResult =
  * 로컬 dev 서버는 이 헤더를 안 넣어서 null이 나오는 게 정상이다(IP 검증은 로컬에서
  * 직접 테스트하려면 헤더를 수동으로 주입해야 한다).
  */
-async function getClientIp(): Promise<string | null> {
+export async function getClientIp(): Promise<string | null> {
   const requestHeaders = await headers();
   const forwardedFor = requestHeaders.get("x-forwarded-for");
   if (forwardedFor) {
