@@ -92,13 +92,18 @@ export default async function AttendancePage({
             있었다(A07 연도/월 드롭다운에서 실측 확인, 이번에 직원 드롭다운 추가하며 발견) —
             명시적으로 더 높은 z-index를 줘서 항상 위에 그려지게 한다. */}
         <div className="stagger-item relative z-10 flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between" style={{ animationDelay: "0ms" }}>
-          <AttendanceMonthFilter year={year} month={month} />
+          {/* 연/월 + 전체직원을 같은 좌측 그룹으로 — "필터"끼리 묶고 "액션"(검토필요/
+              엑셀다운로드)은 우측에 분리하는 게 UX상 자연스럽다는 지적으로 재배치. */}
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-[8px]">
+            <AttendanceMonthFilter year={year} month={month} />
+            <AttendanceEmployeeFilter employees={employees} selectedName={selectedEmployeeName} />
+          </div>
 
           {/* "전체직원" 탭 버튼은 삭제(CD 지적 — 직원선택 드롭다운의 기본 라벨과 이름이
               겹쳐 중복 기능처럼 보임). 대신 "검토필요"를 토글식으로 바꿔서 — 비활성 상태면
               누를 때 pending_review로, 이미 활성 상태(pending_review)면 누를 때 전체(필터
               없음)로 돌아가게 한다 — 삭제된 버튼이 하던 "전체 상태로 복귀" 기능을 잃지
-              않는다. 좁은 화면에서 3개 항목(검토필요/직원선택/엑셀다운로드)을 grid-cols-2로
+              않는다. 좁은 화면에서 2개 항목(검토필요/엑셀다운로드)을 grid-cols-2로
               분할 — flex-1 조합은 폭이 부족하면 예측 불가능하게 찌그러져서 텍스트가 세로로
               한 글자씩 줄바꿈되는 버그가 있었다(CD가 스크린샷으로 직접 지적). sm 이상은
               기존처럼 내용 크기대로 한 줄에 나란히. */}
@@ -109,7 +114,6 @@ export default async function AttendancePage({
             >
               검토필요 ({pendingCount})
             </FilterTabLink>
-            <AttendanceEmployeeFilter employees={employees} selectedName={selectedEmployeeName} />
             <Button size="toolbar" className="whitespace-nowrap">
               엑셀 다운로드
             </Button>
