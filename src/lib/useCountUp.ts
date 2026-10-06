@@ -18,17 +18,22 @@ function durationForTarget(target: number): number {
 }
 
 /**
- * 0에서 target까지 세는 카운트업 값을 반환한다. 마운트 시 1회만 재생하고, target이 바뀌어도
- * 재생하지 않는다(S13/S14는 실시간 갱신 요소가 없는 정적 집계 화면이라 이걸로 충분 — 그룹D
- * 확인 내용). prefers-reduced-motion이면 애니메이션 없이 바로 target을 반환한다.
+ * 0에서 target까지 세는 카운트업 값을 반환한다. target이 바뀔 때마다 다시 0에서
+ * 재생한다 — S13/S14는 월 이동 시 서버 컴포넌트가 새 props만 내려주고 같은 위치의
+ * 컴포넌트 인스턴스는 그대로 유지되므로(리마운트 아님), "마운트 시 1회만" 가정은
+ * 월 페이저로 이동해도 값이 처음 본 달에 영구히 고정되는 버그였다(주별 근무시간은
+ * useCountUp을 안 써서 매번 정상 반영되는 것과 비교해 발견). prefers-reduced-motion이면
+ * 애니메이션 없이 바로 target을 반환한다.
  */
 export function useCountUp(target: number, durationMs?: number): number {
-  const [value, setValue] = useState(() => (prefersReducedMotion() ? target : 0));
+  const reducedMotion = prefersReducedMotion();
+  const [value, setValue] = useState(() => (reducedMotion ? target : 0));
 
   useEffect(() => {
-    // 초기 state에서 이미 prefersReducedMotion()을 반영했다 — reduce면 target으로
-    // 시작하므로 애니메이션 루프를 아예 안 돈다.
-    if (prefersReducedMotion()) {
+    // reduce면 애니메이션 루프를 안 돌고, 아래 return문에서 target을 직접 반환한다
+    // (setValue를 effect 본문에서 동기 호출하면 안 된다는 린트 규칙 때문에 여기선
+    // state를 안 건드림).
+    if (reducedMotion) {
       return;
     }
 
@@ -47,11 +52,9 @@ export function useCountUp(target: number, durationMs?: number): number {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-    // target/durationMs는 마운트 시점 값만 쓴다 — 정적 집계 화면이라 재생은 1회로 충분.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [target, durationMs, reducedMotion]);
 
-  return value;
+  return reducedMotion ? target : value;
 }
 
 /**
